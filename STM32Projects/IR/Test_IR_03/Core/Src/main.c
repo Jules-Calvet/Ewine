@@ -38,8 +38,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-float maxTemp1 = 30.0f;
-float minTemp1 = 30.0f;
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -51,6 +50,7 @@ float minTemp1 = 30.0f;
 
 /* USER CODE BEGIN PV */
 MLX90614_t* cap1;
+//MLX90614_CONFIG_REG_t* Ambiant_Temp;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -114,33 +114,63 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+  int i = 1;
+
+  cap1 = (MLX90614_t*)malloc(sizeof(MLX90614_t));
+
   if(mlx90614_init() == true)printf("Initialization OK ! \n");
-  	else printf("Initialization Failed ! \n");
-  	if(mlx90614_readID(cap1->id)==true) printf("Read_ID ok !\n");
-  	else printf("read_Id failed !\n");
-  	for(int i=0 ; i<4 ; i++){
-  		printf("Read Id : %u \n",cap1->id[i]);
-  	}
+  else printf("Initialization Failed ! \n");
+
+  if(mlx90614_readID(cap1->id) == true) printf("Read_ID OK !\n");
+  else printf("read_Id failed !\n");
+  /*
+  for(int i=0 ; i<4 ; i++){
+	printf("Read Id : %u \n",cap1->id[i]);
+  }
+  */
+  cap1->unit = MLX90614_UNIT_C;
+  mlx90614_setUnit(cap1->unit);
+  if(mlx90614_setMax(30.00f) == true) printf("setMax OK !\n");
+  else printf("setMax failed !\n");
+  if(mlx90614_setMin(-30.00f) == true) printf("setMin OK !\n");
+  else printf("setMin failed !\n");
+
+  if(mlx90614_getMax(&cap1->max) == true) printf("getMax OK : %0.1f *C\n",cap1->max);
+  else printf("getMax failed !\n");
+  if(mlx90614_getMin(&cap1->min) == true) printf("getMin OK : %0.1f *C\n",cap1->min);
+  else printf("getMin failed !\n");
+
+  if(mlx90614_setEmissivity(0.5f) == true) printf("setEmissivity OK !\n");
+  else printf("setEmissivity failed !\n");
+
+
+  cap1->configReg.SelectObjAmb = true;
+
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  printf("task01 start\n");
-  /*
-	  printf("get max : \n");
-	  mlx90614_getMax(cap1->max);
-	  printf("get min : \n");
-	  mlx90614_getMin(cap1->min);
-  */
-	  if (mlx90614_getAmbient(&cap1->ambient))printf("getAmbient : %f \n", cap1->ambient);
+	  printf("loop %d start\n",i);
+
+	  if ( mlx90614_getAmbient(&cap1->ambient) == true ) printf("getAmbient OK : %0.1f *C\n", cap1->ambient);
 	  else printf("Failed to read ambient temperature\n");
 
+	  if(mlx90614_getEmissivity(&cap1->emissivity) == true) printf("getEmissivity OK : %0.1f *C\n", cap1->emissivity);
+	  else printf("getEmissivity failed !\n");
+/*
+	  if ( mlx90614_getObject1(&cap1->object1) == true )printf("getObject1 OK : %0.1f *C\n", cap1->object1);
+	  else printf("Failed to read Object1 temperature\n");
 
-
-	  printf("task01 end\n");
-	  HAL_Delay(1000);
+	  if ( mlx90614_getObject1(&cap1->object2) == true )printf("getObject2 OK : %0.1f *C\n", cap1->object2);
+	  else printf("Failed to read Object2 temperature\n");
+*/
+	  printf("loop %d end\n",i);
+	  i++;
+	  HAL_Delay(2000);
   }
+  free(cap1);
   /* USER CODE END 3 */
 }
 
