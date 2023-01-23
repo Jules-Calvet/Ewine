@@ -117,6 +117,8 @@ int main(void)
 
   int i = 1;
 
+  cap1->unit = MLX90614_UNIT_C;
+
   cap1 = (MLX90614_t*)malloc(sizeof(MLX90614_t));
 
   if(mlx90614_init() == true)printf("Initialization OK ! \n");
@@ -129,16 +131,17 @@ int main(void)
 	printf("Read Id : %u \n",cap1->id[i]);
   }
   */
-  cap1->unit = MLX90614_UNIT_C;
   mlx90614_setUnit(cap1->unit);
-  if(mlx90614_setMax(30.00f) == true) printf("setMax OK !\n");
+  cap1->max = 150.00f;
+  cap1->min = -30.00f;
+  if(mlx90614_setMax(cap1->max) == true) printf("setMax OK !\n");
   else printf("setMax failed !\n");
-  if(mlx90614_setMin(-30.00f) == true) printf("setMin OK !\n");
+  if(mlx90614_setMin(cap1->min) == true) printf("setMin OK !\n");
   else printf("setMin failed !\n");
 
-  if(mlx90614_getMax(&cap1->max) == true) printf("getMax OK : %0.1f *C\n",cap1->max);
+  if(mlx90614_getMax(&cap1->max) == true) printf("getMax OK : %0.2f *C\n",cap1->max);
   else printf("getMax failed !\n");
-  if(mlx90614_getMin(&cap1->min) == true) printf("getMin OK : %0.1f *C\n",cap1->min);
+  if(mlx90614_getMin(&cap1->min) == true) printf("getMin OK : %0.2f *C\n",cap1->min);
   else printf("getMin failed !\n");
 
   if(mlx90614_setEmissivity(0.5f) == true) printf("setEmissivity OK !\n");
@@ -153,19 +156,17 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  printf("loop %d start\n",i);
-
-	  if ( mlx90614_getAmbient(&cap1->ambient) == true ) printf("getAmbient OK : %0.1f *C\n", cap1->ambient);
+/*
+	  if ( mlx90614_getAmbient(&cap1->ambient) == true ) printf("getAmbient OK : %0.2f *C\n", cap1->ambient);
 	  else printf("Failed to read ambient temperature\n");
-
+*/
+/*
 	  if(mlx90614_getEmissivity(&cap1->emissivity) == true) printf("getEmissivity OK : %0.1f *C\n", cap1->emissivity);
 	  else printf("getEmissivity failed !\n");
-/*
-	  if ( mlx90614_getObject1(&cap1->object1) == true )printf("getObject1 OK : %0.1f *C\n", cap1->object1);
+*/
+	  if ( mlx90614_getObject1(&cap1->object1) == true ) printf("getObject1 OK : %u *C\n", cap1->rawObject1);
 	  else printf("Failed to read Object1 temperature\n");
 
-	  if ( mlx90614_getObject1(&cap1->object2) == true )printf("getObject2 OK : %0.1f *C\n", cap1->object2);
-	  else printf("Failed to read Object2 temperature\n");
-*/
 	  printf("loop %d end\n",i);
 	  i++;
 	  HAL_Delay(2000);

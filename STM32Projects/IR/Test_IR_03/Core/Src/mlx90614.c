@@ -1,6 +1,9 @@
 #include "mlx90614.h"
 #include "mlx90614Config.h"
 #include <string.h>
+#include "main.h"
+#include "stdlib.h"
+#include "stdio.h"
 
 #if _MLX90614_FREERTOS == 0
 #define mlx90614_delay(x)   HAL_Delay(x)
@@ -26,6 +29,7 @@
 #define MLX90614_REGISTER_SLEEP   0xFF
 
 MLX90614_t  mlx90614;
+
 //###################################################################################################
 uint8_t mlx90614_crc8(uint8_t *data, uint8_t len)
 {
@@ -121,9 +125,13 @@ float mlx90614_calcTemperature(int16_t rawTemp)
     if(mlx90614.unit != MLX90614_UNIT_K)
 		{
 			retTemp -= 273.15f;
+			//printf("Convertion Celcius Done ! \n");
+
 			if(mlx90614.unit == MLX90614_UNIT_F)
 			{
 				retTemp = retTemp * 9.0f / 5.0f + 32.0f;
+				//printf("Convertion Farenheight Done ! \n");
+
 			}
 		}
 	}
@@ -255,6 +263,7 @@ bool mlx90614_getObject2(float *objectTemp)
 		if(mlx90614.rawObject2 & 0x8000)
 			return false;
 		if(objectTemp != NULL)
+
       *objectTemp =  mlx90614_calcTemperature(mlx90614.rawObject2);
 		return true;
 	}

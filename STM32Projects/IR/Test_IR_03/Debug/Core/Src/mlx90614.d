@@ -41,7 +41,7 @@ Core/Src/mlx90614.o: ../Core/Src/mlx90614.c ../Core/Inc/mlx90614.h \
  ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_uart.h \
  ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_uart_ex.h \
  ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_system.h \
- ../Core/Inc/mlx90614Config.h ../Core/Inc/i2c.h
+ ../Core/Inc/mlx90614Config.h ../Core/Inc/i2c.h ../Core/Inc/main.h
 ../Core/Inc/mlx90614.h:
 ../Core/Inc/i2c.h:
 ../Core/Inc/main.h:
@@ -88,3 +88,4 @@ Core/Src/mlx90614.o: ../Core/Src/mlx90614.c ../Core/Inc/mlx90614.h \
 ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_system.h:
 ../Core/Inc/mlx90614Config.h:
 ../Core/Inc/i2c.h:
+../Core/Inc/main.h:
