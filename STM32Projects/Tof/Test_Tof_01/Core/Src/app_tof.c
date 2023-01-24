@@ -25,6 +25,7 @@ extern "C" {
 /* Includes ------------------------------------------------------------------*/
 #include "app_tof.h"
 #include "main.h"
+#include "stdlib.h"
 #include "stdio.h"
 #include "53l1a2_ranging_sensor.h"
 

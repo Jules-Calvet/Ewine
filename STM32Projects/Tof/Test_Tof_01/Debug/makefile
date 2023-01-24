@@ -64,8 +64,8 @@ all: main-build
 main-build: Test_Tof.elf secondary-outputs
 
 # Tool invocations
-Test_Tof.elf Test_Tof.map: $(OBJS) $(USER_OBJS) C:\Users\Justin\STM32CubeIDE\workspace_1.7.0\Test_Tof\STM32WB55RGVX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Test_Tof.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Justin\STM32CubeIDE\workspace_1.7.0\Test_Tof\STM32WB55RGVX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Test_Tof.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Test_Tof.elf Test_Tof.map: $(OBJS) $(USER_OBJS) C:\Users\Justin\Desktop\Ewine\Ewine\STM32Projects\Tof\Test_Tof_01\STM32WB55RGVX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Test_Tof.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Justin\Desktop\Ewine\Ewine\STM32Projects\Tof\Test_Tof_01\STM32WB55RGVX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Test_Tof.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
