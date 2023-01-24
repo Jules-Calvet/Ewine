@@ -7,7 +7,9 @@
 C_SRCS += \
 ../Core/Src/app_tof.c \
 ../Core/Src/gpio.c \
+../Core/Src/i2c.c \
 ../Core/Src/main.c \
+../Core/Src/mlx90614.c \
 ../Core/Src/stm32wbxx_hal_msp.c \
 ../Core/Src/stm32wbxx_hal_timebase_tim.c \
 ../Core/Src/stm32wbxx_it.c \
@@ -21,7 +23,9 @@ C_SRCS += \
 OBJS += \
 ./Core/Src/app_tof.o \
 ./Core/Src/gpio.o \
+./Core/Src/i2c.o \
 ./Core/Src/main.o \
+./Core/Src/mlx90614.o \
 ./Core/Src/stm32wbxx_hal_msp.o \
 ./Core/Src/stm32wbxx_hal_timebase_tim.o \
 ./Core/Src/stm32wbxx_it.o \
@@ -35,7 +39,9 @@ OBJS += \
 C_DEPS += \
 ./Core/Src/app_tof.d \
 ./Core/Src/gpio.d \
+./Core/Src/i2c.d \
 ./Core/Src/main.d \
+./Core/Src/mlx90614.d \
 ./Core/Src/stm32wbxx_hal_msp.d \
 ./Core/Src/stm32wbxx_hal_timebase_tim.d \
 ./Core/Src/stm32wbxx_it.d \
@@ -54,7 +60,7 @@ Core/Src/%.o Core/Src/%.su: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/app_tof.d ./Core/Src/app_tof.o ./Core/Src/app_tof.su ./Core/Src/gpio.d ./Core/Src/gpio.o ./Core/Src/gpio.su ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32wbxx_hal_msp.d ./Core/Src/stm32wbxx_hal_msp.o ./Core/Src/stm32wbxx_hal_msp.su ./Core/Src/stm32wbxx_hal_timebase_tim.d ./Core/Src/stm32wbxx_hal_timebase_tim.o ./Core/Src/stm32wbxx_hal_timebase_tim.su ./Core/Src/stm32wbxx_it.d ./Core/Src/stm32wbxx_it.o ./Core/Src/stm32wbxx_it.su ./Core/Src/stm32wbxx_nucleo_bus.d ./Core/Src/stm32wbxx_nucleo_bus.o ./Core/Src/stm32wbxx_nucleo_bus.su ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32wbxx.d ./Core/Src/system_stm32wbxx.o ./Core/Src/system_stm32wbxx.su ./Core/Src/usart.d ./Core/Src/usart.o ./Core/Src/usart.su ./Core/Src/usb.d ./Core/Src/usb.o ./Core/Src/usb.su
+	-$(RM) ./Core/Src/app_tof.d ./Core/Src/app_tof.o ./Core/Src/app_tof.su ./Core/Src/gpio.d ./Core/Src/gpio.o ./Core/Src/gpio.su ./Core/Src/i2c.d ./Core/Src/i2c.o ./Core/Src/i2c.su ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/mlx90614.d ./Core/Src/mlx90614.o ./Core/Src/mlx90614.su ./Core/Src/stm32wbxx_hal_msp.d ./Core/Src/stm32wbxx_hal_msp.o ./Core/Src/stm32wbxx_hal_msp.su ./Core/Src/stm32wbxx_hal_timebase_tim.d ./Core/Src/stm32wbxx_hal_timebase_tim.o ./Core/Src/stm32wbxx_hal_timebase_tim.su ./Core/Src/stm32wbxx_it.d ./Core/Src/stm32wbxx_it.o ./Core/Src/stm32wbxx_it.su ./Core/Src/stm32wbxx_nucleo_bus.d ./Core/Src/stm32wbxx_nucleo_bus.o ./Core/Src/stm32wbxx_nucleo_bus.su ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32wbxx.d ./Core/Src/system_stm32wbxx.o ./Core/Src/system_stm32wbxx.su ./Core/Src/usart.d ./Core/Src/usart.o ./Core/Src/usart.su ./Core/Src/usb.d ./Core/Src/usb.o ./Core/Src/usb.su
 
 .PHONY: clean-Core-2f-Src
 

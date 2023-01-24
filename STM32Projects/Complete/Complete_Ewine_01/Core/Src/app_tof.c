@@ -80,17 +80,17 @@ void VL_TOF_Process(void)
   /* USER CODE BEGIN TOF_Process_PreTreatment */
 
   /* USER CODE END TOF_Process_PreTreatment */
-  printf("  start TOF Center  \n");
+  printf("\n ---- start TOF Center ---- \n\n");
   VL_53L1A2_SimpleRanging_Process_C();
-  printf("  end TOF Center  \n");
+  printf("\n ---- end TOF Center ---- \n\n");
 
-  printf("  start TOF Right  \n");
+  printf("\n ---- start TOF Right ---- \n\n");
   VL_53L1A2_SimpleRanging_Process_R();
-  printf("  end TOF Right  \n");
+  printf("\n ---- end TOF Right ---- \n\n");
 
-  printf("  start TOF Left  \n");
+  printf("\n ---- start TOF Left ---- \n\n");
   VL_53L1A2_SimpleRanging_Process_L();
-  printf("  end TOF Left  \n");
+  printf("\n ---- end TOF Left ---- \n\n");
 
   /* USER CODE BEGIN TOF_Process_PostTreatment */
 
@@ -108,7 +108,7 @@ static void VL_53L1A2_SimpleRanging_Init_C(void)
     printf("VL53L1A2_RANGING_SENSOR_Init failed\n");
     while(1);
   }
-
+  printf(" ****** Initialization TOF CENTER OK ****** \n");
 }
 static void VL_53L1A2_SimpleRanging_Init_R(void)
 {
@@ -121,7 +121,7 @@ static void VL_53L1A2_SimpleRanging_Init_R(void)
     printf("VL53L1A2_RANGING_SENSOR_Init failed\n");
     while(1);
   }
-
+  printf(" ****** Initialization TOF RIGHT OK ****** \n");
 }
 static void VL_53L1A2_SimpleRanging_Init_L(void)
 {
@@ -134,7 +134,7 @@ static void VL_53L1A2_SimpleRanging_Init_L(void)
     printf("VL53L1A2_RANGING_SENSOR_Init failed\n");
     while(1);
   }
-
+  printf(" ****** Initialization TOF LEFT OK ****** \n");
 }
 
 static void VL_53L1A2_SimpleRanging_Process_C(void)
@@ -214,7 +214,7 @@ static void VL_53L1A2_SimpleRanging_Process_R(void)
 
     if (statusRight == BSP_ERROR_NONE)
     {
-      printf("\n RIGHT \n");
+      printf("\n RIGHT %d\n",i);
       print_result(&Result_Right);
     }
 
@@ -253,7 +253,7 @@ static void VL_53L1A2_SimpleRanging_Process_L(void)
   {*/
   for(int i = 1 ; i < 6 ; i++){
     /* repetition mode */
-    statusRight = VL53L1A2_RANGING_SENSOR_GetDistance(VL53L1A2_DEV_LEFT, &Result_Left);
+    statusLeft = VL53L1A2_RANGING_SENSOR_GetDistance(VL53L1A2_DEV_LEFT, &Result_Left);
 
     if (statusLeft == BSP_ERROR_NONE)
     {

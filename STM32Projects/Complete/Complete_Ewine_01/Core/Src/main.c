@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "i2c.h"
 #include "usart.h"
 #include "usb.h"
 #include "gpio.h"
@@ -27,6 +28,7 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include "app_tof.h"
+#include "mlx90614.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -102,10 +104,18 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   MX_USB_PCD_Init();
+  MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
-  printf("\n\n ****** Init TOF Test ****** \n\n");
+  //Tof Initialization
   VL_TOF_Init();
-
+  //mlx90614 Initialization
+  if(mlx90614_init() == true)printf(" ****** Initialization MLX90614 OK ****** \n");
+  else printf("Initialization Failed ! \n");
+  mlx90614.configReg.DualIRSensor = 0;
+  mlx90614.configReg.SelectObjAmb = 1;
+  mlx90614.configReg.FIR = 4;
+  float temp = 0.0f;
+  float tobj = 0.0f;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -115,9 +125,22 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
 	  printf("\n\n ****** Start TOF Test ****** \n\n");
 	  VL_TOF_Process();
 	  printf("\n\n ****** End TOF Test ****** \n\n");
+
+	  printf("\n\n ****** Start MLX90614 Test ****** \n\n");
+	  for(int i = 1 ; i < 10 ; i++ ){
+		  printf("loop %d start\n",i);
+
+		  if ( mlx90614_getAmbient(&temp) == true ) printf("getAmbient OK : %0.2f *C\n", temp);
+		  else printf("Failed to read ambient temperature\n");
+
+		  printf("loop %d end\n",i);
+		  HAL_Delay(2000);
+	  }
+	  printf("\n\n ****** End MLX90614 Test ****** \n\n");
 
   }
   /* USER CODE END 3 */
