@@ -1,3 +1,0 @@
-../Drivers/BSP/Components/vl53l1cb/modules/vl53l1_hist_char.c:34:14:VL53L1_set_calib_config	24	static
-../Drivers/BSP/Components/vl53l1cb/modules/vl53l1_hist_char.c:112:14:VL53L1_set_hist_calib_pulse_delay	40	static
-../Drivers/BSP/Components/vl53l1cb/modules/vl53l1_hist_char.c:138:14:VL53L1_disable_calib_pulse_delay	40	static

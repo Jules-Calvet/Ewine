@@ -1,5 +1,0 @@
-../Drivers/BSP/Components/vl53l1cb/porting/vl53l1_platform_ipp.c:30:14:VL53L1_ipp_hist_process_data	56	static
-../Drivers/BSP/Components/vl53l1cb/porting/vl53l1_platform_ipp.c:65:14:VL53L1_ipp_hist_ambient_dmax	40	static
-../Drivers/BSP/Components/vl53l1cb/porting/vl53l1_platform_ipp.c:92:14:VL53L1_ipp_xtalk_calibration_process_data	32	static
-../Drivers/BSP/Components/vl53l1cb/porting/vl53l1_platform_ipp.c:115:14:VL53L1_ipp_hist_xtalk_correction	40	static
-../Drivers/BSP/Components/vl53l1cb/porting/vl53l1_platform_ipp.c:143:14:VL53L1_ipp_generate_dual_reflectance_xtalk_samples	32	static
