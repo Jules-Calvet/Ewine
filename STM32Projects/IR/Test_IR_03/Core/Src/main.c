@@ -28,7 +28,6 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include "mlx90614.h"
-#include "main.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -49,7 +48,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-MLX90614_t* cap1;
+//MLX90614_t cap1;
 //MLX90614_CONFIG_REG_t* Ambiant_Temp;
 /* USER CODE END PV */
 
@@ -107,7 +106,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   MX_USB_PCD_Init();
-  MX_I2C1_Init();
+  MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -117,61 +116,76 @@ int main(void)
 
   int i = 1;
 
-  cap1->unit = MLX90614_UNIT_C;
-
-  cap1 = (MLX90614_t*)malloc(sizeof(MLX90614_t));
+  //cap1.unit = MLX90614_UNIT_C;
 
   if(mlx90614_init() == true)printf("Initialization OK ! \n");
   else printf("Initialization Failed ! \n");
-
+/*
   if(mlx90614_readID(cap1->id) == true) printf("Read_ID OK !\n");
   else printf("read_Id failed !\n");
-  /*
   for(int i=0 ; i<4 ; i++){
 	printf("Read Id : %u \n",cap1->id[i]);
   }
-  */
-  mlx90614_setUnit(cap1->unit);
-  cap1->max = 150.00f;
-  cap1->min = -30.00f;
-  if(mlx90614_setMax(cap1->max) == true) printf("setMax OK !\n");
+*/
+  //mlx90614_setUnit(MLX90614_UNIT_C);
+
+  //float tobj = 0.0f;
+  mlx90614.configReg.DualIRSensor = 0;
+  mlx90614.configReg.SelectObjAmb = 1;
+  mlx90614.configReg.FIR = 4;
+
+  //cap1->max = 150.00f;
+  //cap1->min = -30.00f;
+  //float actualMax;
+  //float* ActualMax = &actualMax;
+  //float actualMin;
+  //float* ActualMin = &actualMin;
+/*
+  if(mlx90614_setMax(cap1->max) == true) printf("setMax OK : %0.2f *C\n",cap1->max);
   else printf("setMax failed !\n");
-  if(mlx90614_setMin(cap1->min) == true) printf("setMin OK !\n");
+  if(mlx90614_setMin(cap1->min) == true) printf("setMin OK : %0.2f *C\n",cap1->min);
   else printf("setMin failed !\n");
 
-  if(mlx90614_getMax(&cap1->max) == true) printf("getMax OK : %0.2f *C\n",cap1->max);
+  if(mlx90614_getMax(ActualMax) == true) printf("getMax OK : %0.2f *C\n",cap1->max);
   else printf("getMax failed !\n");
-  if(mlx90614_getMin(&cap1->min) == true) printf("getMin OK : %0.2f *C\n",cap1->min);
+  if(mlx90614_getMin(ActualMin) == true) printf("getMin OK : %0.2f *C\n",cap1->min);
   else printf("getMin failed !\n");
-
-  if(mlx90614_setEmissivity(0.5f) == true) printf("setEmissivity OK !\n");
+*/
+/*
+  cap1->emissivity = 1.0f;
+  if(mlx90614_setEmissivity(cap1->emissivity) == true) printf("setEmissivity OK : %0.2f \n", cap1->emissivity);
   else printf("setEmissivity failed !\n");
-
-
-  cap1->configReg.SelectObjAmb = true;
-
+*/
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 	  printf("loop %d start\n",i);
-/*
-	  if ( mlx90614_getAmbient(&cap1->ambient) == true ) printf("getAmbient OK : %0.2f *C\n", cap1->ambient);
-	  else printf("Failed to read ambient temperature\n");
-*/
-/*
-	  if(mlx90614_getEmissivity(&cap1->emissivity) == true) printf("getEmissivity OK : %0.1f *C\n", cap1->emissivity);
-	  else printf("getEmissivity failed !\n");
-*/
-	  if ( mlx90614_getObject1(&cap1->object1) == true ) printf("getObject1 OK : %u *C\n", cap1->rawObject1);
-	  else printf("Failed to read Object1 temperature\n");
+	  float temp = 0.0f;
 
+	  //if ( mlx90614_getAmbient(&cap1->ambient) == true ) printf("getAmbient OK : %0.2f *C\n", cap1->ambient);
+	  //else printf("Failed to read ambient temperature\n");
+	  if ( mlx90614_getAmbient(&temp) == true ) printf("getAmbient OK : %0.2f *C\n", temp);
+	  else printf("Failed to read ambient temperature\n");
+
+
+//	  if(mlx90614_getEmissivity(&cap1->emissivity) == true) printf("getEmissivity OK : %0.2f \n", cap1->emissivity);
+//	  else printf("getEmissivity failed !\n");
+
+/*
+	  if ( mlx90614_getObject1(&cap1->object1) == true) printf("getObject1 OK : %0.2f *C\n", cap1->object1);
+	  else printf("Failed to read Object1 temperature\n");
+*/
+
+/*
+	  if ( mlx90614_getObject2(&tobj) == true) printf("getObject2 OK : %0.2f *C\n", tobj);
+	  else printf("Failed to read Object2 temperature\n");
+*/
 	  printf("loop %d end\n",i);
 	  i++;
 	  HAL_Delay(2000);
   }
-  free(cap1);
   /* USER CODE END 3 */
 }
 

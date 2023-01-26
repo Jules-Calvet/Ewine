@@ -1,0 +1,3 @@
+../Core/Src/app_mlx.c:25:6:MLX_IR_Init	8	static
+../Core/Src/app_mlx.c:47:6:MLX_IR_Process	8	static
+../Core/Src/app_mlx.c:62:13:MLX_90614_AmbiantTemperature_Process	16	static

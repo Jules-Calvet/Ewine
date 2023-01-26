@@ -126,7 +126,7 @@ static void VL_53L1A2_SimpleRanging_Process(void)
 
     if (statusCenter == BSP_ERROR_NONE)
     {
-      printf("\n CENTER ");
+      //printf("\n CENTER ");
       print_result(&Result_Center);
     }
     HAL_Delay(REPETITION);

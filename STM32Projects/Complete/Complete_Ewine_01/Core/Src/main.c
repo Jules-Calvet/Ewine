@@ -115,7 +115,6 @@ int main(void)
   mlx90614.configReg.SelectObjAmb = 1;
   mlx90614.configReg.FIR = 4;
   float temp = 0.0f;
-  float tobj = 0.0f;
   /* USER CODE END 2 */
 
   /* Infinite loop */

@@ -1,0 +1,9 @@
+../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_bus.h:539:22:LL_AHB2_GRP1_EnableClock	24	static
+../Drivers/BSP/53L1A2/53l1a2.c:227:9:VL53L1A2_Init	16	static
+../Drivers/BSP/53L1A2/53l1a2.c:302:9:VL53L1A2_DeInit	16	static
+../Drivers/BSP/53L1A2/53l1a2.c:323:9:VL53L1A2_ResetId	24	static
+../Drivers/BSP/53L1A2/53l1a2.c:387:9:VL53L1A2_SetDisplayString	40	static
+../Drivers/BSP/53L1A2/53l1a2.c:433:16:_I2cFailRecover	32	static
+../Drivers/BSP/53L1A2/53l1a2.c:492:16:_ExpandersSetAllIO	16	static
+../Drivers/BSP/53L1A2/53l1a2.c:517:16:_ExpanderRd	40	static
+../Drivers/BSP/53L1A2/53l1a2.c:550:16:_ExpanderWR	56	static
