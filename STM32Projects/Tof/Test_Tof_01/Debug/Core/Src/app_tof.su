@@ -1,5 +1,0 @@
-../Core/Src/app_tof.c:47:6:VL_TOF_Init	8	static
-../Core/Src/app_tof.c:69:6:VL_TOF_Process	8	static
-../Core/Src/app_tof.c:82:13:VL_53L1A2_SimpleRanging_Init	8	static
-../Core/Src/app_tof.c:96:13:VL_53L1A2_SimpleRanging_Process	88	static
-../Core/Src/app_tof.c:137:13:print_result	32	static

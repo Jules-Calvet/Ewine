@@ -1,3 +1,0 @@
-../Drivers/BSP/Components/vl53l1cb/modules/vl53l1_zone_presets.c:30:14:VL53L1_init_zone_config_structure	32	static
-../Drivers/BSP/Components/vl53l1cb/modules/vl53l1_zone_presets.c:82:14:VL53L1_zone_preset_xtalk_planar	24	static
-../Drivers/BSP/Components/vl53l1cb/modules/vl53l1_zone_presets.c:134:14:VL53L1_init_zone_config_histogram_bins	24	static
