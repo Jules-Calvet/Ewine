@@ -27,7 +27,7 @@ class LoadingActivity : AppCompatActivity() {
         mode(darkMode)
 
         Timer().schedule(4000) {
-            val intent = Intent(this@LoadingActivity, SettingsActivity::class.java)
+            val intent = Intent(this@LoadingActivity, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }
