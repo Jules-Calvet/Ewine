@@ -21,7 +21,7 @@
             android:name=".SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".CellarActivity"
             android:exported="false" />
         <activity
             android:name=".LoadingActivity"

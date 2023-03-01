@@ -1,39 +1,22 @@
 package fr.isen.ewine
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import fr.isen.ewine.databinding.ActivityLoginBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import fr.isen.ewine.databinding.ActivityCellarBinding
 
-class LoginActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityLoginBinding
-
+class CellarActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityCellarBinding
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-
-        binding = ActivityLoginBinding.inflate(layoutInflater)
+        binding = ActivityCellarBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
-        binding.buttonLogIn.setOnClickListener {
-            val intent = Intent(this, CellarActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.buttonToRegister.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.buttonToSettings.setOnClickListener {
-            val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent)
-        }
-
+        val cellar_height: Int = 6
+        binding.rowsRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.rowsRecyclerView.adapter = RowsAdapter(cellar_height)
     }
 
     override fun onStart() {
@@ -45,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
         mode(darkMode)
     }
 
-    private fun mode(darkMode : Boolean) {
+    private fun mode(darkMode: Boolean) {
         if (darkMode) {
             binding.root.setBackgroundColor(Color.BLACK)
             binding.buttonToSettings.setBackgroundResource(R.drawable.parameter_dark)
