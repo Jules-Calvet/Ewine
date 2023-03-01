@@ -15,10 +15,6 @@ class CellarActivity : AppCompatActivity() {
         binding = ActivityCellarBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val cellar_height: Int = 10
-        binding.rowsRecyclerView.layoutManager = LinearLayoutManager(this)
-        binding.rowsRecyclerView.adapter = RowsAdapter(cellar_height)
-
         binding.buttonToSettings.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
@@ -30,6 +26,10 @@ class CellarActivity : AppCompatActivity() {
 
         val sharedPref: SharedPreferences = getSharedPreferences("settings", 0)
         var darkMode = sharedPref.getBoolean("dark_mode", false)
+        var cellar_height = sharedPref.getInt("height",1)
+        var cellar_width = sharedPref.getInt("width",1)
+        binding.rowsRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.rowsRecyclerView.adapter = RowsAdapter(cellar_height,cellar_width)
 
         mode(darkMode)
     }
