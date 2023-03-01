@@ -1,22 +1,27 @@
 package fr.isen.ewine
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import fr.isen.ewine.databinding.ItemRowsBinding
 
-class RowsAdapter (val cellarHeight: Int) : RecyclerView.Adapter<RowsAdapter.ColumnsViewHolder>() {
-    class ColumnsViewHolder(view : View) : RecyclerView.ViewHolder(view) {
+class RowsAdapter(val cellarHeight: Int) : RecyclerView.Adapter<RowsAdapter.RowsViewHolder>() {
+    class RowsViewHolder(val binding: ItemRowsBinding) : RecyclerView.ViewHolder(binding.root)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RowsViewHolder {
+        val binding = ItemRowsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val cellarWidth = 7
+        binding.columnsRecyclerView.layoutManager = LinearLayoutManager(parent.context, LinearLayoutManager.HORIZONTAL, false)
+        binding.columnsRecyclerView.adapter = ColumnsAdapter(cellarWidth)
+        return RowsViewHolder(binding)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColumnsViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_columns, parent, false)
-        return ColumnsViewHolder(view)
+    override fun onBindViewHolder(holder: RowsViewHolder, position: Int) {
+        //val rows = cellarHeight
     }
 
-    override fun onBindViewHolder(holder: ColumnsViewHolder, position: Int) {
-        val column = cellarHeight
-    }
     override fun getItemCount(): Int = cellarHeight
 }

@@ -14,7 +14,6 @@
         android:layout_marginEnd="8dp"
         android:background="@drawable/parameter"
         android:foreground="@drawable/parameter"
-        android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,7 +33,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rows_recyclerView"
         android:layout_width="409dp"
-        android:layout_height="602dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

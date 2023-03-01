@@ -1,5 +1,6 @@
 package fr.isen.ewine
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -14,9 +15,14 @@ class CellarActivity : AppCompatActivity() {
         binding = ActivityCellarBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val cellar_height: Int = 6
+        val cellar_height: Int = 10
         binding.rowsRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.rowsRecyclerView.adapter = RowsAdapter(cellar_height)
+
+        binding.buttonToSettings.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onStart() {
