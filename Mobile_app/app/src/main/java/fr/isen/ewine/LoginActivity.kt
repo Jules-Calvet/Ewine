@@ -2,9 +2,11 @@ package fr.isen.ewine
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.annotation.ColorInt
 import fr.isen.ewine.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -50,10 +52,18 @@ class LoginActivity : AppCompatActivity() {
             binding.root.setBackgroundColor(Color.BLACK)
             binding.buttonToSettings.setBackgroundResource(R.drawable.parameter_dark)
             binding.buttonToSettings.foreground = getDrawable(R.drawable.parameter_dark)
+            binding.textInputLayoutEmail.setBoxBackgroundColorResource(com.google.android.material.R.color.material_grey_900)
+            binding.editTextEmail.setTextColor(Color.WHITE)
+            binding.textInputLayoutPwd.setBoxBackgroundColorResource(com.google.android.material.R.color.material_grey_900)
+            binding.editTextPassword.setTextColor(Color.WHITE)
         } else {
             binding.root.setBackgroundColor(Color.WHITE)
             binding.buttonToSettings.setBackgroundResource(R.drawable.parameter)
             binding.buttonToSettings.foreground = getDrawable(R.drawable.parameter)
+            binding.textInputLayoutEmail.setBoxBackgroundColorResource(com.google.android.material.R.color.material_grey_300)
+            binding.editTextEmail.setTextColor(Color.BLACK)
+            binding.textInputLayoutPwd.setBoxBackgroundColorResource(com.google.android.material.R.color.material_grey_300)
+            binding.editTextPassword.setTextColor(Color.BLACK)
         }
     }
 }
