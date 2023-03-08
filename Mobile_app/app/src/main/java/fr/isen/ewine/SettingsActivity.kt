@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.google.gson.Gson
 import fr.isen.ewine.databinding.ActivitySettingsBinding
@@ -16,19 +17,21 @@ class SettingsActivity : AppCompatActivity() {
         var darkMode = sharedPref.getBoolean("dark_mode", false)
         var cellar_height = sharedPref.getInt("height",1)
         var cellar_width = sharedPref.getInt("width",1)
-
+        val gson = Gson()
+        var json: String
+        val jsonFromPrefs = sharedPref.getString("tab_cellar", "")
+        if(jsonFromPrefs == ""){
+            var tab = Array(cellar_width) { Array(cellar_height) {""} }
+            var json_empty = gson.toJson(tab)
+            sharedPref.edit().putString("tab_cellar", json_empty).apply()
+        }
+        var tab_cellar = gson.fromJson(jsonFromPrefs, Array<Array<String>>::class.java)
         super.onCreate(savedInstanceState)
 
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         mode(darkMode)
-
-        var tab_cellar = Array(cellar_width) { Array(cellar_height) {""} }
-        val gson = Gson()
-
-        var json = gson.toJson(tab_cellar)
-        sharedPref.edit().putString("tab_cellar", json).apply()
 
         binding.numberColumns.text = "$cellar_width"
         binding.numberRows.text = "$cellar_height"
@@ -37,6 +40,9 @@ class SettingsActivity : AppCompatActivity() {
                 cellar_width --
                 binding.numberColumns.text = "$cellar_width"
                 sharedPref.edit().putInt("width", cellar_width).apply()
+                tab_cellar = Array(cellar_width) { Array(cellar_height) {""} }
+                json = gson.toJson(tab_cellar)
+                sharedPref.edit().putString("tab_cellar", json).apply()
             }
             else {
                 Toast.makeText(baseContext, "Warning! You cannot have less than 1 columns in your cellar ! ",Toast.LENGTH_SHORT).show()
@@ -47,8 +53,6 @@ class SettingsActivity : AppCompatActivity() {
             binding.numberColumns.text = "$cellar_width"
             sharedPref.edit().putInt("width", cellar_width).apply()
             tab_cellar = Array(cellar_width) { Array(cellar_height) {""} }
-            //tab_cellar[0][0] = "Red"
-            //tab_cellar[1][0] = "White"
             json = gson.toJson(tab_cellar)
             sharedPref.edit().putString("tab_cellar", json).apply()
         }
@@ -58,8 +62,6 @@ class SettingsActivity : AppCompatActivity() {
                 binding.numberRows.text = "$cellar_height"
                 sharedPref.edit().putInt("height", cellar_height).apply()
                 tab_cellar = Array(cellar_width) { Array(cellar_height) {""} }
-                //tab_cellar[0][1] = "Red"
-                //tab_cellar[1][1] = "White"
                 json = gson.toJson(tab_cellar)
                 sharedPref.edit().putString("tab_cellar", json).apply()
             }
@@ -72,8 +74,6 @@ class SettingsActivity : AppCompatActivity() {
             binding.numberRows.text = "$cellar_height"
             sharedPref.edit().putInt("height", cellar_height).apply()
             tab_cellar = Array(cellar_width) { Array(cellar_height) {""} }
-            //tab_cellar[0][2] = "Red"
-            //tab_cellar[1][2] = "White"
             json = gson.toJson(tab_cellar)
             sharedPref.edit().putString("tab_cellar", json).apply()
         }
@@ -82,11 +82,51 @@ class SettingsActivity : AppCompatActivity() {
             darkMode = !darkMode
             mode(darkMode)
             sharedPref.edit().putBoolean("dark_mode", darkMode).apply()
-            tab_cellar = Array(cellar_width) { Array(cellar_height) {""} }
-            //tab_cellar[0][3] = "Red"
-            //tab_cellar[1][3] = "White"
-            json = gson.toJson(tab_cellar)
-            sharedPref.edit().putString("tab_cellar", json).apply()
+        }
+        binding.buttonAddBottle.setOnClickListener {
+            val char_x = binding.NumberX.text.toString()
+            val x = char_x.toInt() - 1
+            val char_y = binding.NumberY.text.toString()
+            val y = char_y.toInt() - 1
+            val wine = binding.WineType.text.toString().toLowerCase()
+
+            if(x >= 0 && x <= cellar_width){
+                if(y >= 0 && y <= cellar_height){
+                    if(tab_cellar[x][y] == ""){
+                        when (wine) {
+                            "red" -> {
+                                tab_cellar[x][y] = "Red"
+                                json = gson.toJson(tab_cellar)
+                                sharedPref.edit().putString("tab_cellar", json).apply()
+                                Toast.makeText(baseContext, "Bottle of " + wine + " added at this position : " + char_x + ", " + char_y + " !",Toast.LENGTH_SHORT).show()
+                            }
+                            "white" -> {
+                                Log.w(" Avant ","$jsonFromPrefs")
+                                tab_cellar[x][y] = "White"
+                                json = gson.toJson(tab_cellar)
+                                Log.w(" Après ","$json")
+                                sharedPref.edit().putString("tab_cellar", json).apply()
+                                Toast.makeText(baseContext, "Bottle of " + wine + " added at this position : " + char_x + ", " + char_y + " !",Toast.LENGTH_SHORT).show()
+                            }
+                            "rose" -> {
+                                tab_cellar[x][y] = "Rose"
+                                json = gson.toJson(tab_cellar)
+                                sharedPref.edit().putString("tab_cellar", json).apply()
+                                Toast.makeText(baseContext, "Bottle of " + wine + " added at this position : " + char_x + ", " + char_y + " !",Toast.LENGTH_SHORT).show()
+                            }
+                            else -> {
+                                Toast.makeText(baseContext, "Warning ! " + wine + " is not a type of wine : red, white, or rose",Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    } else {
+                        Toast.makeText(baseContext, "This place has already been occupied ! Choose an other one ! ",Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(baseContext, "Y not valid ! Must be between 1 and " + cellar_height + " !",Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(baseContext, "X not valid ! Must be between 1 and " + cellar_width + " !",Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

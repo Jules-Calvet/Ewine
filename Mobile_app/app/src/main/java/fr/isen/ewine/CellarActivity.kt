@@ -1,6 +1,5 @@
 package fr.isen.ewine
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
@@ -17,6 +16,7 @@ class CellarActivity : AppCompatActivity() {
         binding = ActivityCellarBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         binding.buttonToSettings.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
@@ -30,12 +30,11 @@ class CellarActivity : AppCompatActivity() {
         var darkMode = sharedPref.getBoolean("dark_mode", false)
         var cellar_height = sharedPref.getInt("height",1)
         var cellar_width = sharedPref.getInt("width",1)
-        val jsonFromPrefs = sharedPref.getString("tab_cellar", "zero")
+        val jsonFromPrefs = sharedPref.getString("tab_cellar", "")
         binding.rowsRecyclerView.layoutManager = LinearLayoutManager(this)
-
         if(jsonFromPrefs != null){
             val tab_cellar = gson.fromJson(jsonFromPrefs, Array<Array<String>>::class.java)
-            binding.rowsRecyclerView.adapter = RowsAdapter(this,cellar_height,cellar_width,tab_cellar)
+            binding.rowsRecyclerView.adapter = RowsAdapter(cellar_height,cellar_width,tab_cellar)
         }
         mode(darkMode)
     }

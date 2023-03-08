@@ -1,6 +1,5 @@
 package fr.isen.ewine
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,11 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import android.content.res.Resources
 import android.util.Log
 import android.widget.ImageView
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import com.squareup.picasso.Picasso
 import fr.isen.ewine.R.drawable
 
-class ColumnsAdapter (val context: Context, val cellarHeight: Int, val cellarWidth: Int, val _tab_cellar: Array<Array<String>>, val y: Int) : RecyclerView.Adapter<ColumnsAdapter.ColumnsViewHolder>() {
+class ColumnsAdapter (val cellarWidth: Int, val _tab_cellar: Array<Array<String>>, val y: Int) : RecyclerView.Adapter<ColumnsAdapter.ColumnsViewHolder>() {
     class ColumnsViewHolder(view : View) : RecyclerView.ViewHolder(view) {
         var image : ImageView = view.findViewById<ImageView>(R.id.CellarImageView)
     }
@@ -30,12 +28,18 @@ class ColumnsAdapter (val context: Context, val cellarHeight: Int, val cellarWid
         return ColumnsViewHolder(view)
     }
     override fun onBindViewHolder(holder: ColumnsViewHolder, position: Int) {
-        val x = position % cellarWidth
+        val x = position/* % cellarWidth*/
 
         when (_tab_cellar[x][y]) {
-            "Red" -> Picasso.get().load(drawable.bottle_red).into(holder.image)
-            "White" -> Picasso.get().load(drawable.bottle_white).into(holder.image)
-            "Rose" -> Picasso.get().load(drawable.bottle_rose).into(holder.image)
+            "Red" -> {
+                Picasso.get().load(drawable.bottle_red).into(holder.image)
+            }
+            "White" -> {
+                Picasso.get().load(drawable.bottle_white).into(holder.image)
+            }
+            "Rose" -> {
+                Picasso.get().load(drawable.bottle_rose).into(holder.image)
+            }
             else -> Picasso.get().load(drawable.bottle_none).into(holder.image)
         }
     }
