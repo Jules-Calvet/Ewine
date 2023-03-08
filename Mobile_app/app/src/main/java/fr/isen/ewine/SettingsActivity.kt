@@ -1,13 +1,11 @@
 package fr.isen.ewine
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.annotation.DrawableRes
+import com.google.gson.Gson
 import fr.isen.ewine.databinding.ActivitySettingsBinding
 
 class SettingsActivity : AppCompatActivity() {
@@ -26,6 +24,12 @@ class SettingsActivity : AppCompatActivity() {
 
         mode(darkMode)
 
+        var tab_cellar = Array(cellar_width) { Array(cellar_height) {""} }
+        val gson = Gson()
+
+        var json = gson.toJson(tab_cellar)
+        sharedPref.edit().putString("tab_cellar", json).apply()
+
         binding.numberColumns.text = "$cellar_width"
         binding.numberRows.text = "$cellar_height"
         binding.ButtonMinusColumns.setOnClickListener{
@@ -42,12 +46,22 @@ class SettingsActivity : AppCompatActivity() {
             cellar_width ++
             binding.numberColumns.text = "$cellar_width"
             sharedPref.edit().putInt("width", cellar_width).apply()
+            tab_cellar = Array(cellar_width) { Array(cellar_height) {""} }
+            //tab_cellar[0][0] = "Red"
+            //tab_cellar[1][0] = "White"
+            json = gson.toJson(tab_cellar)
+            sharedPref.edit().putString("tab_cellar", json).apply()
         }
         binding.ButtonMinusRows.setOnClickListener{
             if (cellar_height > 1){
                 cellar_height --
                 binding.numberRows.text = "$cellar_height"
                 sharedPref.edit().putInt("height", cellar_height).apply()
+                tab_cellar = Array(cellar_width) { Array(cellar_height) {""} }
+                //tab_cellar[0][1] = "Red"
+                //tab_cellar[1][1] = "White"
+                json = gson.toJson(tab_cellar)
+                sharedPref.edit().putString("tab_cellar", json).apply()
             }
             else {
                 Toast.makeText(baseContext, "Warning! You cannot have less than 1 rows in your cellar ! ",Toast.LENGTH_SHORT).show()
@@ -57,15 +71,22 @@ class SettingsActivity : AppCompatActivity() {
             cellar_height ++
             binding.numberRows.text = "$cellar_height"
             sharedPref.edit().putInt("height", cellar_height).apply()
+            tab_cellar = Array(cellar_width) { Array(cellar_height) {""} }
+            //tab_cellar[0][2] = "Red"
+            //tab_cellar[1][2] = "White"
+            json = gson.toJson(tab_cellar)
+            sharedPref.edit().putString("tab_cellar", json).apply()
         }
-
-
-
 
         binding.buttonMode.setOnClickListener {
             darkMode = !darkMode
             mode(darkMode)
             sharedPref.edit().putBoolean("dark_mode", darkMode).apply()
+            tab_cellar = Array(cellar_width) { Array(cellar_height) {""} }
+            //tab_cellar[0][3] = "Red"
+            //tab_cellar[1][3] = "White"
+            json = gson.toJson(tab_cellar)
+            sharedPref.edit().putString("tab_cellar", json).apply()
         }
     }
 
