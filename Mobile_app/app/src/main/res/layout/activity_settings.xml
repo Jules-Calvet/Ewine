@@ -44,12 +44,12 @@
         android:id="@+id/number_columns"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:text="0"
         android:textColor="#000000"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/ButtonMinusColumns"
+        app:layout_constraintEnd_toStartOf="@+id/ButtonPlusColumns"
         app:layout_constraintStart_toEndOf="@+id/ButtonMinusColumns"
         app:layout_constraintTop_toTopOf="@+id/ButtonMinusColumns" />
 
@@ -92,11 +92,11 @@
         android:id="@+id/ButtonPlusColumns"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginEnd="16dp"
         android:clickable="true"
         app:backgroundTint="#9E9E9E"
         app:layout_constraintBottom_toBottomOf="@+id/number_columns"
-        app:layout_constraintStart_toEndOf="@+id/number_columns"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/number_columns"
         app:srcCompat="@android:drawable/ic_input_add" />
 
@@ -107,7 +107,7 @@
         android:clickable="true"
         app:backgroundTint="#9E9E9E"
         app:layout_constraintBottom_toBottomOf="@+id/number_rows"
-        app:layout_constraintStart_toStartOf="@+id/ButtonPlusColumns"
+        app:layout_constraintEnd_toEndOf="@+id/ButtonPlusColumns"
         app:layout_constraintTop_toTopOf="@+id/number_rows"
         app:srcCompat="@android:drawable/ic_input_add" />
 
