@@ -2,8 +2,6 @@ package fr.isen.ewine
 
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.ApplicationInfo
-import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +15,7 @@ class LoadingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         val sharedPref: SharedPreferences = getSharedPreferences("settings", 0)
-        var darkMode = sharedPref.getBoolean("dark_mode", false)
+        val darkMode = sharedPref.getBoolean("dark_mode", false)
 
         super.onCreate(savedInstanceState)
 

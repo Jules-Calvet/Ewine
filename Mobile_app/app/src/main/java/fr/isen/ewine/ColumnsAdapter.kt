@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.content.res.Resources
-import android.util.Log
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
 import fr.isen.ewine.R.drawable

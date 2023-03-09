@@ -1,5 +1,6 @@
 package fr.isen.ewine
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
@@ -27,9 +28,9 @@ class CellarActivity : AppCompatActivity() {
         super.onStart()
         val gson = Gson()
         val sharedPref: SharedPreferences = getSharedPreferences("settings", 0)
-        var darkMode = sharedPref.getBoolean("dark_mode", false)
-        var cellar_height = sharedPref.getInt("height",1)
-        var cellar_width = sharedPref.getInt("width",1)
+        val darkMode = sharedPref.getBoolean("dark_mode", false)
+        val cellar_height = sharedPref.getInt("height",1)
+        val cellar_width = sharedPref.getInt("width",1)
         val jsonFromPrefs = sharedPref.getString("tab_cellar", "")
         binding.rowsRecyclerView.layoutManager = LinearLayoutManager(this)
         if(jsonFromPrefs != null){
@@ -39,6 +40,7 @@ class CellarActivity : AppCompatActivity() {
         mode(darkMode)
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun mode(darkMode: Boolean) {
         if (darkMode) {
             binding.root.setBackgroundColor(Color.BLACK)

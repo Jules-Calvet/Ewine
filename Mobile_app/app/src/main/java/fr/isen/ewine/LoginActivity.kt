@@ -1,12 +1,11 @@
 package fr.isen.ewine
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.annotation.ColorInt
 import fr.isen.ewine.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -42,11 +41,12 @@ class LoginActivity : AppCompatActivity() {
         super.onStart()
 
         val sharedPref: SharedPreferences = getSharedPreferences("settings", 0)
-        var darkMode = sharedPref.getBoolean("dark_mode", false)
+        val darkMode = sharedPref.getBoolean("dark_mode", false)
 
         mode(darkMode)
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun mode(darkMode : Boolean) {
         if (darkMode) {
             binding.root.setBackgroundColor(Color.BLACK)

@@ -12,7 +12,7 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         val sharedPref: SharedPreferences = getSharedPreferences("settings", 0)
-        var darkMode = sharedPref.getBoolean("dark_mode", false)
+        val darkMode = sharedPref.getBoolean("dark_mode", false)
 
         super.onCreate(savedInstanceState)
 

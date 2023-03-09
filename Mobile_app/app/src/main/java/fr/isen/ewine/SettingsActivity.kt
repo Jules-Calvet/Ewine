@@ -1,5 +1,6 @@
 package fr.isen.ewine
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -21,8 +22,8 @@ class SettingsActivity : AppCompatActivity() {
         var json: String
         val jsonFromPrefs = sharedPref.getString("tab_cellar", "")
         if(jsonFromPrefs == ""){
-            var tab = Array(cellar_width) { Array(cellar_height) {""} }
-            var json_empty = gson.toJson(tab)
+            val tab = Array(cellar_width) { Array(cellar_height) {""} }
+            val json_empty = gson.toJson(tab)
             sharedPref.edit().putString("tab_cellar", json_empty).apply()
         }
         var tab_cellar = gson.fromJson(jsonFromPrefs, Array<Array<String>>::class.java)
@@ -122,7 +123,7 @@ class SettingsActivity : AppCompatActivity() {
             } else {
                 y = -1
             }
-            val wine = binding.WineType.text.toString().toLowerCase()
+            val wine = binding.WineType.text.toString().lowercase()
             if(wine != "") {
                 if (x >= 0 && x <= cellar_width) {
                     if (y >= 0 && y <= cellar_height) {
@@ -142,7 +143,7 @@ class SettingsActivity : AppCompatActivity() {
                                     Log.w(" Avant ", "$jsonFromPrefs")
                                     tab_cellar[x][y] = "White"
                                     json = gson.toJson(tab_cellar)
-                                    Log.w(" Après ", "$json")
+                                    Log.w(" Après ", json)
                                     sharedPref.edit().putString("tab_cellar", json).apply()
                                     Toast.makeText(
                                         baseContext,
@@ -199,6 +200,7 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun mode(darkMode : Boolean) {
         if (darkMode) {
             binding.root.setBackgroundColor(Color.BLACK)
