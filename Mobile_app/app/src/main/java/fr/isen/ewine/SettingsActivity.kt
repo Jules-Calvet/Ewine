@@ -40,7 +40,13 @@ class SettingsActivity : AppCompatActivity() {
                 cellar_width --
                 binding.numberColumns.text = "$cellar_width"
                 sharedPref.edit().putInt("width", cellar_width).apply()
+                val tab_temp = tab_cellar
                 tab_cellar = Array(cellar_width) { Array(cellar_height) {""} }
+                for(x in 0..cellar_width-1) {
+                    for(y in 0..cellar_height-1) {
+                        tab_cellar[x][y] = tab_temp[x][y]
+                    }
+                }
                 json = gson.toJson(tab_cellar)
                 sharedPref.edit().putString("tab_cellar", json).apply()
             }
@@ -52,7 +58,13 @@ class SettingsActivity : AppCompatActivity() {
             cellar_width ++
             binding.numberColumns.text = "$cellar_width"
             sharedPref.edit().putInt("width", cellar_width).apply()
+            val tab_temp = tab_cellar
             tab_cellar = Array(cellar_width) { Array(cellar_height) {""} }
+            for(x in 0..cellar_width-2) {
+                for(y in 0..cellar_height-1) {
+                    tab_cellar[x][y] = tab_temp[x][y]
+                }
+            }
             json = gson.toJson(tab_cellar)
             sharedPref.edit().putString("tab_cellar", json).apply()
         }
@@ -61,7 +73,13 @@ class SettingsActivity : AppCompatActivity() {
                 cellar_height --
                 binding.numberRows.text = "$cellar_height"
                 sharedPref.edit().putInt("height", cellar_height).apply()
+                val tab_temp = tab_cellar
                 tab_cellar = Array(cellar_width) { Array(cellar_height) {""} }
+                for(x in 0..cellar_width-1) {
+                    for(y in 0..cellar_height-1) {
+                        tab_cellar[x][y] = tab_temp[x][y]
+                    }
+                }
                 json = gson.toJson(tab_cellar)
                 sharedPref.edit().putString("tab_cellar", json).apply()
             }
@@ -73,7 +91,13 @@ class SettingsActivity : AppCompatActivity() {
             cellar_height ++
             binding.numberRows.text = "$cellar_height"
             sharedPref.edit().putInt("height", cellar_height).apply()
+            val tab_temp = tab_cellar
             tab_cellar = Array(cellar_width) { Array(cellar_height) {""} }
+            for(x in 0..cellar_width-1) {
+                for(y in 0..cellar_height-2) {
+                    tab_cellar[x][y] = tab_temp[x][y]
+                }
+            }
             json = gson.toJson(tab_cellar)
             sharedPref.edit().putString("tab_cellar", json).apply()
         }
@@ -85,47 +109,92 @@ class SettingsActivity : AppCompatActivity() {
         }
         binding.buttonAddBottle.setOnClickListener {
             val char_x = binding.NumberX.text.toString()
-            val x = char_x.toInt() - 1
+            val x : Int
+            val y : Int
+            if(char_x != "") {
+                x = char_x.toInt() - 1
+            } else {
+                x = -1
+            }
             val char_y = binding.NumberY.text.toString()
-            val y = char_y.toInt() - 1
+            if(char_y != "") {
+                y = char_y.toInt() - 1
+            } else {
+                y = -1
+            }
             val wine = binding.WineType.text.toString().toLowerCase()
-
-            if(x >= 0 && x <= cellar_width){
-                if(y >= 0 && y <= cellar_height){
-                    if(tab_cellar[x][y] == ""){
-                        when (wine) {
-                            "red" -> {
-                                tab_cellar[x][y] = "Red"
-                                json = gson.toJson(tab_cellar)
-                                sharedPref.edit().putString("tab_cellar", json).apply()
-                                Toast.makeText(baseContext, "Bottle of " + wine + " added at this position : " + char_x + ", " + char_y + " !",Toast.LENGTH_SHORT).show()
+            if(wine != "") {
+                if (x >= 0 && x <= cellar_width) {
+                    if (y >= 0 && y <= cellar_height) {
+                        if (tab_cellar[x][y] == "") {
+                            when (wine) {
+                                "red" -> {
+                                    tab_cellar[x][y] = "Red"
+                                    json = gson.toJson(tab_cellar)
+                                    sharedPref.edit().putString("tab_cellar", json).apply()
+                                    Toast.makeText(
+                                        baseContext,
+                                        "Bottle of " + wine + " added at this position : " + char_x + ", " + char_y + " !",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                                "white" -> {
+                                    Log.w(" Avant ", "$jsonFromPrefs")
+                                    tab_cellar[x][y] = "White"
+                                    json = gson.toJson(tab_cellar)
+                                    Log.w(" Après ", "$json")
+                                    sharedPref.edit().putString("tab_cellar", json).apply()
+                                    Toast.makeText(
+                                        baseContext,
+                                        "Bottle of " + wine + " added at this position : " + char_x + ", " + char_y + " !",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                                "rose" -> {
+                                    tab_cellar[x][y] = "Rose"
+                                    json = gson.toJson(tab_cellar)
+                                    sharedPref.edit().putString("tab_cellar", json).apply()
+                                    Toast.makeText(
+                                        baseContext,
+                                        "Bottle of " + wine + " added at this position : " + char_x + ", " + char_y + " !",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                                else -> {
+                                    Toast.makeText(
+                                        baseContext,
+                                        "Warning ! " + wine + " is not a type of wine : red, white, or rose",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
-                            "white" -> {
-                                Log.w(" Avant ","$jsonFromPrefs")
-                                tab_cellar[x][y] = "White"
-                                json = gson.toJson(tab_cellar)
-                                Log.w(" Après ","$json")
-                                sharedPref.edit().putString("tab_cellar", json).apply()
-                                Toast.makeText(baseContext, "Bottle of " + wine + " added at this position : " + char_x + ", " + char_y + " !",Toast.LENGTH_SHORT).show()
-                            }
-                            "rose" -> {
-                                tab_cellar[x][y] = "Rose"
-                                json = gson.toJson(tab_cellar)
-                                sharedPref.edit().putString("tab_cellar", json).apply()
-                                Toast.makeText(baseContext, "Bottle of " + wine + " added at this position : " + char_x + ", " + char_y + " !",Toast.LENGTH_SHORT).show()
-                            }
-                            else -> {
-                                Toast.makeText(baseContext, "Warning ! " + wine + " is not a type of wine : red, white, or rose",Toast.LENGTH_SHORT).show()
-                            }
+                        } else {
+                            Toast.makeText(
+                                baseContext,
+                                "This place has already been occupied ! Choose an other one ! ",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     } else {
-                        Toast.makeText(baseContext, "This place has already been occupied ! Choose an other one ! ",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            baseContext,
+                            "Y not valid ! Must be between 1 and " + cellar_height + " !",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } else {
-                    Toast.makeText(baseContext, "Y not valid ! Must be between 1 and " + cellar_height + " !",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        baseContext,
+                        "X not valid ! Must be between 1 and " + cellar_width + " !",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             } else {
-                Toast.makeText(baseContext, "X not valid ! Must be between 1 and " + cellar_width + " !",Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    baseContext,
+                    "Type of wine can't be empty !",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
