@@ -21,6 +21,7 @@ class BottleActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
+        //TODO
         val x = intent.getIntExtra("x", 0)
         val y = intent.getIntExtra("y", 0)
         val gson = Gson()
