@@ -111,4 +111,59 @@
         app:layout_constraintTop_toTopOf="@+id/number_rows"
         app:srcCompat="@android:drawable/ic_input_add" />
 
+    <Button
+        android:id="@+id/button_add_bottle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#9E9E9E"
+        android:text="Add Bottle"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/NumberX" />
+
+    <EditText
+        android:id="@+id/NumberX"
+        android:layout_width="59dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:hint="X"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
+        android:inputType="number"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="@+id/text_rows"
+        app:layout_constraintTop_toBottomOf="@+id/text_rows" />
+
+    <EditText
+        android:id="@+id/NumberY"
+        android:layout_width="59dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:hint="Y"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
+        android:inputType="number"
+        android:textAlignment="center"
+        app:layout_constraintStart_toEndOf="@+id/NumberX"
+        app:layout_constraintTop_toTopOf="@+id/NumberX" />
+
+    <EditText
+        android:id="@+id/WineType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Type of wine"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/NumberY"
+        app:layout_constraintTop_toTopOf="@+id/NumberY" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

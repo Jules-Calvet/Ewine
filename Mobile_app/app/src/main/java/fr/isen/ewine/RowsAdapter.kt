@@ -1,27 +1,24 @@
 package fr.isen.ewine
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import fr.isen.ewine.databinding.ItemRowsBinding
 
-class RowsAdapter(val cellarHeight: Int,val cellarWidth: Int) : RecyclerView.Adapter<RowsAdapter.RowsViewHolder>() {
-    class RowsViewHolder(val binding: ItemRowsBinding) : RecyclerView.ViewHolder(binding.root)
-
+class RowsAdapter(val cellarHeight: Int, val cellarWidth: Int, val _tab_cellar: Array<Array<String>>) : RecyclerView.Adapter<RowsAdapter.RowsViewHolder>() {
+    private var y:Int = 0
+    class RowsViewHolder(binding: ItemRowsBinding) : RecyclerView.ViewHolder(binding.root)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RowsViewHolder {
         val binding = ItemRowsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-
         binding.columnsRecyclerView.layoutManager = LinearLayoutManager(parent.context, LinearLayoutManager.HORIZONTAL, false)
-        binding.columnsRecyclerView.adapter = ColumnsAdapter(cellarWidth)
+
+        binding.columnsRecyclerView.adapter = ColumnsAdapter(cellarWidth,_tab_cellar,y)
         return RowsViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: RowsViewHolder, position: Int) {
-        //val rows = cellarHeight
+        y = position+1 /*% cellarHeight*/
     }
 
     override fun getItemCount(): Int = cellarHeight
