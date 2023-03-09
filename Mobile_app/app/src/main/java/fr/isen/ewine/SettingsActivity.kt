@@ -16,6 +16,7 @@ class SettingsActivity : AppCompatActivity() {
 
         val sharedPref: SharedPreferences = getSharedPreferences("settings", 0)
         var darkMode = sharedPref.getBoolean("dark_mode", false)
+        var notifications = sharedPref.getBoolean("notifications", true)
         var cellar_height = sharedPref.getInt("height",1)
         var cellar_width = sharedPref.getInt("width",1)
         val gson = Gson()
@@ -198,6 +199,17 @@ class SettingsActivity : AppCompatActivity() {
                 ).show()
             }
         }
+
+        binding.toggleNotification.setOnClickListener {
+            notifications = !notifications
+            if(notifications) {
+                binding.toggleNotification.text = "Notifications ON"
+            }
+            else {
+                binding.toggleNotification.text = "Notifications OFF"
+            }
+            sharedPref.edit().putBoolean("notifications", notifications).apply()
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -206,10 +218,12 @@ class SettingsActivity : AppCompatActivity() {
             binding.root.setBackgroundColor(Color.BLACK)
             binding.buttonMode.setBackgroundResource(R.drawable.sun)
             binding.buttonMode.foreground = getDrawable(R.drawable.sun)
+            binding.toggleNotification.setTextColor(Color.WHITE)
         } else {
             binding.root.setBackgroundColor(Color.WHITE)
             binding.buttonMode.setBackgroundResource(R.drawable.moon)
             binding.buttonMode.foreground = getDrawable(R.drawable.moon)
+            binding.toggleNotification.setTextColor(Color.BLACK)
         }
     }
 }
