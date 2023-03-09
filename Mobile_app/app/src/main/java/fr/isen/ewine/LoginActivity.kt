@@ -18,8 +18,6 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
         binding.buttonLogIn.setOnClickListener {
             val intent = Intent(this, CellarActivity::class.java)
             startActivity(intent)
