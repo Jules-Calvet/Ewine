@@ -33,6 +33,11 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.buttonForgetPwd.setOnClickListener {
+            val intent = Intent(this, BottleActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     override fun onStart() {
