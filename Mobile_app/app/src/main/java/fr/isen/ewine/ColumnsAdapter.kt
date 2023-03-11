@@ -1,5 +1,6 @@
 package fr.isen.ewine
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,7 @@ import android.widget.ImageView
 import com.squareup.picasso.Picasso
 import fr.isen.ewine.R.drawable
 
-class ColumnsAdapter (val cellarWidth: Int, val _tab_cellar: Array<Array<String>>, val y: Int) : RecyclerView.Adapter<ColumnsAdapter.ColumnsViewHolder>() {
+class ColumnsAdapter (val cellarWidth: Int, val _tab_cellar: Array<Array<String>>, val y: Int/*, val onItemLongClickListener:(ColumnsViewHolder)->Unit*/) : RecyclerView.Adapter<ColumnsAdapter.ColumnsViewHolder>() {
     class ColumnsViewHolder(view : View) : RecyclerView.ViewHolder(view) {
         var image : ImageView = view.findViewById<ImageView>(R.id.CellarImageView)
     }
@@ -27,7 +28,7 @@ class ColumnsAdapter (val cellarWidth: Int, val _tab_cellar: Array<Array<String>
         return ColumnsViewHolder(view)
     }
     override fun onBindViewHolder(holder: ColumnsViewHolder, position: Int) {
-        val x = position/* % cellarWidth*/
+        val x = position
 
         when (_tab_cellar[x][y]) {
             "Red" -> {
@@ -40,6 +41,15 @@ class ColumnsAdapter (val cellarWidth: Int, val _tab_cellar: Array<Array<String>
                 Picasso.get().load(drawable.bottle_rose).into(holder.image)
             }
             else -> Picasso.get().load(drawable.bottle_none).into(holder.image)
+        }
+
+        holder.image.setOnClickListener {
+            // call the onItemLongClickListener callback with this holder
+            val context = holder.itemView.context
+            val intent = Intent(context, BottleActivity::class.java)
+            intent.putExtra("x", x)
+            intent.putExtra("y", y)
+            context.startActivity(intent)
         }
     }
     override fun getItemCount(): Int = cellarWidth
