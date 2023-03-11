@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
+import com.squareup.picasso.Picasso
 import fr.isen.ewine.databinding.ActivityCellarBinding
 
 class CellarActivity : AppCompatActivity() {
@@ -36,6 +37,16 @@ class CellarActivity : AppCompatActivity() {
         if(jsonFromPrefs != null){
             val tab_cellar = gson.fromJson(jsonFromPrefs, Array<Array<String>>::class.java)
             binding.rowsRecyclerView.adapter = RowsAdapter(cellar_height,cellar_width,tab_cellar)
+            var bottle_count = 0
+            for (x in 0 .. cellar_width-1) {
+                for(y in 0 .. cellar_height-1){
+                    if(tab_cellar[x][y] != ""){
+                        bottle_count ++
+                    }
+                }
+            }
+            val total_number = cellar_height*cellar_width
+            binding.BottleNumber.text = "Bottles : $bottle_count / $total_number"
         }
         mode(darkMode)
     }
