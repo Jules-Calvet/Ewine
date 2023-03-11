@@ -14,11 +14,12 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var binding : ActivitySettingsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        //get data from shared preferences
         val sharedPref: SharedPreferences = getSharedPreferences("settings", 0)
         var darkMode = sharedPref.getBoolean("dark_mode", false)
         var notifications = sharedPref.getBoolean("notifications", true)
-        var cellar_height = sharedPref.getInt("height",1)
-        var cellar_width = sharedPref.getInt("width",1)
+        var cellar_height = sharedPref.getInt("height",3)
+        var cellar_width = sharedPref.getInt("width",3)
         val gson = Gson()
         var json: String
         val jsonFromPrefs = sharedPref.getString("tab_cellar", "")
@@ -35,8 +36,11 @@ class SettingsActivity : AppCompatActivity() {
 
         mode(darkMode)
 
+        //link to values for width and height
         binding.numberColumns.text = "$cellar_width"
         binding.numberRows.text = "$cellar_height"
+
+        //click on minus width
         binding.ButtonMinusColumns.setOnClickListener{
             if (cellar_width > 1){
                 cellar_width --
@@ -56,6 +60,7 @@ class SettingsActivity : AppCompatActivity() {
                 Toast.makeText(baseContext, "Warning! You cannot have less than 1 columns in your cellar ! ",Toast.LENGTH_SHORT).show()
             }
         }
+        //click on plus width
         binding.ButtonPlusColumns.setOnClickListener{
             cellar_width ++
             binding.numberColumns.text = "$cellar_width"
@@ -70,6 +75,7 @@ class SettingsActivity : AppCompatActivity() {
             json = gson.toJson(tab_cellar)
             sharedPref.edit().putString("tab_cellar", json).apply()
         }
+        //click on minus height
         binding.ButtonMinusRows.setOnClickListener{
             if (cellar_height > 1){
                 cellar_height --
@@ -89,6 +95,7 @@ class SettingsActivity : AppCompatActivity() {
                 Toast.makeText(baseContext, "Warning! You cannot have less than 1 rows in your cellar ! ",Toast.LENGTH_SHORT).show()
             }
         }
+        //click on plus height
         binding.ButtonPlusRows.setOnClickListener{
             cellar_height ++
             binding.numberRows.text = "$cellar_height"
@@ -104,11 +111,14 @@ class SettingsActivity : AppCompatActivity() {
             sharedPref.edit().putString("tab_cellar", json).apply()
         }
 
+        //toggle darkmode
         binding.buttonMode.setOnClickListener {
             darkMode = !darkMode
             mode(darkMode)
             sharedPref.edit().putBoolean("dark_mode", darkMode).apply()
         }
+
+        //adding bottle in the cellar
         binding.buttonAddBottle.setOnClickListener {
             val char_x = binding.NumberX.text.toString()
             val x : Int
@@ -200,6 +210,7 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
+        //toggle notifications
         binding.toggleNotification.setOnClickListener {
             notifications = !notifications
             if(notifications) {
@@ -214,12 +225,12 @@ class SettingsActivity : AppCompatActivity() {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun mode(darkMode : Boolean) {
-        if (darkMode) {
+        if (darkMode) { //dark mode enabled
             binding.root.setBackgroundColor(Color.BLACK)
             binding.buttonMode.setBackgroundResource(R.drawable.sun)
             binding.buttonMode.foreground = getDrawable(R.drawable.sun)
             binding.toggleNotification.setTextColor(Color.WHITE)
-        } else {
+        } else { //dark mode disabled
             binding.root.setBackgroundColor(Color.WHITE)
             binding.buttonMode.setBackgroundResource(R.drawable.moon)
             binding.buttonMode.foreground = getDrawable(R.drawable.moon)

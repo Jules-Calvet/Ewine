@@ -10,7 +10,6 @@ import fr.isen.ewine.databinding.ActivityRegisterBinding
 
 class RegisterActivity : AppCompatActivity() {
     lateinit var binding : ActivityRegisterBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -18,16 +17,18 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Click on buttons
+        //Button register
         binding.buttonRegister.setOnClickListener {
             val intent = Intent(this, CellarActivity::class.java)
             startActivity(intent)
         }
-
+        //Button to login
         binding.buttonToLogin.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
-
+        //Button settings
         binding.buttonToSettings.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
@@ -37,6 +38,7 @@ class RegisterActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
+        //Get data from shared preferences
         val sharedPref: SharedPreferences = getSharedPreferences("settings", 0)
         val darkMode = sharedPref.getBoolean("dark_mode", false)
 
@@ -45,7 +47,7 @@ class RegisterActivity : AppCompatActivity() {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun mode(darkMode : Boolean) {
-        if (darkMode) {
+        if (darkMode) { //dark mode enabled
             binding.root.setBackgroundColor(Color.BLACK)
             binding.buttonToSettings.setBackgroundResource(R.drawable.parameter_dark)
             binding.buttonToSettings.foreground = getDrawable(R.drawable.parameter_dark)
@@ -55,7 +57,7 @@ class RegisterActivity : AppCompatActivity() {
             binding.editTextPassword.setTextColor(Color.WHITE)
             binding.textInputLayoutPwdConfirm.setBoxBackgroundColorResource(com.google.android.material.R.color.material_grey_900)
             binding.editTextPasswordConfirm.setTextColor(Color.WHITE)
-        } else {
+        } else { //dark mode disabled
             binding.root.setBackgroundColor(Color.WHITE)
             binding.buttonToSettings.setBackgroundResource(R.drawable.parameter)
             binding.buttonToSettings.foreground = getDrawable(R.drawable.parameter)

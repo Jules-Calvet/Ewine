@@ -15,9 +15,9 @@ class CellarActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCellarBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityCellarBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         binding.buttonToSettings.setOnClickListener {
             val intent = Intent(this, SettingsActivity::class.java)
@@ -30,8 +30,8 @@ class CellarActivity : AppCompatActivity() {
         val gson = Gson()
         val sharedPref: SharedPreferences = getSharedPreferences("settings", 0)
         val darkMode = sharedPref.getBoolean("dark_mode", false)
-        val cellar_height = sharedPref.getInt("height",1)
-        val cellar_width = sharedPref.getInt("width",1)
+        val cellar_height = sharedPref.getInt("height",3)
+        val cellar_width = sharedPref.getInt("width",3)
         val jsonFromPrefs = sharedPref.getString("tab_cellar", "")
         binding.rowsRecyclerView.layoutManager = LinearLayoutManager(this)
         if(jsonFromPrefs != null){
