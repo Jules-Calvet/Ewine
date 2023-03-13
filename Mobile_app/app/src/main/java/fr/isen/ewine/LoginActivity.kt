@@ -22,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
 
         val auth = FirebaseAuth.getInstance()
 
-        checkLoginStatus()
+        //checkLoginStatus()
 
         //Click on buttons
         //Button login
@@ -62,8 +62,22 @@ class LoginActivity : AppCompatActivity() {
         }
         //Button forget password
         binding.buttonForgetPwd.setOnClickListener {
-            val intent = Intent(this, BottleActivity::class.java)
-            startActivity(intent)
+            val email = binding.editTextEmail.text.toString()
+            auth.sendPasswordResetEmail(email).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Toast.makeText(
+                        baseContext, "IT WORKED",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(
+                        baseContext, "EMAIL NOT SENT",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            /*val intent = Intent(this, BottleActivity::class.java)
+            startActivity(intent)*/
         }
 
     }
