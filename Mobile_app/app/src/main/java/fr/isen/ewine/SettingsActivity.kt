@@ -14,6 +14,16 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var binding : ActivitySettingsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        super.onCreate(savedInstanceState)
+
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
         //get data from shared preferences
         val sharedPref: SharedPreferences = getSharedPreferences("settings", 0)
         var darkMode = sharedPref.getBoolean("dark_mode", false)
@@ -29,10 +39,7 @@ class SettingsActivity : AppCompatActivity() {
             sharedPref.edit().putString("tab_cellar", jsonEmpty).apply()
         }
         var tabCellar = gson.fromJson(jsonFromPrefs, Array<Array<String>>::class.java)
-        super.onCreate(savedInstanceState)
 
-        binding = ActivitySettingsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         mode(darkMode)
 
@@ -220,6 +227,14 @@ class SettingsActivity : AppCompatActivity() {
                 binding.toggleNotification.text = "Notifications OFF"
             }
             sharedPref.edit().putBoolean("notifications", notifications).apply()
+        }
+
+        if(notifications) {
+            binding.toggleNotification.text = "Notifications ON"
+            binding.toggleNotification.isChecked = true
+        } else {
+            binding.toggleNotification.text = "Notifications OFF"
+            binding.toggleNotification.isChecked = false
         }
     }
 
