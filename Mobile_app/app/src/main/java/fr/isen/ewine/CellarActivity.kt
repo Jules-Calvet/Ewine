@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import fr.isen.ewine.databinding.ActivityCellarBinding
 
 class CellarActivity : AppCompatActivity() {
@@ -30,23 +29,23 @@ class CellarActivity : AppCompatActivity() {
         val gson = Gson()
         val sharedPref: SharedPreferences = getSharedPreferences("settings", 0)
         val darkMode = sharedPref.getBoolean("dark_mode", false)
-        val cellar_height = sharedPref.getInt("height",3)
-        val cellar_width = sharedPref.getInt("width",3)
+        val cellarHeight = sharedPref.getInt("height",3)
+        val cellarWidth = sharedPref.getInt("width",3)
         val jsonFromPrefs = sharedPref.getString("tab_cellar", "")
         binding.rowsRecyclerView.layoutManager = LinearLayoutManager(this)
         if(jsonFromPrefs != null){
-            val tab_cellar = gson.fromJson(jsonFromPrefs, Array<Array<String>>::class.java)
-            binding.rowsRecyclerView.adapter = RowsAdapter(cellar_height,cellar_width,tab_cellar)
-            var bottle_count = 0
-            for (x in 0 .. cellar_width-1) {
-                for(y in 0 .. cellar_height-1){
-                    if(tab_cellar[x][y] != ""){
-                        bottle_count ++
+            val tabCellar = gson.fromJson(jsonFromPrefs, Array<Array<String>>::class.java)
+            binding.rowsRecyclerView.adapter = RowsAdapter(cellarHeight,cellarWidth,tabCellar)
+            var bottleCount = 0
+            for (x in 0 until cellarWidth) {
+                for(y in 0 until cellarHeight){
+                    if(tabCellar[x][y] != ""){
+                        bottleCount ++
                     }
                 }
             }
-            val total_number = cellar_height*cellar_width
-            binding.BottleNumber.text = "Bottles : $bottle_count / $total_number"
+            val totalNumber = cellarHeight*cellarWidth
+            binding.bottleNumber.text = "Bottles : $bottleCount / $totalNumber"
         }
         mode(darkMode)
     }

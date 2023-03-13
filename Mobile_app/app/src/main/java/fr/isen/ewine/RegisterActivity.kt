@@ -6,10 +6,13 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import fr.isen.ewine.databinding.ActivityRegisterBinding
 
 class RegisterActivity : AppCompatActivity() {
-    lateinit var binding : ActivityRegisterBinding
+    private lateinit var binding : ActivityRegisterBinding
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -17,11 +20,43 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val auth = FirebaseAuth.getInstance()
+
         //Click on buttons
         //Button register
         binding.buttonRegister.setOnClickListener {
-            val intent = Intent(this, CellarActivity::class.java)
-            startActivity(intent)
+            val email = binding.editTextEmail.text.toString()
+            val password = binding.editTextPassword.text.toString()
+            val passwordConfirm = binding.editTextPasswordConfirm.text.toString()
+
+            if (password.length >= 6) {
+                if (email != "" && passwordConfirm != "") {
+                    if (password == passwordConfirm) {
+                        auth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(this) { task ->
+                                if (task.isSuccessful) {
+                                    val intent = Intent(this, CellarActivity::class.java)
+                                    startActivity(intent)
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w("Registration", "createUserWithEmail:failure", task.exception)
+                                    Toast.makeText(baseContext, task.exception?.message,
+                                        Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                    } else {
+                        Toast.makeText(
+                            baseContext, "Passwords are not the same ! ",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                } else {
+                    Toast.makeText(
+                        baseContext, "Please enter email and passwords",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
         //Button to login
         binding.buttonToLogin.setOnClickListener {

@@ -14,46 +14,53 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var binding : ActivitySettingsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        //get data from shared preferences
-        val sharedPref: SharedPreferences = getSharedPreferences("settings", 0)
-        var darkMode = sharedPref.getBoolean("dark_mode", false)
-        var notifications = sharedPref.getBoolean("notifications", true)
-        var cellar_height = sharedPref.getInt("height",3)
-        var cellar_width = sharedPref.getInt("width",3)
-        val gson = Gson()
-        var json: String
-        val jsonFromPrefs = sharedPref.getString("tab_cellar", "")
-        if(jsonFromPrefs == ""){
-            val tab = Array(cellar_width) { Array(cellar_height) {""} }
-            val json_empty = gson.toJson(tab)
-            sharedPref.edit().putString("tab_cellar", json_empty).apply()
-        }
-        var tab_cellar = gson.fromJson(jsonFromPrefs, Array<Array<String>>::class.java)
         super.onCreate(savedInstanceState)
 
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        //get data from shared preferences
+        val sharedPref: SharedPreferences = getSharedPreferences("settings", 0)
+        var darkMode = sharedPref.getBoolean("dark_mode", false)
+        var notifications = sharedPref.getBoolean("notifications", true)
+        var cellarHeight = sharedPref.getInt("height",3)
+        var cellarWidth = sharedPref.getInt("width",3)
+        val gson = Gson()
+        var json: String
+        val jsonFromPrefs = sharedPref.getString("tab_cellar", "")
+        if(jsonFromPrefs == ""){
+            val tab = Array(cellarWidth) { Array(cellarHeight) {""} }
+            val jsonEmpty = gson.toJson(tab)
+            sharedPref.edit().putString("tab_cellar", jsonEmpty).apply()
+        }
+        var tabCellar = gson.fromJson(jsonFromPrefs, Array<Array<String>>::class.java)
+
+
         mode(darkMode)
 
         //link to values for width and height
-        binding.numberColumns.text = "$cellar_width"
-        binding.numberRows.text = "$cellar_height"
+        binding.numberColumns.text = "$cellarWidth"
+        binding.numberRows.text = "$cellarHeight"
 
         //click on minus width
-        binding.ButtonMinusColumns.setOnClickListener{
-            if (cellar_width > 1){
-                cellar_width --
-                binding.numberColumns.text = "$cellar_width"
-                sharedPref.edit().putInt("width", cellar_width).apply()
-                val tab_temp = tab_cellar
-                tab_cellar = Array(cellar_width) { Array(cellar_height) {""} }
-                for(x in 0..cellar_width-1) {
-                    for(y in 0..cellar_height-1) {
-                        tab_cellar[x][y] = tab_temp[x][y]
+        binding.buttonMinusColumns.setOnClickListener{
+            if (cellarWidth > 1){
+                cellarWidth --
+                binding.numberColumns.text = "$cellarWidth"
+                sharedPref.edit().putInt("width", cellarWidth).apply()
+                val tabTemp = tabCellar
+                tabCellar = Array(cellarWidth) { Array(cellarHeight) {""} }
+                for(x in 0 until cellarWidth) {
+                    for(y in 0 until cellarHeight) {
+                        tabCellar[x][y] = tabTemp[x][y]
                     }
                 }
-                json = gson.toJson(tab_cellar)
+                json = gson.toJson(tabCellar)
                 sharedPref.edit().putString("tab_cellar", json).apply()
             }
             else {
@@ -61,34 +68,34 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
         //click on plus width
-        binding.ButtonPlusColumns.setOnClickListener{
-            cellar_width ++
-            binding.numberColumns.text = "$cellar_width"
-            sharedPref.edit().putInt("width", cellar_width).apply()
-            val tab_temp = tab_cellar
-            tab_cellar = Array(cellar_width) { Array(cellar_height) {""} }
-            for(x in 0..cellar_width-2) {
-                for(y in 0..cellar_height-1) {
-                    tab_cellar[x][y] = tab_temp[x][y]
+        binding.buttonPlusColumns.setOnClickListener{
+            cellarWidth ++
+            binding.numberColumns.text = "$cellarWidth"
+            sharedPref.edit().putInt("width", cellarWidth).apply()
+            val tabTemp = tabCellar
+            tabCellar = Array(cellarWidth) { Array(cellarHeight) {""} }
+            for(x in 0..cellarWidth-2) {
+                for(y in 0 until cellarHeight) {
+                    tabCellar[x][y] = tabTemp[x][y]
                 }
             }
-            json = gson.toJson(tab_cellar)
+            json = gson.toJson(tabCellar)
             sharedPref.edit().putString("tab_cellar", json).apply()
         }
         //click on minus height
-        binding.ButtonMinusRows.setOnClickListener{
-            if (cellar_height > 1){
-                cellar_height --
-                binding.numberRows.text = "$cellar_height"
-                sharedPref.edit().putInt("height", cellar_height).apply()
-                val tab_temp = tab_cellar
-                tab_cellar = Array(cellar_width) { Array(cellar_height) {""} }
-                for(x in 0..cellar_width-1) {
-                    for(y in 0..cellar_height-1) {
-                        tab_cellar[x][y] = tab_temp[x][y]
+        binding.buttonMinusRows.setOnClickListener{
+            if (cellarHeight > 1){
+                cellarHeight --
+                binding.numberRows.text = "$cellarHeight"
+                sharedPref.edit().putInt("height", cellarHeight).apply()
+                val tabTemp = tabCellar
+                tabCellar = Array(cellarWidth) { Array(cellarHeight) {""} }
+                for(x in 0 until cellarWidth) {
+                    for(y in 0 until cellarHeight) {
+                        tabCellar[x][y] = tabTemp[x][y]
                     }
                 }
-                json = gson.toJson(tab_cellar)
+                json = gson.toJson(tabCellar)
                 sharedPref.edit().putString("tab_cellar", json).apply()
             }
             else {
@@ -96,18 +103,18 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
         //click on plus height
-        binding.ButtonPlusRows.setOnClickListener{
-            cellar_height ++
-            binding.numberRows.text = "$cellar_height"
-            sharedPref.edit().putInt("height", cellar_height).apply()
-            val tab_temp = tab_cellar
-            tab_cellar = Array(cellar_width) { Array(cellar_height) {""} }
-            for(x in 0..cellar_width-1) {
-                for(y in 0..cellar_height-2) {
-                    tab_cellar[x][y] = tab_temp[x][y]
+        binding.buttonPlusRows.setOnClickListener{
+            cellarHeight ++
+            binding.numberRows.text = "$cellarHeight"
+            sharedPref.edit().putInt("height", cellarHeight).apply()
+            val tabTemp = tabCellar
+            tabCellar = Array(cellarWidth) { Array(cellarHeight) {""} }
+            for(x in 0 until cellarWidth) {
+                for(y in 0 until cellarHeight-2) {
+                    tabCellar[x][y] = tabTemp[x][y]
                 }
             }
-            json = gson.toJson(tab_cellar)
+            json = gson.toJson(tabCellar)
             sharedPref.edit().putString("tab_cellar", json).apply()
         }
 
@@ -120,55 +127,55 @@ class SettingsActivity : AppCompatActivity() {
 
         //adding bottle in the cellar
         binding.buttonAddBottle.setOnClickListener {
-            val char_x = binding.NumberX.text.toString()
+            val charX = binding.numberX.text.toString()
             val x : Int
             val y : Int
-            if(char_x != "") {
-                x = char_x.toInt() - 1
+            if(charX != "") {
+                x = charX.toInt() - 1
             } else {
                 x = -1
             }
-            val char_y = binding.NumberY.text.toString()
-            if(char_y != "") {
-                y = char_y.toInt() - 1
+            val charY = binding.numberY.text.toString()
+            if(charY != "") {
+                y = charY.toInt() - 1
             } else {
                 y = -1
             }
-            val wine = binding.WineType.text.toString().lowercase()
+            val wine = binding.wineType.text.toString().lowercase()
             if(wine != "") {
-                if (x >= 0 && x <= cellar_width) {
-                    if (y >= 0 && y <= cellar_height) {
-                        if (tab_cellar[x][y] == "") {
+                if (x >= 0 && x <= cellarWidth) {
+                    if (y >= 0 && y <= cellarHeight) {
+                        if (tabCellar[x][y] == "") {
                             when (wine) {
                                 "red" -> {
-                                    tab_cellar[x][y] = "Red"
-                                    json = gson.toJson(tab_cellar)
+                                    tabCellar[x][y] = "Red"
+                                    json = gson.toJson(tabCellar)
                                     sharedPref.edit().putString("tab_cellar", json).apply()
                                     Toast.makeText(
                                         baseContext,
-                                        "Bottle of " + wine + " added at this position : " + char_x + ", " + char_y + " !",
+                                        "Bottle of " + wine + " added at this position : " + charX + ", " + charY + " !",
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }
                                 "white" -> {
                                     Log.w(" Avant ", "$jsonFromPrefs")
-                                    tab_cellar[x][y] = "White"
-                                    json = gson.toJson(tab_cellar)
+                                    tabCellar[x][y] = "White"
+                                    json = gson.toJson(tabCellar)
                                     Log.w(" Après ", json)
                                     sharedPref.edit().putString("tab_cellar", json).apply()
                                     Toast.makeText(
                                         baseContext,
-                                        "Bottle of " + wine + " added at this position : " + char_x + ", " + char_y + " !",
+                                        "Bottle of " + wine + " added at this position : " + charX + ", " + charY + " !",
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }
                                 "rose" -> {
-                                    tab_cellar[x][y] = "Rose"
-                                    json = gson.toJson(tab_cellar)
+                                    tabCellar[x][y] = "Rose"
+                                    json = gson.toJson(tabCellar)
                                     sharedPref.edit().putString("tab_cellar", json).apply()
                                     Toast.makeText(
                                         baseContext,
-                                        "Bottle of " + wine + " added at this position : " + char_x + ", " + char_y + " !",
+                                        "Bottle of " + wine + " added at this position : " + charX + ", " + charY + " !",
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }
@@ -190,14 +197,14 @@ class SettingsActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             baseContext,
-                            "Y not valid ! Must be between 1 and " + cellar_height + " !",
+                            "Y not valid ! Must be between 1 and " + cellarHeight + " !",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
                 } else {
                     Toast.makeText(
                         baseContext,
-                        "X not valid ! Must be between 1 and " + cellar_width + " !",
+                        "X not valid ! Must be between 1 and " + cellarWidth + " !",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -220,6 +227,14 @@ class SettingsActivity : AppCompatActivity() {
                 binding.toggleNotification.text = "Notifications OFF"
             }
             sharedPref.edit().putBoolean("notifications", notifications).apply()
+        }
+
+        if(notifications) {
+            binding.toggleNotification.text = "Notifications ON"
+            binding.toggleNotification.isChecked = true
+        } else {
+            binding.toggleNotification.text = "Notifications OFF"
+            binding.toggleNotification.isChecked = false
         }
     }
 

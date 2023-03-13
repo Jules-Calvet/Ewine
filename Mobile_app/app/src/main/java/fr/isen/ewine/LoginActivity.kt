@@ -6,6 +6,9 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import fr.isen.ewine.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -17,11 +20,35 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val auth = FirebaseAuth.getInstance()
+
+        checkLoginStatus()
+
         //Click on buttons
         //Button login
         binding.buttonLogIn.setOnClickListener {
-            val intent = Intent(this, CellarActivity::class.java)
-            startActivity(intent)
+            val email = binding.editTextEmail.text.toString()
+            val pwd = binding.editTextPassword.text.toString()
+            if(email != "" && pwd != "") {
+                auth.signInWithEmailAndPassword(email, pwd)
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            val intent = Intent(this, CellarActivity::class.java)
+                            startActivity(intent)
+                        } else {
+                            Log.w("Login", "signInWithEmail:failure", it.exception)
+                            Toast.makeText(
+                                baseContext, "Authentication failed.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+            } else {
+                Toast.makeText(
+                    baseContext, "Please enter email and password",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
         //Button to register
         binding.buttonToRegister.setOnClickListener {
@@ -50,7 +77,12 @@ class LoginActivity : AppCompatActivity() {
 
         mode(darkMode)
     }
-
+    private fun checkLoginStatus() {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser != null) {
+            startActivity(Intent(this, CellarActivity::class.java))
+        }
+    }
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun mode(darkMode : Boolean) {
         if (darkMode) { //dark mode enabled
