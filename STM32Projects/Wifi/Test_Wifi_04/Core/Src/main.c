@@ -25,6 +25,8 @@
 /* USER CODE BEGIN Includes */
 #include "stdlib.h"
 #include "stdio.h"
+#include "string.h"
+#include "wifi.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -44,13 +46,13 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-char gbl_rcv_buffer[100], gbl_tsm_buffer[100];
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
+int _write(int file, char *ptr, int len);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -98,25 +100,7 @@ int main(void)
   MX_USART2_UART_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  HAL_UART_Receive_IT(&huart1, (uint8_t*)gbl_rcv_buffer, sizeof(gbl_rcv_buffer[0]));
-
-	/*HAL_Delay(5000);
-	strncpy(gbl_tsm_buffer, "AT+RST", 7);
-	HAL_UART_Transmit_IT(&huart1, (uint8_t*)gbl_tsm_buffer, sizeof(gbl_tsm_buffer[0]));
-	printf("AT+RST\n");
-
-	HAL_Delay(5000);
-	strncpy(gbl_tsm_buffer, "AT", 3);
-	HAL_UART_Transmit_IT(&huart1, (uint8_t*)gbl_tsm_buffer, sizeof(gbl_tsm_buffer[0]));
-	printf("AT\n");
-	HAL_Delay(5000);
-	strncpy(gbl_tsm_buffer, "AT+CWLAP", 9);
-	HAL_UART_Transmit_IT(&huart1, (uint8_t*)gbl_tsm_buffer, sizeof(gbl_tsm_buffer[0]));
-	printf("AT+CWLAP\n");*/
-  strncpy(gbl_tsm_buffer, "AT+CWJAP=jhles,'montazac'", 9);
-  HAL_UART_Transmit_IT(&huart1, (uint8_t*)gbl_tsm_buffer, sizeof(gbl_tsm_buffer[0]));
-
-
+  Wifi_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -126,6 +110,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  Wifi_Process();
   }
   /* USER CODE END 3 */
 }
