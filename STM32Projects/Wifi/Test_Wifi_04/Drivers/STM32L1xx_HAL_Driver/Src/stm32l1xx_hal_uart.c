@@ -255,7 +255,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l1xx_hal.h"
-#include "main.h"
 
 /** @addtogroup STM32L1xx_HAL_Driver
   * @{
@@ -1311,8 +1310,7 @@ HAL_StatusTypeDef HAL_UART_Transmit_IT(UART_HandleTypeDef *huart, uint8_t *pData
   {
     if ((pData == NULL) || (Size == 0U))
     {
-    	printf("HAL_ERROR\n");
-    	return HAL_ERROR;
+      return HAL_ERROR;
     }
 
     /* Process Locked */
@@ -1330,12 +1328,11 @@ HAL_StatusTypeDef HAL_UART_Transmit_IT(UART_HandleTypeDef *huart, uint8_t *pData
 
     /* Enable the UART Transmit data register empty Interrupt */
     __HAL_UART_ENABLE_IT(huart, UART_IT_TXE);
-    printf("HAL_OK\n");
+
     return HAL_OK;
   }
   else
   {
-	printf("HAL_BUSY\n");
     return HAL_BUSY;
   }
 }
