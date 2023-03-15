@@ -130,19 +130,19 @@ class SettingsActivity : AppCompatActivity() {
             val charX = binding.numberX.text.toString()
             val x : Int
             val y : Int
-            if(charX != "") {
+            if(charX.isNotEmpty()) {
                 x = charX.toInt() - 1
             } else {
                 x = -1
             }
             val charY = binding.numberY.text.toString()
-            if(charY != "") {
+            if(charY.isNotEmpty()) {
                 y = charY.toInt() - 1
             } else {
                 y = -1
             }
             val wine = binding.wineType.text.toString().lowercase()
-            if(wine != "") {
+            if(wine.isNotEmpty()) {
                 if (x >= 0 && x <= cellarWidth) {
                     if (y >= 0 && y <= cellarHeight) {
                         if (tabCellar[x][y] == "") {

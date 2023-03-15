@@ -29,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
         binding.buttonLogIn.setOnClickListener {
             val email = binding.editTextEmail.text.toString()
             val pwd = binding.editTextPassword.text.toString()
-            if(email != "" && pwd != "") {
+            if(email.isNotEmpty() && pwd.isNotEmpty()) {
                 auth.signInWithEmailAndPassword(email, pwd)
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
@@ -63,21 +63,21 @@ class LoginActivity : AppCompatActivity() {
         //Button forget password
         binding.buttonForgetPwd.setOnClickListener {
             val email = binding.editTextEmail.text.toString()
-            auth.sendPasswordResetEmail(email).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    Toast.makeText(
-                        baseContext, "IT WORKED",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    Toast.makeText(
-                        baseContext, "EMAIL NOT SENT",
-                        Toast.LENGTH_SHORT
-                    ).show()
+            if(email.isNotEmpty()) {
+                auth.sendPasswordResetEmail(email).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        Toast.makeText(
+                            baseContext, "EMAIL SENT",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            baseContext, "EMAIL NOT SENT",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
-            /*val intent = Intent(this, BottleActivity::class.java)
-            startActivity(intent)*/
         }
 
     }
