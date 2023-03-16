@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import com.google.gson.Gson
 import fr.isen.ewine.databinding.ActivitySettingsBinding
 
@@ -18,7 +19,6 @@ class SettingsActivity : AppCompatActivity() {
 
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
     }
 
     override fun onStart() {
@@ -27,6 +27,9 @@ class SettingsActivity : AppCompatActivity() {
         //get data from shared preferences
         val sharedPref: SharedPreferences = getSharedPreferences("settings", 0)
         var darkMode = sharedPref.getBoolean("dark_mode", false)
+
+        mode(darkMode)
+
         var notifications = sharedPref.getBoolean("notifications", true)
         var cellarHeight = sharedPref.getInt("height",3)
         var cellarWidth = sharedPref.getInt("width",3)
@@ -40,8 +43,6 @@ class SettingsActivity : AppCompatActivity() {
         }
         var tabCellar = gson.fromJson(jsonFromPrefs, Array<Array<String>>::class.java)
 
-
-        mode(darkMode)
 
         //link to values for width and height
         binding.numberColumns.text = "$cellarWidth"
@@ -241,12 +242,14 @@ class SettingsActivity : AppCompatActivity() {
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun mode(darkMode : Boolean) {
         if (darkMode) { //dark mode enabled
-            binding.root.setBackgroundColor(Color.BLACK)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            //binding.root.setBackgroundColor(Color.BLACK)
             binding.buttonMode.setBackgroundResource(R.drawable.sun)
             binding.buttonMode.foreground = getDrawable(R.drawable.sun)
             binding.toggleNotification.setTextColor(Color.WHITE)
         } else { //dark mode disabled
-            binding.root.setBackgroundColor(Color.WHITE)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            //binding.root.setBackgroundColor(Color.WHITE)
             binding.buttonMode.setBackgroundResource(R.drawable.moon)
             binding.buttonMode.foreground = getDrawable(R.drawable.moon)
             binding.toggleNotification.setTextColor(Color.BLACK)
