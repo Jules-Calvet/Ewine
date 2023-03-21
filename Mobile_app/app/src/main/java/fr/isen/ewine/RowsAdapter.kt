@@ -8,17 +8,20 @@ import fr.isen.ewine.databinding.ItemRowsBinding
 
 class RowsAdapter(val cellarHeight: Int, val cellarWidth: Int, val _tab_cellar: Array<Array<String>>/*, val onItemLongClickListener:()->Unit*/) : RecyclerView.Adapter<RowsAdapter.RowsViewHolder>() {
     private var y:Int = 0
-    class RowsViewHolder(binding: ItemRowsBinding) : RecyclerView.ViewHolder(binding.root)
+    class RowsViewHolder(binding: ItemRowsBinding) : RecyclerView.ViewHolder(binding.root){
+        val RV : RecyclerView = binding.columnsRecyclerView
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RowsViewHolder {
         val binding = ItemRowsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        binding.columnsRecyclerView.layoutManager = LinearLayoutManager(parent.context, LinearLayoutManager.HORIZONTAL, false)
-
-        binding.columnsRecyclerView.adapter = ColumnsAdapter(cellarWidth,_tab_cellar,y)
         return RowsViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: RowsViewHolder, position: Int) {
-        y = position+1
+        val LayoutManager = LinearLayoutManager(holder.RV.context, RecyclerView.HORIZONTAL, false)
+        holder.RV.apply {
+            layoutManager = LayoutManager
+            adapter = ColumnsAdapter(cellarWidth,_tab_cellar,position)
+        }
     }
 
     override fun getItemCount(): Int = cellarHeight
