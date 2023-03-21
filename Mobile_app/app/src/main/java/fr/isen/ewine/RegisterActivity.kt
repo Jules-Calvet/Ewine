@@ -30,7 +30,7 @@ class RegisterActivity : AppCompatActivity() {
             val passwordConfirm = binding.editTextPasswordConfirm.text.toString()
 
             if (password.length >= 6) {
-                if (email != "" && passwordConfirm != "") {
+                if (email.isNotEmpty() && passwordConfirm.isNotEmpty()) {
                     if (password == passwordConfirm) {
                         auth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(this) { task ->
