@@ -55,4 +55,14 @@
         app:layout_constraintBottom_toBottomOf="@+id/temperature"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <ImageView
+        android:id="@+id/menu"
+        android:layout_width="54dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonToSettings"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/buttonToSettings"
+        app:srcCompat="@drawable/cellar_parameter" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,17 @@
 package fr.isen.ewine
 
-import android.annotation.SuppressLint
+import  android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import fr.isen.ewine.databinding.ActivityCellarBinding
 
@@ -48,6 +53,28 @@ class CellarActivity : AppCompatActivity() {
             binding.bottleNumber.text = "Bottles : $bottleCount / $totalNumber"
         }
         mode(darkMode)
+        binding.menu.setOnClickListener {
+            showPopup(it)
+        }
+    }
+
+    private fun checkLoginStatus() {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser == null) {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
+    }
+
+    fun showPopup(v: View) {
+        val popup = PopupMenu(this, v)
+        val inflater: MenuInflater = popup.menuInflater
+        inflater.inflate(R.menu.menu, popup.menu)
+        popup.show()
+        popup.menu.findItem(R.id.menuLogout).setOnMenuItemClickListener {
+            FirebaseAuth.getInstance().signOut()
+            checkLoginStatus()
+            true
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

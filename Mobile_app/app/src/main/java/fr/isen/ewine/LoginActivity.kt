@@ -22,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
 
         val auth = FirebaseAuth.getInstance()
 
-        //checkLoginStatus()
+        checkLoginStatus()
 
         //Click on buttons
         //Button login
