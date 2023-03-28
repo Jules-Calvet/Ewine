@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import fr.isen.ewine.databinding.ItemRowsBinding
 
 class RowsAdapter(val cellarHeight: Int, val cellarWidth: Int, val _tab_cellar: Array<Array<String>>/*, val onItemLongClickListener:()->Unit*/) : RecyclerView.Adapter<RowsAdapter.RowsViewHolder>() {
-    private var y:Int = 0
     class RowsViewHolder(binding: ItemRowsBinding) : RecyclerView.ViewHolder(binding.root){
         val RV : RecyclerView = binding.columnsRecyclerView
     }
