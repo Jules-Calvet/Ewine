@@ -1,5 +1,6 @@
 package fr.isen.ewine
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,10 @@ class BottleActivity : AppCompatActivity() {
         binding = ActivityBottleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.buttonToSettings.setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onStart() {
@@ -29,7 +34,7 @@ class BottleActivity : AppCompatActivity() {
         val jsonFromPrefs = sharedPref.getString("tab_cellar", "")
         if(jsonFromPrefs != null) {
             val tabCellar = gson.fromJson(jsonFromPrefs, Array<Array<String>>::class.java)
-            binding.typeOfWine.text = tabCellar[x][y]
+            binding.BottleTypeOfWine.text = tabCellar[x][y]
         }
 
         mode(darkMode)
@@ -38,10 +43,10 @@ class BottleActivity : AppCompatActivity() {
     private fun mode(darkMode: Boolean) {
         if (darkMode) {
             binding.root.setBackgroundColor(Color.BLACK)
-            binding.typeOfWine.setTextColor(Color.WHITE)
+            binding.BottleTypeOfWine.setTextColor(Color.WHITE)
         } else {
             binding.root.setBackgroundColor(Color.WHITE)
-            binding.typeOfWine.setTextColor(Color.BLACK)
+            binding.BottleTypeOfWine.setTextColor(Color.BLACK)
         }
     }
 }
