@@ -1,6 +1,7 @@
 package fr.isen.ewine
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -122,8 +123,8 @@ class SettingsActivity : AppCompatActivity() {
         //toggle darkmode
         binding.buttonMode.setOnClickListener {
             darkMode = !darkMode
-            mode(darkMode)
             sharedPref.edit().putBoolean("dark_mode", darkMode).apply()
+            mode(darkMode)
         }
 
         //adding bottle in the cellar
@@ -242,14 +243,14 @@ class SettingsActivity : AppCompatActivity() {
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun mode(darkMode : Boolean) {
         if (darkMode) { //dark mode enabled
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            //binding.root.setBackgroundColor(Color.BLACK)
+            //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            binding.root.setBackgroundColor(Color.BLACK)
             binding.buttonMode.setBackgroundResource(R.drawable.sun)
             binding.buttonMode.foreground = getDrawable(R.drawable.sun)
             binding.toggleNotification.setTextColor(Color.WHITE)
         } else { //dark mode disabled
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            //binding.root.setBackgroundColor(Color.WHITE)
+            //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            binding.root.setBackgroundColor(Color.WHITE)
             binding.buttonMode.setBackgroundResource(R.drawable.moon)
             binding.buttonMode.foreground = getDrawable(R.drawable.moon)
             binding.toggleNotification.setTextColor(Color.BLACK)
