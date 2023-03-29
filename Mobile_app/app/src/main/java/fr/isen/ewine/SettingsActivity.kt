@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.gson.Gson
 import fr.isen.ewine.databinding.ActivitySettingsBinding
+import fr.isen.ewine.model.UserData
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var binding : ActivitySettingsBinding
@@ -42,8 +43,7 @@ class SettingsActivity : AppCompatActivity() {
             val jsonEmpty = gson.toJson(tab)
             sharedPref.edit().putString("tab_cellar", jsonEmpty).apply()
         }
-        var tabCellar = gson.fromJson(jsonFromPrefs, Array<Array<String>>::class.java)
-
+        var tabCellar = gson.fromJson(jsonFromPrefs, Array<Array<UserData.CellarData>>::class.java)
 
         //link to values for width and height
         binding.numberColumns.text = "$cellarWidth"
@@ -56,7 +56,11 @@ class SettingsActivity : AppCompatActivity() {
                 binding.numberColumns.text = "$cellarWidth"
                 sharedPref.edit().putInt("width", cellarWidth).apply()
                 val tabTemp = tabCellar
-                tabCellar = Array(cellarWidth) { Array(cellarHeight) {""} }
+                tabCellar = Array(cellarWidth) { i ->
+                    Array(cellarHeight) { j ->
+                        UserData.CellarData("", "", "", "", "")
+                    }
+                }
                 for(x in 0 until cellarWidth) {
                     for(y in 0 until cellarHeight) {
                         tabCellar[x][y] = tabTemp[x][y]
@@ -75,7 +79,11 @@ class SettingsActivity : AppCompatActivity() {
             binding.numberColumns.text = "$cellarWidth"
             sharedPref.edit().putInt("width", cellarWidth).apply()
             val tabTemp = tabCellar
-            tabCellar = Array(cellarWidth) { Array(cellarHeight) {""} }
+            tabCellar = Array(cellarWidth) { i ->
+                Array(cellarHeight) { j ->
+                    UserData.CellarData("", "", "", "", "")
+                }
+            }
             for(x in 0..cellarWidth-2) {
                 for(y in 0 until cellarHeight) {
                     tabCellar[x][y] = tabTemp[x][y]
@@ -91,7 +99,11 @@ class SettingsActivity : AppCompatActivity() {
                 binding.numberRows.text = "$cellarHeight"
                 sharedPref.edit().putInt("height", cellarHeight).apply()
                 val tabTemp = tabCellar
-                tabCellar = Array(cellarWidth) { Array(cellarHeight) {""} }
+                tabCellar = Array(cellarWidth) { i ->
+                    Array(cellarHeight) { j ->
+                        UserData.CellarData("", "", "", "", "")
+                    }
+                }
                 for(x in 0 until cellarWidth) {
                     for(y in 0 until cellarHeight) {
                         tabCellar[x][y] = tabTemp[x][y]
@@ -110,7 +122,11 @@ class SettingsActivity : AppCompatActivity() {
             binding.numberRows.text = "$cellarHeight"
             sharedPref.edit().putInt("height", cellarHeight).apply()
             val tabTemp = tabCellar
-            tabCellar = Array(cellarWidth) { Array(cellarHeight) {""} }
+            tabCellar = Array(cellarWidth) { i ->
+                Array(cellarHeight) { j ->
+                    UserData.CellarData("", "", "", "", "")
+                }
+            }
             for(x in 0 until cellarWidth) {
                 for(y in 0 until cellarHeight-2) {
                     tabCellar[x][y] = tabTemp[x][y]
@@ -147,10 +163,10 @@ class SettingsActivity : AppCompatActivity() {
             if(wine.isNotEmpty()) {
                 if (x >= 0 && x <= cellarWidth) {
                     if (y >= 0 && y <= cellarHeight) {
-                        if (tabCellar[x][y] == "") {
+                        if (tabCellar[x][y].bottle_TypeOfWine == "") {
                             when (wine) {
                                 "red" -> {
-                                    tabCellar[x][y] = "Red"
+                                    tabCellar[x][y].bottle_TypeOfWine = "Red"
                                     json = gson.toJson(tabCellar)
                                     sharedPref.edit().putString("tab_cellar", json).apply()
                                     Toast.makeText(
@@ -161,7 +177,7 @@ class SettingsActivity : AppCompatActivity() {
                                 }
                                 "white" -> {
                                     Log.w(" Avant ", "$jsonFromPrefs")
-                                    tabCellar[x][y] = "White"
+                                    tabCellar[x][y].bottle_TypeOfWine = "White"
                                     json = gson.toJson(tabCellar)
                                     Log.w(" Après ", json)
                                     sharedPref.edit().putString("tab_cellar", json).apply()
@@ -172,7 +188,7 @@ class SettingsActivity : AppCompatActivity() {
                                     ).show()
                                 }
                                 "rose" -> {
-                                    tabCellar[x][y] = "Rose"
+                                    tabCellar[x][y].bottle_TypeOfWine = "Rose"
                                     json = gson.toJson(tabCellar)
                                     sharedPref.edit().putString("tab_cellar", json).apply()
                                     Toast.makeText(

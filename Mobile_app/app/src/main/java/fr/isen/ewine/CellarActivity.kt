@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import fr.isen.ewine.databinding.ActivityCellarBinding
+import fr.isen.ewine.model.UserData
 
 class CellarActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCellarBinding
@@ -39,12 +40,12 @@ class CellarActivity : AppCompatActivity() {
         val jsonFromPrefs = sharedPref.getString("tab_cellar", "")
         binding.rowsRecyclerView.layoutManager = LinearLayoutManager(this)
         if(jsonFromPrefs != null){
-            val tabCellar = gson.fromJson(jsonFromPrefs, Array<Array<String>>::class.java)
+            val tabCellar = gson.fromJson(jsonFromPrefs, Array<Array<UserData.CellarData>>::class.java)
             binding.rowsRecyclerView.adapter = RowsAdapter(cellarHeight,cellarWidth,tabCellar)
             var bottleCount = 0
             for (x in 0 until cellarWidth) {
                 for(y in 0 until cellarHeight){
-                    if(tabCellar[x][y] != ""){
+                    if(tabCellar[x][y].bottle_TypeOfWine != ""){
                         bottleCount ++
                     }
                 }
