@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.gson.Gson
 import fr.isen.ewine.databinding.ActivityBottleBinding
+import fr.isen.ewine.model.UserData
 
 class BottleActivity : AppCompatActivity() {
     private lateinit var binding : ActivityBottleBinding
@@ -22,7 +23,6 @@ class BottleActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
     override fun onStart() {
         super.onStart()
 
@@ -33,13 +33,11 @@ class BottleActivity : AppCompatActivity() {
         val darkMode = sharedPref.getBoolean("dark_mode", false)
         val jsonFromPrefs = sharedPref.getString("tab_cellar", "")
         if(jsonFromPrefs != null) {
-            val tabCellar = gson.fromJson(jsonFromPrefs, Array<Array<String>>::class.java)
-            binding.BottleTypeOfWine.text = tabCellar[x][y]
+            val tabCellar = gson.fromJson(jsonFromPrefs, Array<Array<UserData.CellarData>>::class.java)
+            binding.BottleTypeOfWine.text = tabCellar[x][y].bottle_TypeOfWine
         }
-
         mode(darkMode)
     }
-
     private fun mode(darkMode: Boolean) {
         if (darkMode) {
             binding.root.setBackgroundColor(Color.BLACK)
