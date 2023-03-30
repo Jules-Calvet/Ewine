@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.database.FirebaseDatabase
 import com.google.gson.Gson
 import fr.isen.ewine.databinding.ActivitySettingsBinding
 import fr.isen.ewine.model.UserData
@@ -158,6 +160,8 @@ class SettingsActivity : AppCompatActivity() {
             } else {
                 y = -1
             }
+            val database = FirebaseDatabase.getInstance()
+            val postsRef = database.getReference("CellarData")
             val wine = binding.wineType.text.toString().lowercase()
             if(wine.isNotEmpty()) {
                 if (x >= 0 && x <= cellarWidth) {
@@ -173,6 +177,7 @@ class SettingsActivity : AppCompatActivity() {
                                         "Bottle of " + wine + " added at this position : " + charX + ", " + charY + " !",
                                         Toast.LENGTH_SHORT
                                     ).show()
+                                    postsRef.push().setValue(tabCellar[x][y].bottle_TypeOfWine)
                                 }
                                 "white" -> {
                                     Log.w(" Avant ", "$jsonFromPrefs")
@@ -185,6 +190,7 @@ class SettingsActivity : AppCompatActivity() {
                                         "Bottle of " + wine + " added at this position : " + charX + ", " + charY + " !",
                                         Toast.LENGTH_SHORT
                                     ).show()
+                                    postsRef.push().setValue(tabCellar[x][y].bottle_TypeOfWine)
                                 }
                                 "rose" -> {
                                     tabCellar[x][y].bottle_TypeOfWine = "Rose"
@@ -195,6 +201,7 @@ class SettingsActivity : AppCompatActivity() {
                                         "Bottle of " + wine + " added at this position : " + charX + ", " + charY + " !",
                                         Toast.LENGTH_SHORT
                                     ).show()
+                                    postsRef.push().setValue(tabCellar[x][y].bottle_TypeOfWine)
                                 }
                                 else -> {
                                     Toast.makeText(

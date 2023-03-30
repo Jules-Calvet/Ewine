@@ -82,7 +82,7 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN Private defines */
 /* Size of Reception buffer */
-#define RX_BUFFER_SIZE   100
+#define RX_BUFFER_SIZE   150
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

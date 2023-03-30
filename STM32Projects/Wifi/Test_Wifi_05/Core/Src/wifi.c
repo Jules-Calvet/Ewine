@@ -13,6 +13,7 @@ uint8_t aRXBufferB[RX_BUFFER_SIZE];
 __IO uint32_t     uwNbReceivedChars;
 uint8_t *pBufferReadyForUser;
 uint8_t *pBufferReadyForReception;
+uint8_t *SSID = "Reseau du KGB";
 
 uint8_t at[] = "\r\nAT\r\n";
 uint8_t apConnect[] = "\r\nAT+CWJAP=\"Reseau du KGB\",\"12345678\"\r\n";
@@ -75,6 +76,11 @@ void StartReception(void)
 	  printf("StartReception OK\n");
 
   }
+  HAL_Delay(500);
+  HAL_NVIC_DisableIRQ(LPUART1_IRQn);
+  PrintInfo(&hlpuart1, cwMode, COUNTOF(cwMode));
+  HAL_NVIC_EnableIRQ(LPUART1_IRQn);
+  HAL_Delay(500);
 }
 
 /**
@@ -101,7 +107,12 @@ void UserDataTreatment(UART_HandleTypeDef *huart, uint8_t* pData, uint16_t Size)
   uint8_t* pBuff = pData;
   uint8_t  i;
 
+  //debug callback
   printf("Callback : %s\n",pData);
+
+  if(strstr(pData, "WIFI CONNECTE") != NULL)printf("Wifi Connect Successful !\n");
+  if(strstr(pData, "+CWJAP:%s",SSID) != NULL)printf("Wifi already Connected !\n");
+  //if(strstr(pData, "+CWJAP:\"") != NULL)printf("Wifi already Connected !\n");
 
   /* Implementation of loopback is on purpose implemented in direct register access,
      in order to be able to echo received characters as fast as they are received.

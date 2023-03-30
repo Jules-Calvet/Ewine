@@ -3,6 +3,7 @@ package fr.isen.ewine
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -23,6 +24,8 @@ class LoadingActivity : AppCompatActivity() {
         binding = ActivityLoadingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.videoLoading.setVideoURI(Uri.parse("android.resource://res/" + R.raw.loadinglight02))
+        binding.videoLoading.start()
         mode(darkMode)
 
         Timer().schedule(4000) {
