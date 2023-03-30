@@ -76,6 +76,10 @@ class CellarActivity : AppCompatActivity() {
             checkLoginStatus()
             true
         }
+        popup.menu.findItem(R.id.menuProfile).setOnMenuItemClickListener {
+            startActivity(Intent(this, ProfileActivity::class.java))
+            true
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
