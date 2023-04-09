@@ -24,6 +24,10 @@ class LoginActivity : AppCompatActivity() {
 
         checkLoginStatus()
 
+        binding.Bypass.setOnClickListener {
+            startActivity(Intent(this, CellarActivity::class.java))
+        }
+
         //Click on buttons
         //Button login
         binding.buttonLogIn.setOnClickListener {
