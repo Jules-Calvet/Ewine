@@ -11,7 +11,7 @@ import com.squareup.picasso.Picasso
 import fr.isen.ewine.R.drawable
 import fr.isen.ewine.model.UserData
 
-class ColumnsAdapter (val cellarWidth: Int, val _tab_cellar: Array<Array<UserData.CellarData>>, val y: Int/*, val onItemLongClickListener:(ColumnsViewHolder)->Unit*/) : RecyclerView.Adapter<ColumnsAdapter.ColumnsViewHolder>() {
+class ColumnsAdapter (val cellarWidth: Int, val _tab_cellar: /*Array<Array<*/UserData/*>>*/, val y: Int/*, val onItemLongClickListener:(ColumnsViewHolder)->Unit*/) : RecyclerView.Adapter<ColumnsAdapter.ColumnsViewHolder>() {
     class ColumnsViewHolder(view : View) : RecyclerView.ViewHolder(view) {
         var image : ImageView = view.findViewById<ImageView>(R.id.CellarImageView)
     }
@@ -30,7 +30,7 @@ class ColumnsAdapter (val cellarWidth: Int, val _tab_cellar: Array<Array<UserDat
     }
     override fun onBindViewHolder(holder: ColumnsViewHolder, position: Int) {
         val x = position
-        when (_tab_cellar[x][y].bottle_TypeOfWine) {
+        when (_tab_cellar/*[x][y]*/.cellarData[x+(y*cellarWidth)].bottleTypeOfWine) {
             "Red" -> {
                 Picasso.get().load(drawable.bottle_red).into(holder.image)
             }

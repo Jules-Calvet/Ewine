@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.gson.Gson
 import fr.isen.ewine.databinding.ActivityBottleBinding
+import fr.isen.ewine.model.CellarData
 import fr.isen.ewine.model.UserData
 
 class BottleActivity : AppCompatActivity() {
@@ -31,10 +32,10 @@ class BottleActivity : AppCompatActivity() {
         val gson = Gson()
         val sharedPref: SharedPreferences = getSharedPreferences("settings", 0)
         val darkMode = sharedPref.getBoolean("dark_mode", false)
-        val jsonFromPrefs = sharedPref.getString("tab_cellar", "")
+        val jsonFromPrefs = sharedPref.getString("tab_cellar", null)
         if(jsonFromPrefs != null) {
-            val tabCellar = gson.fromJson(jsonFromPrefs, Array<Array<UserData.CellarData>>::class.java)
-            binding.BottleTypeOfWine.text = tabCellar[x][y].bottle_TypeOfWine
+            val tabCellar = gson.fromJson(jsonFromPrefs, /*Array<Array<*/UserData/*>>*/::class.java)
+            binding.BottleTypeOfWine.text = tabCellar/*[x][y]*/.cellarData[x+(y*sharedPref.getInt("width",0))].bottleTypeOfWine
         }
         mode(darkMode)
     }
