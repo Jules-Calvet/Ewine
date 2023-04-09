@@ -24,8 +24,8 @@ class LoadingActivity : AppCompatActivity() {
         binding = ActivityLoadingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.videoLoading.setVideoURI(Uri.parse("android.resource://res/" + R.raw.loadinglight02))
-        binding.videoLoading.start()
+        /*binding.videoLoading.setVideoURI(Uri.parse("android.resource://res/" + R.raw.loadinglight02))
+        binding.videoLoading.start()*/
         mode(darkMode)
 
         Timer().schedule(4000) {
