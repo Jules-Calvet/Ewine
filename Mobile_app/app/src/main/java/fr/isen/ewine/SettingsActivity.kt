@@ -43,7 +43,7 @@ class SettingsActivity : AppCompatActivity() {
         var tabCellar : UserData
         Log.d("json", jsonFromPrefs.toString())
         if (jsonFromPrefs == "") {
-            tabCellar = UserData("1", ArrayList(cellarWidth+(cellarHeight*cellarWidth))/*Array(cellarWidth) { Array(cellarHeight) { "" } }*/)
+            tabCellar = UserData("1", ArrayList(cellarWidth+(cellarHeight*cellarWidth)))
             for(x in 0 until cellarWidth) {
                 for(y in 0 until cellarHeight) {
                     tabCellar.cellarData.add(CellarData("","","","",""))
@@ -52,7 +52,7 @@ class SettingsActivity : AppCompatActivity() {
             val jsonEmpty = gson.toJson(tabCellar)
             sharedPref.edit().putString("tab_cellar", jsonEmpty).apply()
         } else {
-            tabCellar = gson.fromJson(jsonFromPrefs, /*Array<Array<*/UserData/*>>*/::class.java)
+            tabCellar = gson.fromJson(jsonFromPrefs, UserData::class.java)
         }
 
         //link to values for width and height
@@ -68,20 +68,6 @@ class SettingsActivity : AppCompatActivity() {
                 for(x in 1 .. cellarHeight) {
                     tabCellar.cellarData.removeAt(x*cellarWidth)
                 }
-                /*val tabTemp = tabCellar
-                tabCellar = Array(cellarWidth) { i ->
-                    Array(cellarHeight) { j ->
-                        UserData(
-                            "", arrayListOf(CellarData("","","","",""))
-                            /*CellarData("", "", "", "", "")*/
-                        )
-                    }
-                }
-                for (x in 0 until cellarWidth) {
-                    for (y in 0 until cellarHeight) {
-                        tabCellar[x][y] = tabTemp[x][y]
-                    }
-                }*/
                 json = gson.toJson(tabCellar)
                 sharedPref.edit().putString("tab_cellar", json).apply()
             } else {
@@ -100,20 +86,6 @@ class SettingsActivity : AppCompatActivity() {
             for(x in 0 until cellarHeight) {
                 tabCellar.cellarData.add(cellarWidth+(x*(cellarWidth-1)) ,CellarData("", "", "", "", ""))
             }
-            /*val tabTemp = tabCellar
-            tabCellar = Array(cellarWidth) { i ->
-                Array(cellarHeight) { j ->
-                    UserData(
-                        "", arrayListOf(CellarData("","","","",""))
-                        /*CellarData("", "", "", "", "")*/
-                    )
-                }
-            }
-            for (x in 0..cellarWidth - 2) {
-                for (y in 0 until cellarHeight) {
-                    tabCellar[x][y] = tabTemp[x][y]
-                }
-            }*/
             json = gson.toJson(tabCellar)
             sharedPref.edit().putString("tab_cellar", json).apply()
         }
@@ -126,20 +98,6 @@ class SettingsActivity : AppCompatActivity() {
                 for(x in 0 until cellarWidth) {
                     tabCellar.cellarData.removeLast()
                 }
-                /*val tabTemp = tabCellar
-                tabCellar = Array(cellarWidth) { i ->
-                    Array(cellarHeight) { j ->
-                        UserData(
-                            "", arrayListOf(CellarData("","","","",""))
-                            /*CellarData("", "", "", "", "")*/
-                        )
-                    }
-                }
-                for (x in 0 until cellarWidth) {
-                    for (y in 0 until cellarHeight) {
-                        tabCellar[x][y] = tabTemp[x][y]
-                    }
-                }*/
                 json = gson.toJson(tabCellar)
                 sharedPref.edit().putString("tab_cellar", json).apply()
                 } else {
@@ -158,17 +116,6 @@ class SettingsActivity : AppCompatActivity() {
                 for(x in 0 until cellarWidth) {
                     tabCellar.cellarData.add(CellarData("", "", "", "", ""))
                 }
-                /*val tabTemp = tabCellar
-                tabCellar = Array(cellarWidth) { i ->
-                    Array(cellarHeight) { j ->
-                        UserData("", arrayListOf(CellarData("","","","",""))/*CellarData("","","","","")*/)
-                    }
-                }
-                for (x in 0 until cellarWidth) {
-                    for (y in 0 until cellarHeight - 2) {
-                        tabCellar[x][y] = tabTemp[x][y]
-                    }
-                }*/
                 json = gson.toJson(tabCellar)
                 sharedPref.edit().putString("tab_cellar", json).apply()
             }
@@ -202,10 +149,10 @@ class SettingsActivity : AppCompatActivity() {
                 if (wine.isNotEmpty()) {
                     if (x >= 0 && x <= cellarWidth) {
                         if (y >= 0 && y <= cellarHeight) {
-                            if (tabCellar/*[x][y]*/.cellarData[x+(y*cellarWidth)].bottleTypeOfWine == "") {
+                            if (tabCellar.cellarData[x+(y*cellarWidth)].bottleTypeOfWine == "") {
                                 when (wine) {
                                     "red" -> {
-                                        tabCellar/*[x][y]*/.cellarData[x+(y*cellarWidth)].bottleTypeOfWine =
+                                        tabCellar.cellarData[x+(y*cellarWidth)].bottleTypeOfWine =
                                             "Red"
                                         json = gson.toJson(tabCellar)
                                         sharedPref.edit().putString("tab_cellar", json).apply()
@@ -215,11 +162,11 @@ class SettingsActivity : AppCompatActivity() {
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         postsRef.push()
-                                            .setValue(tabCellar/*[x][y]*/.cellarData[x+(y*cellarWidth)].bottleTypeOfWine)
+                                            .setValue(tabCellar.cellarData[x+(y*cellarWidth)].bottleTypeOfWine)
                                     }
                                     "white" -> {
                                         Log.w(" Avant ", "$jsonFromPrefs")
-                                        tabCellar/*[x][y]*/.cellarData[x+(y*cellarWidth)].bottleTypeOfWine =
+                                        tabCellar.cellarData[x+(y*cellarWidth)].bottleTypeOfWine =
                                             "White"
                                         json = gson.toJson(tabCellar)
                                         Log.w(" Après ", json)
@@ -230,10 +177,10 @@ class SettingsActivity : AppCompatActivity() {
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         postsRef.push()
-                                            .setValue(tabCellar/*[x][y]*/.cellarData[x+(y*cellarWidth)].bottleTypeOfWine)
+                                            .setValue(tabCellar.cellarData[x+(y*cellarWidth)].bottleTypeOfWine)
                                     }
                                     "rose" -> {
-                                        tabCellar/*[x][y]*/.cellarData[x+(y*cellarWidth)].bottleTypeOfWine =
+                                        tabCellar.cellarData[x+(y*cellarWidth)].bottleTypeOfWine =
                                             "Rose"
                                         json = gson.toJson(tabCellar)
                                         sharedPref.edit().putString("tab_cellar", json).apply()
@@ -243,7 +190,7 @@ class SettingsActivity : AppCompatActivity() {
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         postsRef.push()
-                                            .setValue(tabCellar/*[x][y]*/.cellarData[x+(y*cellarWidth)].bottleTypeOfWine)
+                                            .setValue(tabCellar.cellarData[x+(y*cellarWidth)].bottleTypeOfWine)
                                     }
                                     else -> {
                                         Toast.makeText(

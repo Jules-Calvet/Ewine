@@ -57,48 +57,12 @@ class CellarActivity : AppCompatActivity() {
             binding.bottleNumber.text = "Bottles : $bottleCount / $totalNumber"
         } else {
             val tabCellar = UserData("1", ArrayList())
-            tabCellar.cellarData.add(CellarData("","","","",""))
-            tabCellar.cellarData.add(CellarData("","","","",""))
-            tabCellar.cellarData.add(CellarData("","","","",""))
-            tabCellar.cellarData.add(CellarData("","","","",""))
-            tabCellar.cellarData.add(CellarData("","","","",""))
-            tabCellar.cellarData.add(CellarData("","","","",""))
-            tabCellar.cellarData.add(CellarData("","","","",""))
-            tabCellar.cellarData.add(CellarData("","","","",""))
-            tabCellar.cellarData.add(CellarData("","","","",""))
-            tabCellar.cellarData.add(CellarData("","","","",""))
-            tabCellar.cellarData.add(CellarData("","","","",""))
-            tabCellar.cellarData.add(CellarData("","","","",""))
-            tabCellar.cellarData.add(CellarData("","","","",""))
-            tabCellar.cellarData.add(CellarData("","","","",""))
-            tabCellar.cellarData.add(CellarData("","","","",""))
-            binding.rowsRecyclerView.adapter = RowsAdapter(cellarHeight,cellarWidth, tabCellar/*arrayOf(
-                arrayOf(
-                    UserData("", arrayListOf(CellarData("","","","",""))/*CellarData("","","","","")*/),
-                    UserData("", arrayListOf(CellarData("","","","",""))/*CellarData("","","","","")*/),
-                    UserData("", arrayListOf(CellarData("","","","",""))/*CellarData("","","","","")*/)
-                ),
-                arrayOf(
-                    UserData("", arrayListOf(CellarData("","","","",""))/*CellarData("","","","","")*/),
-                    UserData("", arrayListOf(CellarData("","","","",""))/*CellarData("","","","","")*/),
-                    UserData("", arrayListOf(CellarData("","","","",""))/*CellarData("","","","","")*/)
-                ),
-                arrayOf(
-                    UserData("", arrayListOf(CellarData("","","","",""))/*CellarData("","","","","")*/),
-                    UserData("", arrayListOf(CellarData("","","","",""))/*CellarData("","","","","")*/),
-                    UserData("", arrayListOf(CellarData("","","","",""))/*CellarData("","","","","")*/)
-                ),
-                arrayOf(
-                    UserData("", arrayListOf(CellarData("","","","",""))/*CellarData("","","","","")*/),
-                    UserData("", arrayListOf(CellarData("","","","",""))/*CellarData("","","","","")*/),
-                    UserData("", arrayListOf(CellarData("","","","",""))/*CellarData("","","","","")*/)
-                ),
-                arrayOf(
-                    UserData("", arrayListOf(CellarData("","","","",""))/*CellarData("","","","","")*/),
-                    UserData("", arrayListOf(CellarData("","","","",""))/*CellarData("","","","","")*/),
-                    UserData("", arrayListOf(CellarData("","","","",""))/*CellarData("","","","","")*/)
-                )
-            )*/)
+            for(x in 0 until cellarWidth) {
+                for(y in 0 until cellarHeight) {
+                    tabCellar.cellarData.add(CellarData("","","","",""))
+                }
+            }
+            binding.rowsRecyclerView.adapter = RowsAdapter(cellarHeight,cellarWidth, tabCellar)
         }
 
         mode(darkMode)

@@ -3,7 +3,6 @@ package fr.isen.ewine.model
 data class UserData(
     val idUser: String,
     val cellarData: ArrayList<CellarData>
-    //val cellarData: CellarData
     )
 
 data class CellarData (

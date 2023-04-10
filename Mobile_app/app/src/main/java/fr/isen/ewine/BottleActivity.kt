@@ -34,8 +34,8 @@ class BottleActivity : AppCompatActivity() {
         val darkMode = sharedPref.getBoolean("dark_mode", false)
         val jsonFromPrefs = sharedPref.getString("tab_cellar", null)
         if(jsonFromPrefs != null) {
-            val tabCellar = gson.fromJson(jsonFromPrefs, /*Array<Array<*/UserData/*>>*/::class.java)
-            binding.BottleTypeOfWine.text = tabCellar/*[x][y]*/.cellarData[x+(y*sharedPref.getInt("width",0))].bottleTypeOfWine
+            val tabCellar = gson.fromJson(jsonFromPrefs, UserData::class.java)
+            binding.BottleTypeOfWine.text = tabCellar.cellarData[x+(y*sharedPref.getInt("width",0))].bottleTypeOfWine
         }
         mode(darkMode)
     }

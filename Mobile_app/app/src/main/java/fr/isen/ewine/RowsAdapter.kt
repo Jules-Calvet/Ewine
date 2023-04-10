@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import fr.isen.ewine.databinding.ItemRowsBinding
 import fr.isen.ewine.model.UserData
 
-class RowsAdapter(val cellarHeight: Int, val cellarWidth: Int, val _tab_cellar: /*Array<Array<*/UserData/*>>*/) : RecyclerView.Adapter<RowsAdapter.RowsViewHolder>() {
+class RowsAdapter(val cellarHeight: Int, val cellarWidth: Int, val _tab_cellar: UserData) : RecyclerView.Adapter<RowsAdapter.RowsViewHolder>() {
     class RowsViewHolder(binding: ItemRowsBinding) : RecyclerView.ViewHolder(binding.root){
         val RV : RecyclerView = binding.columnsRecyclerView
     }
