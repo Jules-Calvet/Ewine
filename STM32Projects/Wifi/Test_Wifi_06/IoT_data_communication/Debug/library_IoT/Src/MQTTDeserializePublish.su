@@ -1,0 +1,2 @@
+../library_IoT/Src/MQTTDeserializePublish.c:36:5:MQTTDeserialize_publish	48	static
+../library_IoT/Src/MQTTDeserializePublish.c:82:5:MQTTDeserialize_ack	48	static

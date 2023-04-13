@@ -108,9 +108,7 @@ int main(void)
   MX_USB_PCD_Init();
   MX_LPUART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  //Wifi_Init();
-  printf("StartReception : \n");
-  StartReception();
+  Wifi_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
