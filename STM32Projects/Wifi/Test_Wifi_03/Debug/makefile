@@ -38,34 +38,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := Test_Wifi_03
+BUILD_ARTIFACT_NAME := Test_Wifi_03_L152_Git
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-Test_Wifi_03.elf \
+Test_Wifi_03_L152_Git.elf \
 
 MAP_FILES += \
-Test_Wifi_03.map \
+Test_Wifi_03_L152_Git.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-Test_Wifi_03.list \
+Test_Wifi_03_L152_Git.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: Test_Wifi_03.elf secondary-outputs
+main-build: Test_Wifi_03_L152_Git.elf secondary-outputs
 
 # Tool invocations
-Test_Wifi_03.elf Test_Wifi_03.map: $(OBJS) $(USER_OBJS) C:\Users\Justin\Desktop\Ewine\Ewine\STM32Projects\Wifi\Test_Wifi_03\STM32L152RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Test_Wifi_03.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\Justin\Desktop\Ewine\Ewine\STM32Projects\Wifi\Test_Wifi_03\STM32L152RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Test_Wifi_03.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Test_Wifi_03_L152_Git.elf Test_Wifi_03_L152_Git.map: $(OBJS) $(USER_OBJS) C:\Users\Justin\Desktop\Ewine\Ewine\STM32Projects\Wifi\Test_Wifi_03\STM32L152RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Test_Wifi_03_L152_Git.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\Justin\Desktop\Ewine\Ewine\STM32Projects\Wifi\Test_Wifi_03\STM32L152RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Test_Wifi_03_L152_Git.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -74,14 +74,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-Test_Wifi_03.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "Test_Wifi_03.list"
+Test_Wifi_03_L152_Git.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "Test_Wifi_03_L152_Git.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) Test_Wifi_03.elf Test_Wifi_03.list Test_Wifi_03.map default.size.stdout
+	-$(RM) Test_Wifi_03_L152_Git.elf Test_Wifi_03_L152_Git.list Test_Wifi_03_L152_Git.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

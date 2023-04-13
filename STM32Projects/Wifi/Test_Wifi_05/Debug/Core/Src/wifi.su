@@ -1,7 +1,8 @@
 ../Core/Src/wifi.c:33:6:PrintInfo	24	static
-../Core/Src/wifi.c:45:6:StartReception	8	static
-../Core/Src/wifi.c:105:6:UserDataTreatment	32	static
-../Core/Src/wifi.c:141:6:HAL_UARTEx_RxEventCallback	24	static
-../Core/Src/wifi.c:195:6:Wifi_Send_Data	16	static
-../Core/Src/wifi.c:200:6:Wifi_Init	8	static
-../Core/Src/wifi.c:228:6:Wifi_Process	8	static
+../Core/Src/wifi.c:45:6:addAtCommand	24	static
+../Core/Src/wifi.c:64:6:StartReception	8	static
+../Core/Src/wifi.c:100:6:Wifi_Send_Data	88	dynamic
+../Core/Src/wifi.c:127:6:Wifi_Init	8	static
+../Core/Src/wifi.c:140:6:Wifi_Process	8	static
+../Core/Src/wifi.c:154:6:UserDataTreatment	32	static
+../Core/Src/wifi.c:199:6:HAL_UARTEx_RxEventCallback	24	static

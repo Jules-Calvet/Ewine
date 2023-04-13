@@ -13,7 +13,6 @@ uint8_t aRXBufferB[RX_BUFFER_SIZE];
 __IO uint32_t     uwNbReceivedChars;
 uint8_t *pBufferReadyForUser;
 uint8_t *pBufferReadyForReception;
-uint8_t *SSID = "Reseau du KGB";
 
 uint8_t at[] = "\r\nAT\r\n";
 uint8_t apConnect[] = "\r\nAT+CWJAP=\"Reseau du KGB\",\"12345678\"\r\n";
@@ -21,7 +20,7 @@ uint8_t apConnectAlready[] = "\r\nAT+CWJAP?\r\n";
 uint8_t cwMode[] = "\r\nAT+CWMODE=1\r\n";
 uint8_t cipStart[] = "\r\nAT+CIPSTART=\"TCP\",\"tcpbin.com\",4242\r\n";
 uint8_t cipClose[] = "\r\nAT+CIPCLOSE\r\n";
-uint8_t SendDataSize[] = "\r\nAT+CIPSEND=4\r\n";
+uint8_t SendDataSize[] = "\r\nAT+CIPSEND=";
 uint8_t SendData[] = "\r\nTest\r\n";
 
 /**
@@ -31,12 +30,31 @@ uint8_t SendData[] = "\r\nTest\r\n";
   * @param  Size   Size of string
   * @retval None
   */
-void PrintInfo(UART_HandleTypeDef *huart, uint8_t *String, uint16_t Size)
+bool PrintInfo(UART_HandleTypeDef *huart, uint8_t *String, uint16_t Size)
 {
   if (HAL_OK != HAL_UART_Transmit(huart, String, Size,1000))
   {
-    Error_Handler();
-  } else { printf("Command AT sent : %s\n",String); }
+      Error_Handler();
+      return false;
+  } else {
+	  printf(" Command AT : %s\n",String);
+	  return true;
+  }
+}
+
+bool addAtCommand(UART_HandleTypeDef *huart, uint8_t *String, uint16_t Size){
+	printf("###################################################\n");
+	HAL_Delay(500);
+	HAL_NVIC_DisableIRQ(LPUART1_IRQn);
+	if (PrintInfo(huart, String, Size) == true ){
+		HAL_Delay(300);
+		HAL_NVIC_EnableIRQ(LPUART1_IRQn);
+		return true;
+	} else {
+		HAL_Delay(300);
+		HAL_NVIC_EnableIRQ(LPUART1_IRQn);
+		return false;
+	}
 }
 
 /**
@@ -54,7 +72,7 @@ void StartReception(void)
 
   /* Print user info on PC com port */
   //printf("Command AT : %s\n",apConnectAlready);
-  PrintInfo(&hlpuart1, apConnectAlready, COUNTOF(apConnectAlready));
+  PrintInfo(&hlpuart1, at, COUNTOF(at));
 
   /* Initializes Rx sequence using Reception To Idle event API.
      As DMA channel associated to UART Rx is configured as Circular,
@@ -68,19 +86,59 @@ void StartReception(void)
      - DMA RX Transfer Complete event (TC)
      - IDLE event on UART Rx line (indicating a pause is UART reception flow)
   */
+  //HAL_NVIC_SetPriority(LPUART1_IRQn, 1, 2);
+  //HAL_NVIC_EnableIRQ(LPUART1_IRQn);
   if (HAL_OK != HAL_UARTEx_ReceiveToIdle_DMA(&hlpuart1, aRXBufferUser, RX_BUFFER_SIZE))
   {
     Error_Handler();
     printf("StartReception Failed\n");
   } else {
 	  printf("StartReception OK\n");
-
   }
-  HAL_Delay(500);
-  HAL_NVIC_DisableIRQ(LPUART1_IRQn);
-  PrintInfo(&hlpuart1, cwMode, COUNTOF(cwMode));
-  HAL_NVIC_EnableIRQ(LPUART1_IRQn);
-  HAL_Delay(500);
+}
+
+bool Wifi_Send_Data(char data[]){
+	// start a TCP transmission
+	addAtCommand(&hlpuart1, cipStart, COUNTOF(cipStart));
+
+	// Init send data
+	char dataLength[strlen(SendDataSize) + strlen(strlen(data)) + 3];
+	strcpy(dataLength, SendDataSize);
+	char dataLen[10];
+	sprintf(dataLen, "%d", (int)strlen(data));
+	strcat(dataLength, dataLen);
+	char returnLigne[3];
+	strcpy(returnLigne, "\r\n");
+	strcat(dataLength, returnLigne);
+	addAtCommand(&hlpuart1, dataLength, COUNTOF(dataLength));
+
+	// Send actuel data
+	char dataToSend[strlen(data) + 3]; // +3 pour les caractères "\r\n" et "\0"
+	strcpy(dataToSend, "\r\n");
+	strcat(dataToSend, data);
+	strcat(dataToSend,returnLigne);
+	addAtCommand(&hlpuart1, dataToSend, COUNTOF(dataToSend));
+
+	// close a TCP transmission
+	addAtCommand(&hlpuart1, cipClose, COUNTOF(cipClose));
+	return true;
+}
+
+bool Wifi_Init(void){
+	// start wifi reception
+	StartReception();
+	// check if the wifi is already connected
+	addAtCommand(&hlpuart1, apConnectAlready, COUNTOF(apConnectAlready));
+	// set wifi mode to TCP transmission
+    addAtCommand(&hlpuart1, cwMode, COUNTOF(cwMode));
+    // send a Test message through wifi TCP transmission
+    Wifi_Send_Data("Test");
+
+    //return true;
+}
+
+void Wifi_Process(void){
+	HAL_Delay(1000);
 }
 
 /**
@@ -110,9 +168,13 @@ void UserDataTreatment(UART_HandleTypeDef *huart, uint8_t* pData, uint16_t Size)
   //debug callback
   printf("Callback : %s\n",pData);
 
-  if(strstr(pData, "WIFI CONNECTE") != NULL)printf("Wifi Connect Successful !\n");
-  if(strstr(pData, "+CWJAP:%s",SSID) != NULL)printf("Wifi already Connected !\n");
-  //if(strstr(pData, "+CWJAP:\"") != NULL)printf("Wifi already Connected !\n");
+  if(strstr((char*)pData, "FAIL") == NULL){
+	  printf("Wifi Connect Successful !\n");
+	  //if(strstr((char*)pData, "WIFI CONNECTE") != NULL && strstr((char*)pData, "OK") != NULL)printf("Wifi Connect Successful !\n");
+	  if(strstr((char*)pData, "+CWJAP:Res") != NULL && strstr((char*)pData, "OK") != NULL)printf("Wifi already Connected !\n");
+	  if(strstr((char*)pData, "+CWMODE=1") != NULL && strstr((char*)pData, "OK") != NULL)printf("Wifi Mode TCP Connection OK !\n");
+  }else printf("Command %s Failed\n",pData);
+
 
   /* Implementation of loopback is on purpose implemented in direct register access,
      in order to be able to echo received characters as fast as they are received.
@@ -188,40 +250,4 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
   old_pos = Size;
 }
 
-void Wifi_Send_Data(char data[]){
-	//Start IP session
-
-}
-
-void Wifi_Init(void){
-/*
-	//Put the wifi in listening mode
-	HAL_UART_Receive_IT(&huart1, (uint8_t*)rxBuffer, sizeof(rxBuffer)-1);
-	//check that the ESP8266 is operational
-	//HAL_UART_Transmit(&huart1, (uint8_t*)at, strlen(at) , 1000);
-	//printf("%s", at);
-
-	//connect the ESP8266 to 'Reseau du KGB' Wifi
-	HAL_UART_Transmit(&huart1, (uint8_t*)apConnect, strlen(apConnect) , 1000);
-	printf("%s", apConnect);
-	//debug rxBuffer
-
-	//Set the Wi-Fi mode to station
-	HAL_UART_Transmit(&huart1, (uint8_t*)cwMode, strlen(cwMode) , 1000);
-	printf("%s", cwMode);
-
-	Wifi_Send_Data(cipStart);
-*/
-	//PrintInfo(&hlpuart1, apConnectAlready, COUNTOF(apConnectAlready));
-	/*PrintInfo(&hlpuart1, cipStart, COUNTOF(cipStart));
-	PrintInfo(&hlpuart1, SendDataSize, COUNTOF(SendDataSize));
-	PrintInfo(&hlpuart1, SendData, COUNTOF(SendData));
-	PrintInfo(&hlpuart1, cipClose, COUNTOF(cipClose));
-*/
-	StartReception();
-}
-
-void Wifi_Process(void){
-	HAL_Delay(1000);
-}
 
