@@ -1,5 +1,6 @@
 package fr.isen.ewine
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
@@ -24,9 +25,10 @@ class LoadingActivity : AppCompatActivity() {
         binding = ActivityLoadingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /*binding.videoLoading.setVideoURI(Uri.parse("android.resource://res/" + R.raw.loadinglight02))
-        binding.videoLoading.start()*/
+        binding.videoLoading.setVideoURI(Uri.parse("android.resource://" + packageName + "/" +  R.raw.videoloadinglight))
+        binding.videoLoading.start()
         mode(darkMode)
+
 
         Timer().schedule(4000) {
             val intent = Intent(this@LoadingActivity, LoginActivity::class.java)
@@ -39,11 +41,11 @@ class LoadingActivity : AppCompatActivity() {
         if (darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             binding.root.setBackgroundColor(Color.BLACK)
-            binding.imageLogo.setImageResource(R.drawable.logo_dark)
+            //binding.imageLogo.setImageResource(R.drawable.logo_dark)
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             binding.root.setBackgroundColor(Color.WHITE)
-            binding.imageLogo.setImageResource(R.drawable.logo)
+            //binding.imageLogo.setImageResource(R.drawable.logo)
         }
     }
 }
