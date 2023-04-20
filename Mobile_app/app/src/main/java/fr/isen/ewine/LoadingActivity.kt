@@ -25,7 +25,6 @@ class LoadingActivity : AppCompatActivity() {
         binding = ActivityLoadingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.videoLoading.setVideoURI(Uri.parse("android.resource://" + packageName + "/" +  R.raw.videoloadinglight))
         binding.videoLoading.start()
         mode(darkMode)
 
@@ -41,11 +40,11 @@ class LoadingActivity : AppCompatActivity() {
         if (darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             binding.root.setBackgroundColor(Color.BLACK)
-            //binding.imageLogo.setImageResource(R.drawable.logo_dark)
+            binding.videoLoading.setVideoURI(Uri.parse("android.resource://" + packageName + "/" +  R.raw.videoloadingdark))
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             binding.root.setBackgroundColor(Color.WHITE)
-            //binding.imageLogo.setImageResource(R.drawable.logo)
+            binding.videoLoading.setVideoURI(Uri.parse("android.resource://" + packageName + "/" +  R.raw.videoloadinglight))
         }
     }
 }
