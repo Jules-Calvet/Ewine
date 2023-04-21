@@ -82,21 +82,30 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         binding.modify.setOnClickListener {
-            auth.signInWithEmailAndPassword(auth.currentUser!!.email!!, binding.editTextPwd.text.toString()).addOnCompleteListener {
-                if(it.isSuccessful) {
-                    Log.d("login test", "OK")
-                    if (!switchModifyChecked) {
-                        auth.currentUser!!.updateEmail(binding.editTextEmailModify.text.toString())
-                        Log.d("Update", "EMAIL")
+            if(!binding.editTextPwd.text.isNullOrEmpty()) {
+                auth.signInWithEmailAndPassword(
+                    auth.currentUser!!.email!!,
+                    binding.editTextPwd.text.toString()
+                ).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        Log.d("login test", "OK")
+                        if (!switchModifyChecked) {
+                            if(!binding.editTextEmailModify.text.isNullOrEmpty()) {
+                                auth.currentUser!!.updateEmail(binding.editTextEmailModify.text.toString())
+                                Log.d("Update", "EMAIL")
+                            }
+                        } else {
+                            if(!binding.editTextPwdModify.text.isNullOrEmpty()) {
+                                auth.currentUser!!.updatePassword(binding.editTextPwdModify.text.toString())
+                                Log.d("Update", "PASSWORD")
+                            }
+                        }
                     } else {
-                        auth.currentUser!!.updatePassword(binding.editTextPwdModify.text.toString())
-                        Log.d("Update", "PASSWORD")
+                        Toast.makeText(
+                            baseContext, "Wrong Password !",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
-                } else {
-                    Toast.makeText(
-                        baseContext, "Wrong Password !",
-                        Toast.LENGTH_SHORT
-                    ).show()
                 }
             }
         }
