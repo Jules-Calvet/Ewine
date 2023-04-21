@@ -9,6 +9,7 @@ import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -55,6 +56,8 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private var scanning = false
+    private lateinit var sharedPref : SharedPreferences
+    private lateinit var cellarConnected : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +68,9 @@ class ProfileActivity : AppCompatActivity() {
 
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sharedPref = getSharedPreferences("settings", 0)
+        cellarConnected = sharedPref.getString("cellarBLE", null).toString()
 
         bluetoothLeScanner = bluetoothAdapter!!.bluetoothLeScanner
 
@@ -113,40 +119,57 @@ class ProfileActivity : AppCompatActivity() {
         binding.imageLogo.setOnClickListener {
             if(imageWifi) {
                 binding.imageLogo.setImageResource(R.drawable.logobluetooth)
-                if (REQUIRED_PERMISSIONS.all {
-                        ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
-                    }) {
+                Log.d("cellarConnected", cellarConnected)
+                if(cellarConnected == "null") {
                     if (REQUIRED_PERMISSIONS.all {
-                            ActivityCompat.shouldShowRequestPermissionRationale(this, it)
+                            ContextCompat.checkSelfPermission(
+                                this,
+                                it
+                            ) != PackageManager.PERMISSION_GRANTED
                         }) {
-                        // Expliquer à l'utilisateur pourquoi la permission est nécessaire
-                        AlertDialog.Builder(this)
-                            .setTitle("Autoriser la permission Bluetooth")
-                            .setMessage("L'application a besoin de la permission Bluetooth pour détecter les appareils à proximité.")
-                            .setPositiveButton("OK") { _, _ ->
-                                ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, 1)
-                            }
-                            .setNegativeButton("Annuler", null)
-                            .show()
+                        if (REQUIRED_PERMISSIONS.all {
+                                ActivityCompat.shouldShowRequestPermissionRationale(this, it)
+                            }) {
+                            // Expliquer à l'utilisateur pourquoi la permission est nécessaire
+                            AlertDialog.Builder(this)
+                                .setTitle("Autoriser la permission Bluetooth")
+                                .setMessage("L'application a besoin de la permission Bluetooth pour détecter les appareils à proximité.")
+                                .setPositiveButton("OK") { _, _ ->
+                                    ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, 1)
+                                }
+                                .setNegativeButton("Annuler", null)
+                                .show()
+                        } else {
+                            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, 1)
+                        }
                     } else {
-                        ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, 1)
+                        if (bluetoothAdapter == null) {
+                            Toast.makeText(
+                                this,
+                                "Le Bluetooth n'est pas disponible sur ce téléphone",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else if (!bluetoothAdapter!!.isEnabled) {
+                            Toast.makeText(this, "Le Bluetooth est désactivé", Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            // Bluetooth est activé, continuer avec les interactions Bluetooth
+                            scanLeDevice()
+                            binding.wifiAvailable.layoutManager = LinearLayoutManager(this)
+                        }
                     }
                 } else {
-                    if (bluetoothAdapter == null) {
-                        Toast.makeText(this, "Le Bluetooth n'est pas disponible sur ce téléphone", Toast.LENGTH_SHORT).show()
-                    } else if (!bluetoothAdapter!!.isEnabled) {
-                        Toast.makeText(this, "Le Bluetooth est désactivé", Toast.LENGTH_SHORT).show()
-                    } else {
-                        // Bluetooth est activé, continuer avec les interactions Bluetooth
-                        scanLeDevice()
-                        binding.wifiAvailable.layoutManager = LinearLayoutManager(this)
-                    }
+                    val device = bluetoothAdapter!!.getRemoteDevice(cellarConnected)
+                    bluetoothGatt = device.connectGatt(this@ProfileActivity, false, gattCallback)
+                    deviceName = device.name
                 }
             } else {
                 binding.imageLogo.setImageResource(R.drawable.logowifi)
                 if(scanning) {
                     scanLeDevice()
                 }
+                binding.groupConnected.visibility = View.GONE
+                binding.wifiAvailable.visibility = View.VISIBLE
                 binding.wifiAvailable.adapter = AdapterDevicesList(Devices()) {devices, position ->
 
                 }
@@ -172,9 +195,13 @@ class ProfileActivity : AppCompatActivity() {
     @SuppressLint("MissingPermission")
     private fun scanLeDevice() {
         if (!scanning) { // Stops scanning after a pre-defined scan period.
+            binding.buttonScan.visibility = View.GONE
             handler.postDelayed({
                 scanning = false
                 bluetoothLeScanner.stopScan(leScanCallback)
+                runOnUiThread {
+                    binding.buttonScan.visibility = View.VISIBLE
+                }
             }, SCAN_PERIOD)
             scanning = true
             bluetoothLeScanner.startScan(leScanCallback)
@@ -193,6 +220,9 @@ class ProfileActivity : AppCompatActivity() {
             super.onScanResult(callbackType, result)
             leDeviceListAdapter.addDevice(result.device)
             binding.wifiAvailable.adapter = AdapterDevicesList(leDeviceListAdapter) { device, position ->
+                if(scanning) {
+                    scanLeDevice()
+                }
                 val device = bluetoothAdapter!!.getRemoteDevice(device.MAC[position])
                 bluetoothGatt = device.connectGatt(this@ProfileActivity, false, gattCallback)
                 deviceName = device.name
@@ -250,8 +280,14 @@ class ProfileActivity : AppCompatActivity() {
                     bluetoothGatt?.discoverServices()
                     runOnUiThread {
                         binding.wifiAvailable.visibility = View.GONE
-                        binding.connectedDevice.visibility = View.VISIBLE
+                        binding.groupConnected.visibility = View.VISIBLE
                         binding.connectedDevice.text =  getString(R.string.connectedTo) + " " + deviceName
+                        sharedPref.edit().putString("cellarBLE", bluetoothGatt!!.device.address).apply()
+                    }
+                    binding.buttonDeconnect.setOnClickListener {
+                        bluetoothGatt?.disconnect()
+                        sharedPref.edit().putString("cellarBLE", null).apply()
+                        cellarConnected = null.toString()
                     }
                 }
                 BluetoothProfile.STATE_DISCONNECTED -> {
@@ -259,7 +295,7 @@ class ProfileActivity : AppCompatActivity() {
                     Log.d("STATUS", "Disconnected from GATT server.")
                     runOnUiThread {
                         binding.wifiAvailable.visibility = View.VISIBLE
-                        binding.connectedDevice.visibility = View.GONE
+                        binding.groupConnected.visibility = View.GONE
                     }
                 }
                 else -> {
