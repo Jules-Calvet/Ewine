@@ -43,12 +43,12 @@ class CellarActivity : AppCompatActivity() {
         binding.rowsRecyclerView.layoutManager = LinearLayoutManager(this)
         if(jsonFromPrefs != null){
             Log.d("json get", jsonFromPrefs)
-            val tabCellar = gson.fromJson(jsonFromPrefs, /*Array<Array<*/UserData/*>>*/::class.java)
+            val tabCellar = gson.fromJson(jsonFromPrefs, UserData::class.java)
             binding.rowsRecyclerView.adapter = RowsAdapter(cellarHeight,cellarWidth,tabCellar)
             var bottleCount = 0
             for (x in 0 until cellarWidth) {
                 for(y in 0 until cellarHeight){
-                    if(tabCellar/*[x][y]*/.cellarData[x+(y*cellarWidth)].bottleTypeOfWine != ""){
+                    if(tabCellar.cellarData[x+(y*cellarWidth)].bottleTypeOfWine != ""){
                         bottleCount ++
                     }
                 }
