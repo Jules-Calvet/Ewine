@@ -7,10 +7,10 @@ import android.bluetooth.*
 import android.bluetooth.le.BluetoothLeScanner
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
+import android.content.*
 import android.content.pm.PackageManager
+import android.net.wifi.WifiManager
+import android.net.wifi.WifiSsid
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -41,18 +41,41 @@ class ProfileActivity : AppCompatActivity() {
 
     private lateinit var deviceName : String
 
-    private val REQUIRED_PERMISSIONS = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+    private val REQUIRED_PERMISSIONS_BLE = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         arrayOf(
             Manifest.permission.BLUETOOTH_CONNECT,
             Manifest.permission.BLUETOOTH_SCAN,
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.CHANGE_WIFI_STATE
         )
     } else {
         arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
         )
+    }
+
+    private lateinit var wifiManager : WifiManager
+
+    private val wifiDeviceList = WifiDevices()
+    @SuppressLint("MissingPermission")
+    private fun scanSuccess() {
+        val results = wifiManager.scanResults
+        wifiDeviceList.addWifi(results)
+
+        binding.wifiAvailable.adapter = AdapterDevicesListWifi(wifiDeviceList) {device, position ->
+
+        }
+        //use new scan results ...
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun scanFailure() {
+        // handle failure: new scan did NOT succeed
+        // consider using old scan results: these are the OLD results!
+        val results = wifiManager.scanResults
+        //potentially use older scan results ...
     }
 
     private var scanning = false
@@ -73,6 +96,10 @@ class ProfileActivity : AppCompatActivity() {
         cellarConnected = sharedPref.getString("cellarBLE", null).toString()
 
         bluetoothLeScanner = bluetoothAdapter!!.bluetoothLeScanner
+
+        wifiManager = this.getSystemService(Context.WIFI_SERVICE) as WifiManager
+
+
 
         binding.switchModify.setOnClickListener {
             if(!switchModifyChecked) {
@@ -121,13 +148,13 @@ class ProfileActivity : AppCompatActivity() {
                 binding.imageLogo.setImageResource(R.drawable.logobluetooth)
                 Log.d("cellarConnected", cellarConnected)
                 if(cellarConnected == "null") {
-                    if (REQUIRED_PERMISSIONS.all {
+                    if (REQUIRED_PERMISSIONS_BLE.all {
                             ContextCompat.checkSelfPermission(
                                 this,
                                 it
                             ) != PackageManager.PERMISSION_GRANTED
                         }) {
-                        if (REQUIRED_PERMISSIONS.all {
+                        if (REQUIRED_PERMISSIONS_BLE.all {
                                 ActivityCompat.shouldShowRequestPermissionRationale(this, it)
                             }) {
                             // Expliquer à l'utilisateur pourquoi la permission est nécessaire
@@ -135,12 +162,12 @@ class ProfileActivity : AppCompatActivity() {
                                 .setTitle("Autoriser la permission Bluetooth")
                                 .setMessage("L'application a besoin de la permission Bluetooth pour détecter les appareils à proximité.")
                                 .setPositiveButton("OK") { _, _ ->
-                                    ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, 1)
+                                    ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS_BLE, 1)
                                 }
                                 .setNegativeButton("Annuler", null)
                                 .show()
                         } else {
-                            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, 1)
+                            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS_BLE, 1)
                         }
                     } else {
                         if (bluetoothAdapter == null) {
@@ -170,9 +197,55 @@ class ProfileActivity : AppCompatActivity() {
                 }
                 binding.groupConnected.visibility = View.GONE
                 binding.wifiAvailable.visibility = View.VISIBLE
-                binding.wifiAvailable.adapter = AdapterDevicesList(Devices()) {devices, position ->
 
+                val wifiScanReceiver = object : BroadcastReceiver() {
+
+                    override fun onReceive(context: Context, intent: Intent) {
+                        val success = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false)
+                        if (success) {
+                            scanSuccess()
+                        } else {
+                            scanFailure()
+                        }
+                    }
                 }
+
+                if (REQUIRED_PERMISSIONS_BLE.all {
+                        ContextCompat.checkSelfPermission(
+                            this,
+                            it
+                        ) != PackageManager.PERMISSION_GRANTED
+                    }) {
+                    if (REQUIRED_PERMISSIONS_BLE.all {
+                            ActivityCompat.shouldShowRequestPermissionRationale(this, it)
+                        }) {
+                        // Expliquer à l'utilisateur pourquoi la permission est nécessaire
+                        AlertDialog.Builder(this)
+                            .setTitle("Autoriser la permission Bluetooth")
+                            .setMessage("L'application a besoin de la permission Bluetooth pour détecter les appareils à proximité.")
+                            .setPositiveButton("OK") { _, _ ->
+                                ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS_BLE, 1)
+                            }
+                            .setNegativeButton("Annuler", null)
+                            .show()
+                    } else {
+                        ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS_BLE, 1)
+                    }
+                } else {
+                    val intentFilter = IntentFilter()
+                    intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
+                    this.registerReceiver(wifiScanReceiver, intentFilter)
+
+                    val success = wifiManager.startScan()
+                    if (!success) {
+                        // scan failure handling
+                        scanFailure()
+                    }
+                }
+
+               /* binding.wifiAvailable.adapter = AdapterDevicesList(Devices()) { devices, position ->
+
+                }*/
             }
             imageWifi = !imageWifi
         }
@@ -244,6 +317,24 @@ class ProfileActivity : AppCompatActivity() {
                     MAC.add(device.address)
                     size++
                 }
+            }
+        }
+    }
+
+    class WifiDevices {
+        var ssid: ArrayList<WifiSsid> = ArrayList()
+        var size = 0
+
+        fun addWifi(wifi: MutableList<android.net.wifi.ScanResult>) {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if(wifi[wifi.lastIndex].wifiSsid != null) {
+                    if(!ssid.contains(wifi[wifi.lastIndex].wifiSsid)) {
+                        ssid.add(wifi[wifi.lastIndex].wifiSsid!!)
+                        size++
+                    }
+                }
+            } else {
+                TODO("VERSION.SDK_INT < TIRAMISU")
             }
         }
     }

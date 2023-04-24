@@ -6,7 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class AdapterDevicesList(var devices: ProfileActivity.Devices, val onItemClickListener: (ProfileActivity.Devices, Int) -> Unit) : RecyclerView.Adapter<AdapterDevicesList.DevicesListViewHolder>() {
+class AdapterDevicesListWifi(var devices: ProfileActivity.WifiDevices, val onItemClickListener: (ProfileActivity.WifiDevices, Int) -> Unit) : RecyclerView.Adapter<AdapterDevicesListWifi.DevicesListViewHolder>() {
+
     class DevicesListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val deviceName: TextView = view.findViewById(R.id.name)
     }
@@ -19,8 +20,8 @@ class AdapterDevicesList(var devices: ProfileActivity.Devices, val onItemClickLi
     }
 
     override fun onBindViewHolder(holder: DevicesListViewHolder, position: Int) {
-        val name = devices.device_name[position]
-        holder.deviceName.text = name
+        val name = devices.ssid[position]
+        holder.deviceName.text = name.toString()
 
         holder.itemView.setOnClickListener {
             onItemClickListener(devices, position)
