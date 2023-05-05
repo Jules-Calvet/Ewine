@@ -1,0 +1,12 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "board-eagle-import")(type "KiCad")(uri "${KIPRJMOD}/board-eagle-import.kicad_sym")(options "")(descr ""))
+  (lib (name "FH12-10S-0_5SH_55_")(type "KiCad")(uri "C:/Users/Lisa.Duterte/Documents/KiCad/7.0/symbols/FH12-10S-0_5SH_55_.kicad_sym")(options "")(descr ""))
+  (lib (name "ConnectorFPC0.5-6C")(type "KiCad")(uri "C:/Users/Lisa.Duterte/Documents/KiCad/7.0/symbols/ConnectorFPC0.5-6C.kicad_sym")(options "")(descr ""))
+  (lib (name "CarteSD")(type "KiCad")(uri "C:/Users/Lisa.Duterte/Documents/KiCad/7.0/symbols/CarteSD.kicad_sym")(options "")(descr ""))
+  (lib (name "LIB_ISEN_SHIELD")(type "KiCad")(uri "C:/Users/Lisa.Duterte/Documents/KiCad/7.0/symbols/LIB_ISEN_SHIELD.kicad_sym")(options "")(descr ""))
+  (lib (name "RC0402FR-0712RL")(type "KiCad")(uri "C:/Users/Lisa.Duterte/Documents/KiCad/7.0/symbols/RC0402FR-0712RL.kicad_sym")(options "")(descr ""))
+  (lib (name "SideBtn434331013822")(type "KiCad")(uri "C:/Users/Lisa.Duterte/Documents/KiCad/7.0/symbols/SideBtn434331013822.kicad_sym")(options "")(descr ""))
+  (lib (name "PassBandFI212B245026-T")(type "KiCad")(uri "C:/Users/Lisa.Duterte/Documents/KiCad/7.0/symbols/PassBandFI212B245026-T.kicad_sym")(options "")(descr ""))
+  (lib (name "BAT54")(type "KiCad")(uri "C:/Users/Lisa.Duterte/Documents/KiCad/7.0/symbols/BAT54JFILM.kicad_sym")(options "")(descr ""))
+)

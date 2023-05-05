@@ -81,7 +81,7 @@ void VL_TOF_Process(void)
 
   /* USER CODE END TOF_Process_PreTreatment */
   printf("\n ---- start TOF Center ---- \n\n");
-  //VL_53L1A2_SimpleRanging_Process_C();
+  VL_53L1A2_SimpleRanging_Process_C();
   printf("\n ---- end TOF Center ---- \n\n");
 
   printf("\n ---- start TOF Right ---- \n\n");
@@ -89,7 +89,7 @@ void VL_TOF_Process(void)
   printf("\n ---- end TOF Right ---- \n\n");
 
   printf("\n ---- start TOF Left ---- \n\n");
-  VL_53L1A2_SimpleRanging_Process_L();
+  //VL_53L1A2_SimpleRanging_Process_L();
   printf("\n ---- end TOF Left ---- \n\n");
 
   /* USER CODE BEGIN TOF_Process_PostTreatment */
