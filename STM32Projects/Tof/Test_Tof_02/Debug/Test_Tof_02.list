@@ -35,11 +35,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  15 .debug_line   0003b616  00000000  00000000  000d1412  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_str    0011a9d1  00000000  00000000  0010ca28  2**0
+ 16 .debug_str    0011a9e9  00000000  00000000  0010ca28  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .comment      00000050  00000000  00000000  002273f9  2**0
+ 17 .comment      00000050  00000000  00000000  00227411  2**0
                   CONTENTS, READONLY
- 18 .debug_frame  0000e474  00000000  00000000  0022744c  2**2
+ 18 .debug_frame  0000e474  00000000  00000000  00227464  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -506,24 +506,24 @@ void VL_TOF_Process(void)
   printf("\n ---- start TOF Center ---- \n\n");
  80005dc:	480a      	ldr	r0, [pc, #40]	; (8000608 <VL_TOF_Process+0x30>)
  80005de:	f019 f8e5 	bl	80197ac <puts>
-  //VL_53L1A2_SimpleRanging_Process_C();
+  VL_53L1A2_SimpleRanging_Process_C();
+ 80005e2:	f000 f871 	bl	80006c8 <VL_53L1A2_SimpleRanging_Process_C>
   printf("\n ---- end TOF Center ---- \n\n");
- 80005e2:	480a      	ldr	r0, [pc, #40]	; (800060c <VL_TOF_Process+0x34>)
- 80005e4:	f019 f8e2 	bl	80197ac <puts>
+ 80005e6:	4809      	ldr	r0, [pc, #36]	; (800060c <VL_TOF_Process+0x34>)
+ 80005e8:	f019 f8e0 	bl	80197ac <puts>
 
   printf("\n ---- start TOF Right ---- \n\n");
- 80005e8:	4809      	ldr	r0, [pc, #36]	; (8000610 <VL_TOF_Process+0x38>)
- 80005ea:	f019 f8df 	bl	80197ac <puts>
+ 80005ec:	4808      	ldr	r0, [pc, #32]	; (8000610 <VL_TOF_Process+0x38>)
+ 80005ee:	f019 f8dd 	bl	80197ac <puts>
   //VL_53L1A2_SimpleRanging_Process_R();
   printf("\n ---- end TOF Right ---- \n\n");
- 80005ee:	4809      	ldr	r0, [pc, #36]	; (8000614 <VL_TOF_Process+0x3c>)
- 80005f0:	f019 f8dc 	bl	80197ac <puts>
+ 80005f2:	4808      	ldr	r0, [pc, #32]	; (8000614 <VL_TOF_Process+0x3c>)
+ 80005f4:	f019 f8da 	bl	80197ac <puts>
 
   printf("\n ---- start TOF Left ---- \n\n");
- 80005f4:	4808      	ldr	r0, [pc, #32]	; (8000618 <VL_TOF_Process+0x40>)
- 80005f6:	f019 f8d9 	bl	80197ac <puts>
-  VL_53L1A2_SimpleRanging_Process_L();
- 80005fa:	f000 f865 	bl	80006c8 <VL_53L1A2_SimpleRanging_Process_L>
+ 80005f8:	4807      	ldr	r0, [pc, #28]	; (8000618 <VL_TOF_Process+0x40>)
+ 80005fa:	f019 f8d7 	bl	80197ac <puts>
+  //VL_53L1A2_SimpleRanging_Process_L();
   printf("\n ---- end TOF Left ---- \n\n");
  80005fe:	4807      	ldr	r0, [pc, #28]	; (800061c <VL_TOF_Process+0x44>)
  8000600:	f019 f8d4 	bl	80197ac <puts>
@@ -653,73 +653,70 @@ static void VL_53L1A2_SimpleRanging_Init_L(void)
  80006c0:	0801a830 	.word	0x0801a830
  80006c4:	0801a8b0 	.word	0x0801a8b0
 
-080006c8 <VL_53L1A2_SimpleRanging_Process_L>:
+080006c8 <VL_53L1A2_SimpleRanging_Process_C>:
 
-  }
-  statusRight = VL53L1A2_RANGING_SENSOR_Stop(VL53L1A2_DEV_RIGHT);
-}
-static void VL_53L1A2_SimpleRanging_Process_L(void)
+static void VL_53L1A2_SimpleRanging_Process_C(void)
 {
  80006c8:	b580      	push	{r7, lr}
  80006ca:	b094      	sub	sp, #80	; 0x50
  80006cc:	af00      	add	r7, sp, #0
-  uint32_t Id_Left;
-  RANGING_SENSOR_Result_t Result_Left;
+  uint32_t Id_Center;
+  RANGING_SENSOR_Result_t Result_Center;
 
   // verify id of sensor
-  VL53L1A2_RANGING_SENSOR_ReadID(VL53L1A2_DEV_LEFT, &Id_Left);
+  VL53L1A2_RANGING_SENSOR_ReadID(VL53L1A2_DEV_CENTER, &Id_Center);
  80006ce:	f107 0348 	add.w	r3, r7, #72	; 0x48
  80006d2:	4619      	mov	r1, r3
- 80006d4:	2000      	movs	r0, #0
+ 80006d4:	2001      	movs	r0, #1
  80006d6:	f001 f913 	bl	8001900 <VL53L1A2_RANGING_SENSOR_ReadID>
 
   // sensor configuration
-  ProfileLeft.RangingProfile = RS_MULTI_TARGET_SHORT_RANGE;
- 80006da:	4b26      	ldr	r3, [pc, #152]	; (8000774 <VL_53L1A2_SimpleRanging_Process_L+0xac>)
+  ProfileCenter.RangingProfile = RS_MULTI_TARGET_SHORT_RANGE;
+ 80006da:	4b26      	ldr	r3, [pc, #152]	; (8000774 <VL_53L1A2_SimpleRanging_Process_C+0xac>)
  80006dc:	2201      	movs	r2, #1
  80006de:	601a      	str	r2, [r3, #0]
-  ProfileLeft.TimingBudget = TIMING_BUDGET;
- 80006e0:	4b24      	ldr	r3, [pc, #144]	; (8000774 <VL_53L1A2_SimpleRanging_Process_L+0xac>)
+  ProfileCenter.TimingBudget = TIMING_BUDGET;
+ 80006e0:	4b24      	ldr	r3, [pc, #144]	; (8000774 <VL_53L1A2_SimpleRanging_Process_C+0xac>)
  80006e2:	221e      	movs	r2, #30
  80006e4:	605a      	str	r2, [r3, #4]
-  ProfileLeft.Frequency = 0; // Induces intermeasurement period, set to ZERO for normal ranging
- 80006e6:	4b23      	ldr	r3, [pc, #140]	; (8000774 <VL_53L1A2_SimpleRanging_Process_L+0xac>)
+  ProfileCenter.Frequency = 0; // Induces intermeasurement period, set to ZERO for normal ranging
+ 80006e6:	4b23      	ldr	r3, [pc, #140]	; (8000774 <VL_53L1A2_SimpleRanging_Process_C+0xac>)
  80006e8:	2200      	movs	r2, #0
  80006ea:	609a      	str	r2, [r3, #8]
-  ProfileLeft.EnableAmbient = 0; // Enable: 1, Disable: 0
- 80006ec:	4b21      	ldr	r3, [pc, #132]	; (8000774 <VL_53L1A2_SimpleRanging_Process_L+0xac>)
+  ProfileCenter.EnableAmbient = 0; // Enable: 1, Disable: 0
+ 80006ec:	4b21      	ldr	r3, [pc, #132]	; (8000774 <VL_53L1A2_SimpleRanging_Process_C+0xac>)
  80006ee:	2200      	movs	r2, #0
  80006f0:	60da      	str	r2, [r3, #12]
-  ProfileLeft.EnableSignal = 0; // Enable: 1, Disable: 0
- 80006f2:	4b20      	ldr	r3, [pc, #128]	; (8000774 <VL_53L1A2_SimpleRanging_Process_L+0xac>)
+  ProfileCenter.EnableSignal = 0; // Enable: 1, Disable: 0
+ 80006f2:	4b20      	ldr	r3, [pc, #128]	; (8000774 <VL_53L1A2_SimpleRanging_Process_C+0xac>)
  80006f4:	2200      	movs	r2, #0
  80006f6:	611a      	str	r2, [r3, #16]
 
   // set the profile if different from default one
-  VL53L1A2_RANGING_SENSOR_ConfigProfile(VL53L1A2_DEV_LEFT, &ProfileLeft);
- 80006f8:	491e      	ldr	r1, [pc, #120]	; (8000774 <VL_53L1A2_SimpleRanging_Process_L+0xac>)
- 80006fa:	2000      	movs	r0, #0
+  VL53L1A2_RANGING_SENSOR_ConfigProfile(VL53L1A2_DEV_CENTER, &ProfileCenter);
+ 80006f8:	491e      	ldr	r1, [pc, #120]	; (8000774 <VL_53L1A2_SimpleRanging_Process_C+0xac>)
+ 80006fa:	2001      	movs	r0, #1
  80006fc:	f001 f928 	bl	8001950 <VL53L1A2_RANGING_SENSOR_ConfigProfile>
 
-  statusLeft = VL53L1A2_RANGING_SENSOR_Start(VL53L1A2_DEV_LEFT, RS_MODE_BLOCKING_CONTINUOUS);
+  statusCenter = VL53L1A2_RANGING_SENSOR_Start(VL53L1A2_DEV_CENTER, RS_MODE_BLOCKING_CONTINUOUS);
  8000700:	2101      	movs	r1, #1
- 8000702:	2000      	movs	r0, #0
+ 8000702:	2001      	movs	r0, #1
  8000704:	f001 f974 	bl	80019f0 <VL53L1A2_RANGING_SENSOR_Start>
  8000708:	4603      	mov	r3, r0
- 800070a:	4a1b      	ldr	r2, [pc, #108]	; (8000778 <VL_53L1A2_SimpleRanging_Process_L+0xb0>)
+ 800070a:	4a1b      	ldr	r2, [pc, #108]	; (8000778 <VL_53L1A2_SimpleRanging_Process_C+0xb0>)
  800070c:	6013      	str	r3, [r2, #0]
 
-  if (statusLeft != BSP_ERROR_NONE)
- 800070e:	4b1a      	ldr	r3, [pc, #104]	; (8000778 <VL_53L1A2_SimpleRanging_Process_L+0xb0>)
+  if (statusCenter != BSP_ERROR_NONE)
+ 800070e:	4b1a      	ldr	r3, [pc, #104]	; (8000778 <VL_53L1A2_SimpleRanging_Process_C+0xb0>)
  8000710:	681b      	ldr	r3, [r3, #0]
  8000712:	2b00      	cmp	r3, #0
- 8000714:	d003      	beq.n	800071e <VL_53L1A2_SimpleRanging_Process_L+0x56>
+ 8000714:	d003      	beq.n	800071e <VL_53L1A2_SimpleRanging_Process_C+0x56>
   {
-    printf("VL53L1A2_RANGING_SENSOR_Start_Left failed\n");
- 8000716:	4819      	ldr	r0, [pc, #100]	; (800077c <VL_53L1A2_SimpleRanging_Process_L+0xb4>)
+    printf("VL53L1A2_RANGING_SENSOR_Start_Center failed\n");
+ 8000716:	4819      	ldr	r0, [pc, #100]	; (800077c <VL_53L1A2_SimpleRanging_Process_C+0xb4>)
  8000718:	f019 f848 	bl	80197ac <puts>
     while(1);
- 800071c:	e7fe      	b.n	800071c <VL_53L1A2_SimpleRanging_Process_L+0x54>
+ 800071c:	e7fe      	b.n	800071c <VL_53L1A2_SimpleRanging_Process_C+0x54>
   }
 /*
   while (1)
@@ -727,28 +724,28 @@ static void VL_53L1A2_SimpleRanging_Process_L(void)
   for(int i = 1 ; i < 6 ; i++){
  800071e:	2301      	movs	r3, #1
  8000720:	64fb      	str	r3, [r7, #76]	; 0x4c
- 8000722:	e01a      	b.n	800075a <VL_53L1A2_SimpleRanging_Process_L+0x92>
+ 8000722:	e01a      	b.n	800075a <VL_53L1A2_SimpleRanging_Process_C+0x92>
     /* repetition mode */
-    statusLeft = VL53L1A2_RANGING_SENSOR_GetDistance(VL53L1A2_DEV_LEFT, &Result_Left);
+    statusCenter = VL53L1A2_RANGING_SENSOR_GetDistance(VL53L1A2_DEV_CENTER, &Result_Center);
  8000724:	463b      	mov	r3, r7
  8000726:	4619      	mov	r1, r3
- 8000728:	2000      	movs	r0, #0
+ 8000728:	2001      	movs	r0, #1
  800072a:	f001 f939 	bl	80019a0 <VL53L1A2_RANGING_SENSOR_GetDistance>
  800072e:	4603      	mov	r3, r0
- 8000730:	4a11      	ldr	r2, [pc, #68]	; (8000778 <VL_53L1A2_SimpleRanging_Process_L+0xb0>)
+ 8000730:	4a11      	ldr	r2, [pc, #68]	; (8000778 <VL_53L1A2_SimpleRanging_Process_C+0xb0>)
  8000732:	6013      	str	r3, [r2, #0]
 
-    if (statusLeft == BSP_ERROR_NONE)
- 8000734:	4b10      	ldr	r3, [pc, #64]	; (8000778 <VL_53L1A2_SimpleRanging_Process_L+0xb0>)
+    if (statusCenter == BSP_ERROR_NONE)
+ 8000734:	4b10      	ldr	r3, [pc, #64]	; (8000778 <VL_53L1A2_SimpleRanging_Process_C+0xb0>)
  8000736:	681b      	ldr	r3, [r3, #0]
  8000738:	2b00      	cmp	r3, #0
- 800073a:	d107      	bne.n	800074c <VL_53L1A2_SimpleRanging_Process_L+0x84>
+ 800073a:	d107      	bne.n	800074c <VL_53L1A2_SimpleRanging_Process_C+0x84>
     {
-      printf("\n LEFT %d\n",i);
+      printf("\n CENTER %d\n",i);
  800073c:	6cf9      	ldr	r1, [r7, #76]	; 0x4c
- 800073e:	4810      	ldr	r0, [pc, #64]	; (8000780 <VL_53L1A2_SimpleRanging_Process_L+0xb8>)
+ 800073e:	4810      	ldr	r0, [pc, #64]	; (8000780 <VL_53L1A2_SimpleRanging_Process_C+0xb8>)
  8000740:	f018 ff98 	bl	8019674 <iprintf>
-      print_result(&Result_Left);
+      print_result(&Result_Center);
  8000744:	463b      	mov	r3, r7
  8000746:	4618      	mov	r0, r3
  8000748:	f000 f81c 	bl	8000784 <print_result>
@@ -763,14 +760,13 @@ static void VL_53L1A2_SimpleRanging_Process_L(void)
  8000758:	64fb      	str	r3, [r7, #76]	; 0x4c
  800075a:	6cfb      	ldr	r3, [r7, #76]	; 0x4c
  800075c:	2b05      	cmp	r3, #5
- 800075e:	dde1      	ble.n	8000724 <VL_53L1A2_SimpleRanging_Process_L+0x5c>
-
+ 800075e:	dde1      	ble.n	8000724 <VL_53L1A2_SimpleRanging_Process_C+0x5c>
   }
-  statusLeft = VL53L1A2_RANGING_SENSOR_Stop(VL53L1A2_DEV_LEFT);
- 8000760:	2000      	movs	r0, #0
+  statusCenter = VL53L1A2_RANGING_SENSOR_Stop(VL53L1A2_DEV_CENTER);
+ 8000760:	2001      	movs	r0, #1
  8000762:	f001 f96d 	bl	8001a40 <VL53L1A2_RANGING_SENSOR_Stop>
  8000766:	4603      	mov	r3, r0
- 8000768:	4a03      	ldr	r2, [pc, #12]	; (8000778 <VL_53L1A2_SimpleRanging_Process_L+0xb0>)
+ 8000768:	4a03      	ldr	r2, [pc, #12]	; (8000778 <VL_53L1A2_SimpleRanging_Process_C+0xb0>)
  800076a:	6013      	str	r3, [r2, #0]
 }
  800076c:	bf00      	nop
@@ -778,11 +774,14 @@ static void VL_53L1A2_SimpleRanging_Process_L(void)
  8000770:	46bd      	mov	sp, r7
  8000772:	bd80      	pop	{r7, pc}
  8000774:	200000fc 	.word	0x200000fc
- 8000778:	20000118 	.word	0x20000118
- 800077c:	0801a950 	.word	0x0801a950
- 8000780:	0801a97c 	.word	0x0801a97c
+ 8000778:	20000110 	.word	0x20000110
+ 800077c:	0801a8dc 	.word	0x0801a8dc
+ 8000780:	0801a908 	.word	0x0801a908
 
 08000784 <print_result>:
+  }
+  statusLeft = VL53L1A2_RANGING_SENSOR_Stop(VL53L1A2_DEV_LEFT);
+}
 
 static void print_result(RANGING_SENSOR_Result_t *Result)
 {
