@@ -15,8 +15,11 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings.ACTION_PROCESS_WIFI_EASY_CONNECT_URI
+import android.text.InputType
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -59,13 +62,35 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var wifiManager : WifiManager
 
     private val wifiDeviceList = WifiDevices()
+
+    private fun showPasswordDialog(ssid: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Entrez le mot de passe pour $ssid")
+
+        // Set up the input
+        val input = EditText(this)
+        input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        builder.setView(input)
+
+        // Set up the buttons
+        builder.setPositiveButton("OK") { dialog, which ->
+            val password = input.text.toString()
+        }
+        builder.setNegativeButton("Annuler") { dialog, which -> dialog.cancel() }
+
+        builder.show()
+    }
+
     @SuppressLint("MissingPermission")
     private fun scanSuccess() {
         val results = wifiManager.scanResults
+        Log.d("wifi scan", results.toString())
         wifiDeviceList.addWifi(results)
 
         binding.wifiAvailable.adapter = AdapterDevicesListWifi(wifiDeviceList) {device, position ->
-
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                showPasswordDialog(device.ssid[position].toString())
+            }
         }
         //use new scan results ...
     }
@@ -327,10 +352,12 @@ class ProfileActivity : AppCompatActivity() {
 
         fun addWifi(wifi: MutableList<android.net.wifi.ScanResult>) {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                if(wifi[wifi.lastIndex].wifiSsid != null) {
-                    if(!ssid.contains(wifi[wifi.lastIndex].wifiSsid)) {
-                        ssid.add(wifi[wifi.lastIndex].wifiSsid!!)
-                        size++
+                for(i in 0 until wifi.size) {
+                    if (!wifi[i].wifiSsid.toString().isNullOrBlank()) {
+                        if (!ssid.contains(wifi[i].wifiSsid)) {
+                            ssid.add(wifi[i].wifiSsid!!)
+                            size++
+                        }
                     }
                 }
             } else {
