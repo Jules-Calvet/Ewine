@@ -15,7 +15,6 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.provider.Settings.ACTION_PROCESS_WIFI_EASY_CONNECT_URI
 import android.text.InputType
 import android.util.Log
 import android.view.View
@@ -274,7 +273,6 @@ class ProfileActivity : AppCompatActivity() {
             }
             imageWifi = !imageWifi
         }
-
     }
 
     private fun checkLoginStatus() {
