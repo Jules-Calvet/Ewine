@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BottleActivity">
+
+    <ImageView
+        android:id="@+id/bottleWhite"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonToSettings"
+        app:srcCompat="@drawable/white" />
+
+    <ImageView
+        android:id="@+id/bottleRose"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bottleWhite"
+        app:layout_constraintTop_toTopOf="@+id/bottleWhite"
+        app:srcCompat="@drawable/rose" />
+
+    <Button
+        android:id="@+id/buttonToSettings"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/parameter"
+        android:foreground="@drawable/parameter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/bottleRed"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintEnd_toStartOf="@+id/bottleWhite"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/bottleWhite"
+        app:srcCompat="@drawable/red" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutBottleName"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        app:layout_constraintTop_toBottomOf="@+id/bottleWhite"
+        tools:layout_editor_absoluteX="1dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editBottleName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="hint" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutBottleProducer"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutBottleName"
+        tools:layout_editor_absoluteX="1dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editBottleProducer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="hint" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutBottleYearOfProduction"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutBottleProducer"
+        tools:layout_editor_absoluteX="1dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editBottleYearOfProduction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="hint" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/bottleColorRed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Red"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/bottleRed"
+        app:layout_constraintEnd_toEndOf="@+id/bottleRed"
+        app:layout_constraintStart_toStartOf="@+id/bottleRed"
+        app:layout_constraintTop_toTopOf="@+id/bottleRed" />
+
+    <TextView
+        android:id="@+id/bottleColorWhite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="White"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/bottleWhite"
+        app:layout_constraintEnd_toEndOf="@+id/bottleWhite"
+        app:layout_constraintStart_toStartOf="@+id/bottleWhite"
+        app:layout_constraintTop_toTopOf="@+id/bottleWhite" />
+
+    <TextView
+        android:id="@+id/bottleColorRose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rose"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/bottleRose"
+        app:layout_constraintEnd_toEndOf="@+id/bottleRose"
+        app:layout_constraintStart_toStartOf="@+id/bottleRose"
+        app:layout_constraintTop_toTopOf="@+id/bottleRose" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
