@@ -30,7 +30,8 @@ class ColumnsAdapter (val cellarWidth: Int, val _tab_cellar: UserData, val y: In
     }
     override fun onBindViewHolder(holder: ColumnsViewHolder, position: Int) {
         val x = position
-        when (_tab_cellar.cellarData[x+(y*cellarWidth)].bottleTypeOfWine) {
+        val bottleTypeOfWine = _tab_cellar.cellarData[x+(y*cellarWidth)].bottleTypeOfWine
+        when (bottleTypeOfWine) {
             "Red" -> {
                 Picasso.get().load(drawable.bottle_red).into(holder.image)
             }
@@ -46,7 +47,12 @@ class ColumnsAdapter (val cellarWidth: Int, val _tab_cellar: UserData, val y: In
         holder.image.setOnClickListener {
             // call the onItemLongClickListener callback with this holder
             val context = holder.itemView.context
-            val intent = Intent(context, BottleActivity::class.java)
+            var intent : Intent
+            if(bottleTypeOfWine.isNullOrEmpty()) {
+                intent = Intent(context, BottleModifyActivity::class.java)
+            } else {
+                intent = Intent(context, BottleActivity::class.java)
+            }
             intent.putExtra("x", x)
             intent.putExtra("y", y)
             context.startActivity(intent)
