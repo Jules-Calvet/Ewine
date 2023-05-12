@@ -13,7 +13,7 @@ class AdapterDevicesList(var devices: ProfileActivity.Devices, val onItemClickLi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DevicesListViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.list_ble_devices, parent, false)
+            .inflate(R.layout.list_devices, parent, false)
 
         return DevicesListViewHolder(view)
     }
