@@ -6,6 +6,7 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import fr.isen.ewine.databinding.ActivityBottleModifyBinding
@@ -105,6 +106,29 @@ class BottleModifyActivity : AppCompatActivity() {
                 tabCellar.cellarData[x+(y*cellarWidth)].bottleTypeOfWine = bottleTypeOfWine
                 json = gson.toJson(tabCellar)
                 sharedPref.edit().putString("tab_cellar", json).apply()
+            }
+        }
+
+        binding.buttonSave.setOnClickListener {
+            if(!bottleTypeOfWine.isNullOrEmpty()) {
+                bottleProducerName = binding.editBottleProducer.text.toString()
+                bottleName = binding.editBottleName.text.toString()
+                bottleYearOfProduction = binding.editProductionYear.text.toString()
+                tabCellar.cellarData[x + (y * cellarWidth)].bottleName = bottleName
+                tabCellar.cellarData[x + (y * cellarWidth)].bottleProducerName = bottleProducerName
+                tabCellar.cellarData[x + (y * cellarWidth)].bottleYearOfProduction =
+                    bottleYearOfProduction
+                json = gson.toJson(tabCellar)
+                sharedPref.edit().putString("tab_cellar", json).apply()
+                val intent = Intent(this, CellarActivity::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(
+                    baseContext,
+                    "Please choose bottle color",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

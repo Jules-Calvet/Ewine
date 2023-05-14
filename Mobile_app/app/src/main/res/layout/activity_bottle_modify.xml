@@ -57,7 +57,7 @@
             android:id="@+id/editBottleName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="hint" />
+            android:hint="Enter bottle name ..." />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -72,7 +72,7 @@
             android:id="@+id/editBottleProducer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="hint" />
+            android:hint="Enter producer name ..." />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -83,11 +83,14 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutBottleProducer"
         tools:layout_editor_absoluteX="1dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editBottleYearOfProduction"
+        <EditText
+            android:id="@+id/editProductionYear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="hint" />
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Enter production year ..."
+            android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -122,5 +125,15 @@
         app:layout_constraintEnd_toEndOf="@+id/bottleRose"
         app:layout_constraintStart_toStartOf="@+id/bottleRose"
         app:layout_constraintTop_toTopOf="@+id/bottleRose" />
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="Save bottle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
