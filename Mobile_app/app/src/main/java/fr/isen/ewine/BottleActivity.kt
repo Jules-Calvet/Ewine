@@ -19,6 +19,7 @@ class BottleActivity : AppCompatActivity() {
     private lateinit var bottleName : String
     private lateinit var bottleProducerName : String
     private lateinit var bottleYearOfProduction : String
+    private lateinit var tabCellar : UserData
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -37,17 +38,32 @@ class BottleActivity : AppCompatActivity() {
         val x = intent.getIntExtra("x", 0)
         val y = intent.getIntExtra("y", 0)
         val gson = Gson()
+        var json : String
         val sharedPref: SharedPreferences = getSharedPreferences("settings", 0)
+        var cellarHeight = sharedPref.getInt("height", 3)
+        var cellarWidth = sharedPref.getInt("width", 5)
         val darkMode = sharedPref.getBoolean("dark_mode", false)
         val jsonFromPrefs = sharedPref.getString("tab_cellar", null)
         if(jsonFromPrefs != null) {
-            val tabCellar = gson.fromJson(jsonFromPrefs, UserData::class.java)
-            bottleTypeOfWine = tabCellar.cellarData[x+(y*sharedPref.getInt("width",0))].bottleTypeOfWine
-            bottleName = tabCellar.cellarData[x+(y*sharedPref.getInt("width", 0))].bottleName
-            bottleProducerName = tabCellar.cellarData[x+(y*sharedPref.getInt("width", 0))].bottleProducerName
-            bottleYearOfProduction = tabCellar.cellarData[x+(y*sharedPref.getInt("width", 0))].bottleYearOfProduction
+            tabCellar = gson.fromJson(jsonFromPrefs, UserData::class.java)
+            bottleTypeOfWine = tabCellar.cellarData[x+(y*cellarWidth)].bottleTypeOfWine
+            bottleName = tabCellar.cellarData[x+(y*cellarWidth)].bottleName
+            bottleProducerName = tabCellar.cellarData[x+(y*cellarWidth)].bottleProducerName
+            bottleYearOfProduction = tabCellar.cellarData[x+(y*cellarWidth)].bottleYearOfProduction
         }
         mode(darkMode)
+
+        binding.buttonDelete.setOnClickListener {
+            tabCellar.cellarData[x+(y*cellarWidth)].bottleTypeOfWine = ""
+            tabCellar.cellarData[x+(y*cellarWidth)].bottleName = ""
+            tabCellar.cellarData[x+(y*cellarWidth)].bottleProducerName = ""
+            tabCellar.cellarData[x+(y*cellarWidth)].bottleYearOfProduction = ""
+            json = gson.toJson(tabCellar)
+            sharedPref.edit().putString("tab_cellar", json).apply()
+            val intent = Intent(this, CellarActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         displayManagement()
     }
