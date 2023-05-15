@@ -67,6 +67,8 @@ class BottleActivity : AppCompatActivity() {
 
         binding.buttonModify.setOnClickListener {
             val intent = Intent(this, BottleModifyActivity::class.java)
+            intent.putExtra("x", x)
+            intent.putExtra("y", y)
             startActivity(intent)
         }
 
