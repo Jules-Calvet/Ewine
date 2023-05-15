@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import fr.isen.ewine.databinding.ActivityBottleModifyBinding
 import fr.isen.ewine.model.UserData
 
@@ -47,14 +46,18 @@ class BottleModifyActivity : AppCompatActivity() {
         val jsonFromPrefs = sharedPref.getString("tab_cellar", null)
         if(jsonFromPrefs != null) {
             tabCellar = gson.fromJson(jsonFromPrefs, UserData::class.java)
-            bottleTypeOfWine = tabCellar.cellarData[x+(y*sharedPref.getInt("width",0))].bottleTypeOfWine
-            bottleName = tabCellar.cellarData[x+(y*sharedPref.getInt("width", 0))].bottleName
-            bottleProducerName = tabCellar.cellarData[x+(y*sharedPref.getInt("width", 0))].bottleProducerName
-            bottleYearOfProduction = tabCellar.cellarData[x+(y*sharedPref.getInt("width", 0))].bottleYearOfProduction
+            bottleTypeOfWine = tabCellar.cellarData[x+(y*cellarWidth)].bottleTypeOfWine
+            bottleName = tabCellar.cellarData[x+(y*cellarWidth)].bottleName
+            bottleProducerName = tabCellar.cellarData[x+(y*cellarWidth)].bottleProducerName
+            bottleYearOfProduction = tabCellar.cellarData[x+(y*cellarWidth)].bottleYearOfProduction
         } else {
             startActivity(Intent(this, CellarActivity::class.java))
             finish()
         }
+
+        if(!bottleName.isNullOrEmpty()) { binding.editBottleName.setText(bottleName) }
+        if(!bottleProducerName.isNullOrEmpty()) { binding.editBottleProducer.setText(bottleProducerName) }
+        if(!bottleYearOfProduction.isNullOrEmpty()) { binding.editProductionYear.setText(bottleYearOfProduction) }
 
 
         if(!bottleTypeOfWine.isNullOrEmpty()) {
