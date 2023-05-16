@@ -400,7 +400,7 @@ __weak HAL_StatusTypeDef MX_I2C1_Init(I2C_HandleTypeDef* hi2c)
   HAL_StatusTypeDef ret = HAL_OK;
 
   hi2c->Instance = I2C1;
-  hi2c->Init.Timing = 0x00707CBB;
+  hi2c->Init.Timing = 0x00300F38;
   hi2c->Init.OwnAddress1 = 0;
   hi2c->Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   hi2c->Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
@@ -461,6 +461,10 @@ static void I2C1_MspInit(I2C_HandleTypeDef* i2cHandle)
 
     /* Peripheral clock enable */
     __HAL_RCC_I2C1_CLK_ENABLE();
+
+    /* Peripheral interrupt init */
+    HAL_NVIC_SetPriority(I2C1_EV_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(I2C1_EV_IRQn);
   /* USER CODE BEGIN I2C1_MspInit 1 */
 
   /* USER CODE END I2C1_MspInit 1 */
@@ -481,6 +485,9 @@ static void I2C1_MspDeInit(I2C_HandleTypeDef* i2cHandle)
     HAL_GPIO_DeInit(BUS_I2C1_SCL_GPIO_PORT, BUS_I2C1_SCL_GPIO_PIN);
 
     HAL_GPIO_DeInit(BUS_I2C1_SDA_GPIO_PORT, BUS_I2C1_SDA_GPIO_PIN);
+
+    /* Peripheral interrupt Deinit*/
+    HAL_NVIC_DisableIRQ(I2C1_EV_IRQn);
 
   /* USER CODE BEGIN I2C1_MspDeInit 1 */
 

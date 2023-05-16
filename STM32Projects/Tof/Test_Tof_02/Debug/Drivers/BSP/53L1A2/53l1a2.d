@@ -1,5 +1,5 @@
 Drivers/BSP/53L1A2/53l1a2.o: ../Drivers/BSP/53L1A2/53l1a2.c \
- ../Drivers/BSP/53L1A2/53l1a2.h ../X-CUBE-TOF1/Target/53l1a2_conf.h \
+ ../Drivers/BSP/53L1A2/53l1a2.h ../TOF/Target/53l1a2_conf.h \
  ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal.h \
  ../Core/Inc/stm32wbxx_hal_conf.h \
  ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_dma.h \
@@ -45,7 +45,7 @@ Drivers/BSP/53L1A2/53l1a2.o: ../Drivers/BSP/53L1A2/53l1a2.c \
  ../Core/Inc/stm32wbxx_nucleo_errno.h \
  ../Core/Inc/stm32wbxx_nucleo_errno.h
 ../Drivers/BSP/53L1A2/53l1a2.h:
-../X-CUBE-TOF1/Target/53l1a2_conf.h:
+../TOF/Target/53l1a2_conf.h:
 ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal.h:
 ../Core/Inc/stm32wbxx_hal_conf.h:
 ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_dma.h:

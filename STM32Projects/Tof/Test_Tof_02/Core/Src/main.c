@@ -21,6 +21,7 @@
 #include "usart.h"
 #include "usb.h"
 #include "gpio.h"
+#include "app_tof.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -101,8 +102,9 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_USART1_UART_Init();
   MX_USB_PCD_Init();
+  MX_LPUART1_UART_Init();
+  MX_TOF_Init();
   /* USER CODE BEGIN 2 */
   //Tof Initialization
   VL_TOF_Init();
@@ -114,6 +116,7 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
+  MX_TOF_Process();
     /* USER CODE BEGIN 3 */
 
 	  printf("\n\n ****** Start TOF Test ****** \n\n");

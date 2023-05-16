@@ -40,8 +40,11 @@ Core/Src/app_tof.o: ../Core/Src/app_tof.c ../Core/Inc/app_tof.h \
  ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_uart.h \
  ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_uart_ex.h \
  ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_system.h \
+ ../Drivers/BSP/STM32WBxx_Nucleo/stm32wbxx_nucleo.h \
+ ../Core/Inc/stm32wbxx_nucleo_conf.h \
+ ../Drivers/BSP/STM32WBxx_Nucleo/stm32wbxx_nucleo_errno.h \
  ../Drivers/BSP/53L1A2/53l1a2_ranging_sensor.h \
- ../Drivers/BSP/53L1A2/53l1a2.h ../X-CUBE-TOF1/Target/53l1a2_conf.h \
+ ../Drivers/BSP/53L1A2/53l1a2.h ../TOF/Target/53l1a2_conf.h \
  ../Core/Inc/stm32wbxx_nucleo_bus.h ../Core/Inc/stm32wbxx_nucleo_conf.h \
  ../Core/Inc/stm32wbxx_nucleo_errno.h \
  ../Core/Inc/stm32wbxx_nucleo_errno.h \
@@ -102,9 +105,12 @@ Core/Src/app_tof.o: ../Core/Src/app_tof.c ../Core/Inc/app_tof.h \
 ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_uart.h:
 ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_uart_ex.h:
 ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_system.h:
+../Drivers/BSP/STM32WBxx_Nucleo/stm32wbxx_nucleo.h:
+../Core/Inc/stm32wbxx_nucleo_conf.h:
+../Drivers/BSP/STM32WBxx_Nucleo/stm32wbxx_nucleo_errno.h:
 ../Drivers/BSP/53L1A2/53l1a2_ranging_sensor.h:
 ../Drivers/BSP/53L1A2/53l1a2.h:
-../X-CUBE-TOF1/Target/53l1a2_conf.h:
+../TOF/Target/53l1a2_conf.h:
 ../Core/Inc/stm32wbxx_nucleo_bus.h:
 ../Core/Inc/stm32wbxx_nucleo_conf.h:
 ../Core/Inc/stm32wbxx_nucleo_errno.h:

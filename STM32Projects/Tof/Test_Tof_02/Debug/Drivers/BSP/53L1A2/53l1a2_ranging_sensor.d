@@ -1,7 +1,7 @@
 Drivers/BSP/53L1A2/53l1a2_ranging_sensor.o: \
  ../Drivers/BSP/53L1A2/53l1a2_ranging_sensor.c \
  ../Drivers/BSP/53L1A2/53l1a2_ranging_sensor.h \
- ../Drivers/BSP/53L1A2/53l1a2.h ../X-CUBE-TOF1/Target/53l1a2_conf.h \
+ ../Drivers/BSP/53L1A2/53l1a2.h ../TOF/Target/53l1a2_conf.h \
  ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal.h \
  ../Core/Inc/stm32wbxx_hal_conf.h \
  ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_dma.h \
@@ -62,7 +62,7 @@ Drivers/BSP/53L1A2/53l1a2_ranging_sensor.o: \
  ../Drivers/BSP/Components/vl53l1cb/modules/vl53l1_error_exceptions.h
 ../Drivers/BSP/53L1A2/53l1a2_ranging_sensor.h:
 ../Drivers/BSP/53L1A2/53l1a2.h:
-../X-CUBE-TOF1/Target/53l1a2_conf.h:
+../TOF/Target/53l1a2_conf.h:
 ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal.h:
 ../Core/Inc/stm32wbxx_hal_conf.h:
 ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_dma.h:

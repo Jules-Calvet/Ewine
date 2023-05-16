@@ -9,7 +9,9 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include TOF/App/subdir.mk
 -include Drivers/STM32WBxx_HAL_Driver/Src/subdir.mk
+-include Drivers/BSP/STM32WBxx_Nucleo/subdir.mk
 -include Drivers/BSP/Components/vl53l1cb/porting/subdir.mk
 -include Drivers/BSP/Components/vl53l1cb/modules/subdir.mk
 -include Drivers/BSP/Components/vl53l1cb/subdir.mk

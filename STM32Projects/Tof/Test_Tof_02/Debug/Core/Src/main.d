@@ -40,6 +40,9 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_uart.h \
  ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_uart_ex.h \
  ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_system.h \
+ ../Drivers/BSP/STM32WBxx_Nucleo/stm32wbxx_nucleo.h \
+ ../Core/Inc/stm32wbxx_nucleo_conf.h \
+ ../Drivers/BSP/STM32WBxx_Nucleo/stm32wbxx_nucleo_errno.h \
  ../Core/Inc/usart.h ../Core/Inc/main.h ../Core/Inc/usb.h \
  ../Core/Inc/gpio.h ../Core/Inc/app_tof.h
 ../Core/Inc/main.h:
@@ -84,6 +87,9 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_uart.h:
 ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_uart_ex.h:
 ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_system.h:
+../Drivers/BSP/STM32WBxx_Nucleo/stm32wbxx_nucleo.h:
+../Core/Inc/stm32wbxx_nucleo_conf.h:
+../Drivers/BSP/STM32WBxx_Nucleo/stm32wbxx_nucleo_errno.h:
 ../Core/Inc/usart.h:
 ../Core/Inc/main.h:
 ../Core/Inc/usb.h:
