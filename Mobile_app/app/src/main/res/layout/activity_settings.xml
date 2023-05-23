@@ -111,61 +111,6 @@
         app:layout_constraintTop_toTopOf="@+id/numberRows"
         app:srcCompat="@android:drawable/ic_input_add" />
 
-    <Button
-        android:id="@+id/buttonAddBottle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="#9E9E9E"
-        android:text="Add Bottle"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/numberX" />
-
-    <EditText
-        android:id="@+id/numberX"
-        android:layout_width="59dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="50dp"
-        android:ems="10"
-        android:hint="X"
-        android:textColor="#000000"
-        android:textColorHint="#000000"
-        android:inputType="number"
-        android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="@+id/textRows"
-        app:layout_constraintTop_toBottomOf="@+id/textRows" />
-
-    <EditText
-        android:id="@+id/numberY"
-        android:layout_width="59dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:ems="10"
-        android:hint="Y"
-        android:textColor="#000000"
-        android:textColorHint="#000000"
-        android:inputType="number"
-        android:textAlignment="center"
-        app:layout_constraintStart_toEndOf="@+id/numberX"
-        app:layout_constraintTop_toTopOf="@+id/numberX" />
-
-    <EditText
-        android:id="@+id/wineType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Type of wine"
-        android:textColor="#000000"
-        android:textColorHint="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/numberY"
-        app:layout_constraintTop_toTopOf="@+id/numberY" />
-
     <Switch
         android:id="@+id/toggleNotification"
         android:layout_width="wrap_content"
