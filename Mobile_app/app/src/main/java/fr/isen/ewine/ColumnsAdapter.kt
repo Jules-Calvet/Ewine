@@ -41,6 +41,9 @@ class ColumnsAdapter (val cellarWidth: Int, val _tab_cellar: UserData, val y: In
             "Rose" -> {
                 Picasso.get().load(drawable.bottle_rose).into(holder.image)
             }
+            "Grey" -> {
+                Picasso.get().load(drawable.bottle_grey).into(holder.image)
+            }
             else -> Picasso.get().load(drawable.bottle_none).into(holder.image)
         }
 
@@ -48,7 +51,7 @@ class ColumnsAdapter (val cellarWidth: Int, val _tab_cellar: UserData, val y: In
             // call the onItemLongClickListener callback with this holder
             val context = holder.itemView.context
             var intent : Intent
-            if(bottleTypeOfWine.isNullOrEmpty()) {
+            if(bottleTypeOfWine.isNullOrEmpty() || bottleTypeOfWine == "Grey") {
                 intent = Intent(context, BottleModifyActivity::class.java)
             } else {
                 intent = Intent(context, BottleActivity::class.java)

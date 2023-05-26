@@ -1,0 +1,11 @@
+../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_bus.h:539:22:LL_AHB2_GRP1_EnableClock	24	static
+../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_bus.h:1274:22:LL_APB2_GRP1_EnableClock	24	static
+../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_bus.h:1328:22:LL_APB2_GRP1_DisableClock	16	static
+../Drivers/BSP/STM32WBxx_Nucleo/stm32wbxx_nucleo.c:81:9:BSP_GetVersion	4	static
+../Drivers/BSP/STM32WBxx_Nucleo/stm32wbxx_nucleo.c:95:9:BSP_COM_Init	24	static
+../Drivers/BSP/STM32WBxx_Nucleo/stm32wbxx_nucleo.c:133:9:BSP_COM_DeInit	24	static
+../Drivers/BSP/STM32WBxx_Nucleo/stm32wbxx_nucleo.c:170:26:MX_USART1_UART_Init	24	static
+../Drivers/BSP/STM32WBxx_Nucleo/stm32wbxx_nucleo.c:290:9:BSP_COM_SelectLogPort	16	static
+../Drivers/BSP/STM32WBxx_Nucleo/stm32wbxx_nucleo.c:336:5:__io_putchar	16	static
+../Drivers/BSP/STM32WBxx_Nucleo/stm32wbxx_nucleo.c:349:13:USART1_MspInit	120	static
+../Drivers/BSP/STM32WBxx_Nucleo/stm32wbxx_nucleo.c:390:13:USART1_MspDeInit	16	static

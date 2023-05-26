@@ -1,0 +1,5 @@
+../Drivers/BSP/Components/vl53l1cb/modules/vl53l1_hist_algos_gen4.c:48:6:VL53L1_f_032	24	static
+../Drivers/BSP/Components/vl53l1cb/modules/vl53l1_hist_algos_gen4.c:70:14:VL53L1_f_033	80	static
+../Drivers/BSP/Components/vl53l1cb/modules/vl53l1_hist_algos_gen4.c:358:14:VL53L1_f_034	56	static
+../Drivers/BSP/Components/vl53l1cb/modules/vl53l1_hist_algos_gen4.c:421:14:VL53L1_f_035	80	static
+../Drivers/BSP/Components/vl53l1cb/modules/vl53l1_hist_algos_gen4.c:497:14:VL53L1_f_036	232	static
