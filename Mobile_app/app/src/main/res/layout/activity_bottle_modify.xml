@@ -47,11 +47,12 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutBottleName"
-        android:layout_width="409dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
-        app:layout_constraintTop_toBottomOf="@+id/bottleWhite"
-        tools:layout_editor_absoluteX="1dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bottleWhite">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editBottleName"
@@ -62,11 +63,12 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutBottleProducer"
-        android:layout_width="409dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutBottleName"
-        tools:layout_editor_absoluteX="1dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutBottleName">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editBottleProducer"
@@ -77,11 +79,12 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutBottleYearOfProduction"
-        android:layout_width="409dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutBottleProducer"
-        tools:layout_editor_absoluteX="1dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutBottleProducer">
 
         <EditText
             android:id="@+id/editProductionYear"
