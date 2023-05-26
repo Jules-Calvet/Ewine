@@ -1,0 +1,6 @@
+../ESP32/Src/app_wifi.c:20:6:init_done	16	static
+../ESP32/Src/app_wifi.c:36:14:formate_json_button	32	static
+../ESP32/Src/app_wifi.c:56:14:formate_json_tof	32	static
+../ESP32/Src/app_wifi.c:86:12:check_subscription	40	static
+../ESP32/Src/app_wifi.c:122:6:wifi_init	8	static
+../ESP32/Src/app_wifi.c:144:6:wifi_process	40	static

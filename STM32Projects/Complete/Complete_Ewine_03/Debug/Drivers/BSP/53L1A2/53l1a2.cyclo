@@ -1,0 +1,9 @@
+stm32wbxx_ll_bus.h:539:22:LL_AHB2_GRP1_EnableClock	1
+53l1a2.c:227:9:VL53L1A2_Init	11
+53l1a2.c:302:9:VL53L1A2_DeInit	3
+53l1a2.c:323:9:VL53L1A2_ResetId	8
+53l1a2.c:387:9:VL53L1A2_SetDisplayString	4
+53l1a2.c:433:16:_I2cFailRecover	6
+53l1a2.c:492:16:_ExpandersSetAllIO	2
+53l1a2.c:517:16:_ExpanderRd	2
+53l1a2.c:550:16:_ExpanderWR	1

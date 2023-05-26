@@ -1,0 +1,12 @@
+vl53l1_api_calibration.c:50:14:VL53L1_run_ref_spad_char	16
+vl53l1_api_calibration.c:214:14:VL53L1_run_xtalk_extraction	25
+vl53l1_api_calibration.c:519:14:VL53L1_get_and_avg_xtalk_samples	27
+vl53l1_api_calibration.c:789:14:VL53L1_run_offset_calibration	33
+vl53l1_api_calibration.c:1203:14:VL53L1_run_phasecal_average	14
+vl53l1_api_calibration.c:1340:14:VL53L1_run_zone_calibration	27
+vl53l1_api_calibration.c:1670:14:VL53L1_run_spad_rate_map	7
+vl53l1_api_calibration.c:1750:14:VL53L1_run_device_test	10
+vl53l1_api_calibration.c:1833:6:VL53L1_hist_xtalk_extract_data_init	2
+vl53l1_api_calibration.c:1860:14:VL53L1_hist_xtalk_extract_update	2
+vl53l1_api_calibration.c:1892:14:VL53L1_hist_xtalk_extract_fini	4
+vl53l1_api_calibration.c:1970:16:VL53L1_run_hist_xtalk_extraction	28
