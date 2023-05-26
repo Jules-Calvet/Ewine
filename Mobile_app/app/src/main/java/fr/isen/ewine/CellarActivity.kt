@@ -1,6 +1,7 @@
 package fr.isen.ewine
 
 import  android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
@@ -77,13 +78,17 @@ class CellarActivity : AppCompatActivity() {
             }
             binding.rowsRecyclerView.adapter = RowsAdapter(cellarHeight,cellarWidth, tabCellar)
         }
-
+        val sharedPrefs: SharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
+        val jsonFromPref = sharedPrefs.getString("temperature", "20")
+        binding.tempValue.text = jsonFromPref
         val topicToF = "ewine/ToF"
+        val topicTemp = "ewine/Temp"
 
         clientBuild()
         connectClient().thenAccept {
             if(it) {
                 subscribe(topicToF)
+                subscribe(topicTemp)
                 getMessage()
             }
         }
@@ -178,6 +183,18 @@ class CellarActivity : AppCompatActivity() {
                 if (AsciiString.contains(message, "tof_right\":0")) {
                     runOnUiThread {
                         PlaceAutoBottle(2,0)
+                    }
+                }
+            }
+            if(publish.topic.toString().contains("Temp")) {
+                Log.d("temp Received message: {} -> {}, ", "${publish.topic}, $message")
+                val temp = TextUtils.substring(message, message.indexOf(':') + 1, message.indexOf('}'))
+                runOnUiThread {
+                    val sharedPref: SharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
+                    val jsonFromPrefs = sharedPref.getString("temperature", "20")
+                    if (jsonFromPrefs != null) {
+                        sharedPref.edit().putString("temperature", temp).apply()
+                        binding.tempValue.text = temp
                     }
                 }
             }

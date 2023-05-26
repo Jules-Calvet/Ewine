@@ -82,6 +82,25 @@ static char* formate_json_tof(int id, int value)
 
 	return serialized_string;
 }
+static char* formate_json_temp(int value)
+{
+	JSON_Value *val = json_value_init_object();
+	if(val == NULL)
+		return NULL;
+
+	JSON_Object *obj = json_value_get_object(val);
+	if(obj == NULL)
+		return NULL;
+
+	if(json_object_set_number(obj, "value", value) != JSONSuccess)
+		return NULL;
+
+	char* serialized_string = json_serialize_to_string(val);
+
+	json_value_free(val);
+
+	return serialized_string;
+}
 
 static int check_subscription()
 {
@@ -146,6 +165,7 @@ void wifi_process(){
 	int i = 0;
 	while(i<1)
 	  {
+		//subscribe to the necessary subscriptions
 		  if(get_mqtt_state() < _SUBSCRIBED_TEMP_MQTT)
 		  {
 			  if(esp8266_Subscribe_Temp_BrokerMQTT() != _SUBSCRIBED_TEMP_MQTT)
@@ -157,6 +177,7 @@ void wifi_process(){
 				printf("APP: esp8266_Subscribe_ToF_BrokerMQTT() failed\n");
 		  }
 
+		  //send tof data when necessary
 		 if(LeftPos == 1){
 			 char *data = formate_json_tof(0,1);
 			  if(esp8266_Publish_ToF_BrokerMQTT((uint8_t*)data,strlen(data)) != _PUBLISH_TOF_MQTT)

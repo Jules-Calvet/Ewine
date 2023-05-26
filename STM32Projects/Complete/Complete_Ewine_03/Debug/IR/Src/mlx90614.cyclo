@@ -1,0 +1,17 @@
+mlx90614.c:35:9:mlx90614_crc8	4
+mlx90614.c:53:6:mlx90614_read16	2
+mlx90614.c:62:6:mlx90614_write16	5
+mlx90614.c:88:9:mlx90614_calcRawTemp	5
+mlx90614.c:116:7:mlx90614_calcTemperature	4
+mlx90614.c:146:6:mlx90614_init	6
+mlx90614.c:165:6:mlx90614_setUnit	1
+mlx90614.c:170:6:mlx90614_readID	4
+mlx90614.c:184:6:mlx90614_getEmissivity	3
+mlx90614.c:196:6:mlx90614_setEmissivity	4
+mlx90614.c:206:6:mlx90614_setMax	1
+mlx90614.c:212:6:mlx90614_setMin	1
+mlx90614.c:218:6:mlx90614_getMax	3
+mlx90614.c:229:6:mlx90614_getMin	3
+mlx90614.c:240:6:mlx90614_getAmbient	3
+mlx90614.c:251:6:mlx90614_getObject1	4
+mlx90614.c:264:6:mlx90614_getObject2	4

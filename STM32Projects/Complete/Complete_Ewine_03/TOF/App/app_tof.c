@@ -157,8 +157,8 @@ static void MX_53L1A2_MultiSensorRanging_Process(void)
       while(1);
     }
   }
-  int k = 0 ;
-  while (k < 10)
+int k = 0 ;
+  while (k < 7)
   {
     /* polling mode */
     for (i = 0; i < RANGING_SENSOR_INSTANCES_NBR; i++)
@@ -170,15 +170,15 @@ static void MX_53L1A2_MultiSensorRanging_Process(void)
         printf("%s\t - ", TofDevStr[i]);
         print_result(i,&Result);
         HAL_Delay(POLLING_PERIOD);
+        if(k == 7){
+			status = VL53L1A2_RANGING_SENSOR_Stop(i);
+		}
       }
     }
     printf ("\n");
     k++;
+
   }
-  for (i = 0; i < RANGING_SENSOR_INSTANCES_NBR; i++)
-    {
-	  status = VL53L1A2_RANGING_SENSOR_Stop(i);
-    }
 
 }
 
@@ -188,11 +188,6 @@ static void print_result(uint32_t Instance, RANGING_SENSOR_Result_t *Result)
 
   for (i = 0; i < RANGING_SENSOR_MAX_NB_ZONES; i++)
   {
-	  /*
-      printf("Status = %2ld, Distance = %5ld mm",
-      (long)Result->ZoneResult[i].Status[0],
-      (long)Result->ZoneResult[i].Distance[0]);
-      */
 	  //JN
 	  if((long)Result->ZoneResult[i].Distance[0] > 10 && (long)Result->ZoneResult[i].Distance[0] < 100){
 		if(Instance == 0){

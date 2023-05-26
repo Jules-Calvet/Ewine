@@ -11,6 +11,7 @@ RM := rm -rf
 -include sources.mk
 -include library_IoT/Src/subdir.mk
 -include TOF/App/subdir.mk
+-include IR/Src/subdir.mk
 -include ESP32/Src/subdir.mk
 -include Drivers/STM32WBxx_HAL_Driver/Src/subdir.mk
 -include Drivers/BSP/STM32WBxx_Nucleo/subdir.mk
@@ -69,7 +70,7 @@ main-build: Complete_Ewine_03.elf secondary-outputs
 
 # Tool invocations
 Complete_Ewine_03.elf Complete_Ewine_03.map: $(OBJS) $(USER_OBJS) C:\Users\Justin\Desktop\Ewine\Ewine\STM32Projects\Complete\Complete_Ewine_03\STM32WB55RGVX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Complete_Ewine_03.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Justin\Desktop\Ewine\Ewine\STM32Projects\Complete\Complete_Ewine_03\STM32WB55RGVX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Complete_Ewine_03.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "Complete_Ewine_03.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Justin\Desktop\Ewine\Ewine\STM32Projects\Complete\Complete_Ewine_03\STM32WB55RGVX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Complete_Ewine_03.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

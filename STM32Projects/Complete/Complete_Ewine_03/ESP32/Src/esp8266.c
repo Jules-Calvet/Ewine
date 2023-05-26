@@ -761,7 +761,7 @@ MQTT_StateTypeDef esp8266_Publish_Temp_BrokerMQTT(uint8_t *data, uint16_t size)
 	uint16_t cmd_len = size + 40;
 	uint8_t *cmd = (uint8_t*) malloc(cmd_len * sizeof(uint8_t));
 	memset(cmd, 0, cmd_len);
-	sprintf((char*) cmd, "AT+MQTTPUB=0,\"%s/temp\",\"%s\",1,0", MQTT_CLIENTID, data);
+	sprintf((char*) cmd, "AT+MQTTPUB=0,\"%s/Temp\",\"%s\",1,0", MQTT_CLIENTID, data);
 
 	while (esp8266_TransmitCmd(cmd, OK_ACK, ESP8266_MAX_TIMEOUT, WITH_NEWLINE) != _SUCCEED)
 	{

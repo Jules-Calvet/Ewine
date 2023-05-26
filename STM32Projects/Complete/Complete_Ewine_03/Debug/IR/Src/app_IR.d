@@ -1,5 +1,6 @@
-Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
- ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal.h \
+IR/Src/app_IR.o: ../IR/Src/app_IR.c \
+ C:/Users/Justin/Desktop/Ewine/Ewine/STM32Projects/Complete/Complete_Ewine_03/IR/Inc/app_IR.h \
+ ../Core/Inc/main.h ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal.h \
  ../Core/Inc/stm32wbxx_hal_conf.h \
  ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_dma.h \
  ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal_def.h \
@@ -43,13 +44,12 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/BSP/STM32WBxx_Nucleo/stm32wbxx_nucleo.h \
  ../Core/Inc/stm32wbxx_nucleo_conf.h \
  ../Drivers/BSP/STM32WBxx_Nucleo/stm32wbxx_nucleo_errno.h \
- ../Core/Inc/dma.h ../Core/Inc/main.h ../Core/Inc/i2c.h \
- ../Core/Inc/usart.h ../Core/Inc/tim.h ../Core/Inc/usb.h \
- ../Core/Inc/gpio.h ../TOF/App/app_tof.h \
+ C:/Users/Justin/Desktop/Ewine/Ewine/STM32Projects/Complete/Complete_Ewine_03/IR/Inc/mlx90614.h \
+ ../Core/Inc/i2c.h ../Core/Inc/main.h \
+ C:/Users/Justin/Desktop/Ewine/Ewine/STM32Projects/Complete/Complete_Ewine_03/IR/Inc/mlx90614Config.h \
  C:/Users/Justin/Desktop/Ewine/Ewine/STM32Projects/Complete/Complete_Ewine_03/ESP32/Inc/esp8266.h \
- ../Core/Inc/net_conf.h ../Core/Inc/parson.h \
- C:/Users/Justin/Desktop/Ewine/Ewine/STM32Projects/Complete/Complete_Ewine_03/ESP32/Inc/app_wifi.h \
- C:/Users/Justin/Desktop/Ewine/Ewine/STM32Projects/Complete/Complete_Ewine_03/IR/Inc/app_IR.h
+ ../Core/Inc/net_conf.h ../Core/Inc/parson.h
+C:/Users/Justin/Desktop/Ewine/Ewine/STM32Projects/Complete/Complete_Ewine_03/IR/Inc/app_IR.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_hal.h:
 ../Core/Inc/stm32wbxx_hal_conf.h:
@@ -95,16 +95,10 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/BSP/STM32WBxx_Nucleo/stm32wbxx_nucleo.h:
 ../Core/Inc/stm32wbxx_nucleo_conf.h:
 ../Drivers/BSP/STM32WBxx_Nucleo/stm32wbxx_nucleo_errno.h:
-../Core/Inc/dma.h:
-../Core/Inc/main.h:
+C:/Users/Justin/Desktop/Ewine/Ewine/STM32Projects/Complete/Complete_Ewine_03/IR/Inc/mlx90614.h:
 ../Core/Inc/i2c.h:
-../Core/Inc/usart.h:
-../Core/Inc/tim.h:
-../Core/Inc/usb.h:
-../Core/Inc/gpio.h:
-../TOF/App/app_tof.h:
+../Core/Inc/main.h:
+C:/Users/Justin/Desktop/Ewine/Ewine/STM32Projects/Complete/Complete_Ewine_03/IR/Inc/mlx90614Config.h:
 C:/Users/Justin/Desktop/Ewine/Ewine/STM32Projects/Complete/Complete_Ewine_03/ESP32/Inc/esp8266.h:
 ../Core/Inc/net_conf.h:
 ../Core/Inc/parson.h:
-C:/Users/Justin/Desktop/Ewine/Ewine/STM32Projects/Complete/Complete_Ewine_03/ESP32/Inc/app_wifi.h:
-C:/Users/Justin/Desktop/Ewine/Ewine/STM32Projects/Complete/Complete_Ewine_03/IR/Inc/app_IR.h:

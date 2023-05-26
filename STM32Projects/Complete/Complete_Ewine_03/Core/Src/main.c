@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "dma.h"
+#include "i2c.h"
 #include "usart.h"
 #include "tim.h"
 #include "usb.h"
@@ -31,6 +32,7 @@
 #include "esp8266.h"
 #include "parson.h"
 #include "app_wifi.h"
+#include "app_IR.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -103,9 +105,11 @@ int main(void)
   MX_USB_PCD_Init();
   MX_LPUART1_UART_Init();
   MX_TIM17_Init();
+  MX_I2C3_Init();
   MX_TOF_Init();
   /* USER CODE BEGIN 2 */
 
+  IR_Init();
   wifi_init();
 
   /* USER CODE END 2 */
@@ -116,9 +120,10 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
+  //MX_TOF_Process();
     /* USER CODE BEGIN 3 */
-	  MX_TOF_Process();
-	  wifi_process();
+	  IR_Process();
+	 wifi_process();
 
   }
   /* USER CODE END 3 */

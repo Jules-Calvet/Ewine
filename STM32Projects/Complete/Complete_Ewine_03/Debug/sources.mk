@@ -31,6 +31,7 @@ Drivers/BSP/Components/vl53l1cb \
 Drivers/BSP/STM32WBxx_Nucleo \
 Drivers/STM32WBxx_HAL_Driver/Src \
 ESP32/Src \
+IR/Src \
 TOF/App \
 library_IoT/Src \
 
