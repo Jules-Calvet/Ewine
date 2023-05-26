@@ -93,6 +93,9 @@ void Error_Handler(void);
 extern uint32_t LeftPos;
 extern uint32_t CenterPos;
 extern uint32_t RightPos;
+extern uint32_t AlreadyLeftPos;
+extern uint32_t AlreadyCenterPos;
+extern uint32_t AlreadyRightPos;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

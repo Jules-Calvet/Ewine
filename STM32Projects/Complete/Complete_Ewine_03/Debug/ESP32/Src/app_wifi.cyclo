@@ -1,7 +1,8 @@
-app_wifi.c:20:6:init_done	2
-app_wifi.c:36:14:formate_json_button	4
-app_wifi.c:56:14:formate_json_tof	9
-app_wifi.c:85:14:formate_json_temp	4
-app_wifi.c:105:12:check_subscription	4
-app_wifi.c:141:6:wifi_init	3
-app_wifi.c:163:6:wifi_process	19
+app_wifi.c:21:6:init_done	2
+app_wifi.c:37:14:formate_json_button	4
+app_wifi.c:57:14:formate_json_tof	9
+app_wifi.c:86:14:formate_json_temp	4
+app_wifi.c:106:12:check_subscription	4
+app_wifi.c:142:6:wifi_init	3
+app_wifi.c:164:6:wifi_process	7
+app_wifi.c:190:6:Send_Tof	16

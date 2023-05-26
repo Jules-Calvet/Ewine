@@ -7,6 +7,7 @@ void init_done();
 static char* formate_json_button(int value);
 static char* formate_json_tof(int id, int value);
 static int check_subscription();
+void Send_Tof();
 
 typedef enum _button_interface
 {
@@ -177,48 +178,70 @@ void wifi_process(){
 				printf("APP: esp8266_Subscribe_ToF_BrokerMQTT() failed\n");
 		  }
 
-		  //send tof data when necessary
-		 if(LeftPos == 1){
-			 char *data = formate_json_tof(0,1);
-			  if(esp8266_Publish_ToF_BrokerMQTT((uint8_t*)data,strlen(data)) != _PUBLISH_TOF_MQTT)
-				printf("APP: B1 esp8266_Publish_ToF_BrokerMQTT() failed\n");
-			  json_free_serialized_string(data);
-			 LeftPos = 2;
-		 } else if (LeftPos == 0){
-			 char *data = formate_json_tof(0,0);
-			  if(esp8266_Publish_ToF_BrokerMQTT((uint8_t*)data,strlen(data)) != _PUBLISH_TOF_MQTT)
-				printf("APP: B1 esp8266_Publish_ToF_BrokerMQTT() failed\n");
-			  json_free_serialized_string(data);
-		 }
-		 if(CenterPos == 1){
-			 char *data = formate_json_tof(1,1);
-			  if(esp8266_Publish_ToF_BrokerMQTT((uint8_t*)data,strlen(data)) != _PUBLISH_TOF_MQTT)
-				printf("APP: B1 esp8266_Publish_ToF_BrokerMQTT() failed\n");
-			  json_free_serialized_string(data);
-			 CenterPos = 2;
-		 } else if (CenterPos == 0){
-			 char *data = formate_json_tof(1,0);
-			  if(esp8266_Publish_ToF_BrokerMQTT((uint8_t*)data,strlen(data)) != _PUBLISH_TOF_MQTT)
-				printf("APP: B1 esp8266_Publish_ToF_BrokerMQTT() failed\n");
-			  json_free_serialized_string(data);
-		 }
-		 if(RightPos == 1){
-			 char *data = formate_json_tof(2,1);
-			  if(esp8266_Publish_ToF_BrokerMQTT((uint8_t*)data,strlen(data)) != _PUBLISH_TOF_MQTT)
-				printf("APP: B1 esp8266_Publish_ToF_BrokerMQTT() failed\n");
-			  json_free_serialized_string(data);
-			 RightPos = 2;
-		 } else if (RightPos == 0){
-			 char *data = formate_json_tof(2,0);
-			  if(esp8266_Publish_ToF_BrokerMQTT((uint8_t*)data,strlen(data)) != _PUBLISH_TOF_MQTT)
-				printf("APP: B1 esp8266_Publish_ToF_BrokerMQTT() failed\n");
-			  json_free_serialized_string(data);
-		 }
+		 Send_Tof();
 
 		  int sub_status = check_subscription();
 		  if(sub_status == 0)
 			  printf("APP: check_subscription() SUB MQTT RCV\n");
 		  i++;
 	  }
+}
+//send tof data when necessary
+void Send_Tof()
+{
+	//check sending left tof data
+	 if(LeftPos == 1){
+		 char *data = formate_json_tof(0,1);
+		  if(esp8266_Publish_ToF_BrokerMQTT((uint8_t*)data,strlen(data)) != _PUBLISH_TOF_MQTT)
+			printf("APP: B1 esp8266_Publish_ToF_BrokerMQTT() failed\n");
+		  json_free_serialized_string(data);
+		 LeftPos = 2;
+		 AlreadyLeftPos = 0;
+	 } else if (LeftPos == 0 && AlreadyLeftPos == 0){
+		 char *data = formate_json_tof(0,0);
+		  if(esp8266_Publish_ToF_BrokerMQTT((uint8_t*)data,strlen(data)) != _PUBLISH_TOF_MQTT)
+			printf("APP: B1 esp8266_Publish_ToF_BrokerMQTT() failed\n");
+		  json_free_serialized_string(data);
+		  LeftPos = 3 ;
+		  AlreadyLeftPos = 1 ;
+	 } else {
+		 printf("left postion nothing to publish\n");
+	 }
 
+	 //check sending center tof data
+	 if(CenterPos == 1){
+		 char *data = formate_json_tof(1,1);
+		  if(esp8266_Publish_ToF_BrokerMQTT((uint8_t*)data,strlen(data)) != _PUBLISH_TOF_MQTT)
+			printf("APP: B1 esp8266_Publish_ToF_BrokerMQTT() failed\n");
+		  json_free_serialized_string(data);
+		 CenterPos = 2;
+		 AlreadyCenterPos = 0;
+	 } else if (CenterPos == 0 && AlreadyCenterPos == 0){
+		 char *data = formate_json_tof(1,0);
+		  if(esp8266_Publish_ToF_BrokerMQTT((uint8_t*)data,strlen(data)) != _PUBLISH_TOF_MQTT)
+			printf("APP: B1 esp8266_Publish_ToF_BrokerMQTT() failed\n");
+		  json_free_serialized_string(data);
+		  CenterPos = 3 ;
+		  AlreadyCenterPos = 1 ;
+	 } else {
+		 printf("center postion nothing to publish\n");
+	 }
+
+	 //check sending right tof data
+	 if(RightPos == 1){
+		 char *data = formate_json_tof(2,1);
+		  if(esp8266_Publish_ToF_BrokerMQTT((uint8_t*)data,strlen(data)) != _PUBLISH_TOF_MQTT)
+			printf("APP: B1 esp8266_Publish_ToF_BrokerMQTT() failed\n");
+		  json_free_serialized_string(data);
+		 RightPos = 2;
+		 AlreadyRightPos = 0;
+	 } else if (RightPos == 0 && AlreadyRightPos == 0){
+		 char *data = formate_json_tof(2,0);
+		  if(esp8266_Publish_ToF_BrokerMQTT((uint8_t*)data,strlen(data)) != _PUBLISH_TOF_MQTT)
+			printf("APP: B1 esp8266_Publish_ToF_BrokerMQTT() failed\n");
+		  json_free_serialized_string(data);
+		  AlreadyRightPos = 1 ;
+	 } else {
+		 printf("right postion nothing to publish\n");
+	 }
 }

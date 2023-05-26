@@ -1,9 +1,9 @@
 core_cm4.h:2059:26:ITM_SendChar	4
 stm32wbxx_ll_rcc.h:1679:22:LL_RCC_LSE_SetDriveCapability	1
-main.c:77:5:main	1
-main.c:136:6:SystemClock_Config	3
-main.c:202:6:PeriphCommonClock_Config	2
-main.c:222:6:HAL_UART_RxCpltCallback	1
-main.c:227:5:_write	2
-main.c:239:6:HAL_GPIO_EXTI_Callback	3
-main.c:257:6:Error_Handler	1
+main.c:80:5:main	1
+main.c:139:6:SystemClock_Config	3
+main.c:205:6:PeriphCommonClock_Config	2
+main.c:225:6:HAL_UART_RxCpltCallback	1
+main.c:230:5:_write	2
+main.c:242:6:HAL_GPIO_EXTI_Callback	3
+main.c:260:6:Error_Handler	1

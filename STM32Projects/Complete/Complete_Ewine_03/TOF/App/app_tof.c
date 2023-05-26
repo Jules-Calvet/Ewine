@@ -158,7 +158,7 @@ static void MX_53L1A2_MultiSensorRanging_Process(void)
     }
   }
 int k = 0 ;
-  while (k < 7)
+  while (k < 4)
   {
     /* polling mode */
     for (i = 0; i < RANGING_SENSOR_INSTANCES_NBR; i++)
@@ -170,15 +170,16 @@ int k = 0 ;
         printf("%s\t - ", TofDevStr[i]);
         print_result(i,&Result);
         HAL_Delay(POLLING_PERIOD);
-        if(k == 7){
-			status = VL53L1A2_RANGING_SENSOR_Stop(i);
-		}
+
       }
     }
     printf ("\n");
     k++;
 
   }
+  status = VL53L1A2_RANGING_SENSOR_Stop(0);
+  status = VL53L1A2_RANGING_SENSOR_Stop(1);
+  status = VL53L1A2_RANGING_SENSOR_Stop(2);
 
 }
 
@@ -209,15 +210,9 @@ static void print_result(uint32_t Instance, RANGING_SENSOR_Result_t *Result)
 			}
 		}
 	 } else {
-		 if(Instance == 0){
-			 LeftPos = 0;
-		 }
-		 if(Instance == 1){
-			CenterPos = 0;
-		 }
-		 if(Instance == 2){
-			 RightPos = 0;
-		 }
+		 if(Instance == 0){ LeftPos = 0; }
+		 if(Instance == 1){CenterPos = 0; }
+		 if(Instance == 2){ RightPos = 0; }
 	 }
   }
   printf ("\n");

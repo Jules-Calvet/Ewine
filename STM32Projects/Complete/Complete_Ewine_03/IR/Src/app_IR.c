@@ -4,6 +4,7 @@
 #include "mlx90614Config.h"
 #include "esp8266.h"
 #include "parson.h"
+#include <stdio.h>
 
 static char* formate_json_temp(int value)
 {
@@ -16,7 +17,7 @@ static char* formate_json_temp(int value)
 		return NULL;
 /*
 	char StringValue[5]; // Déclarer une chaîne de caractères assez grande pour contenir le résultat
-	snprintf(StringValue, sizeof(StringValue), "%f", value);
+	sprintf(StringValue, "%f", value);
 */
 	if(json_object_set_number(obj, "value", value) != JSONSuccess)
 		return NULL;
@@ -42,7 +43,7 @@ void IR_Process()
 {
 	float temp = 0.0f;
 	int i = 0 ;
-	while(i<3)
+	while(i<1)
 	{
 		  //if ( mlx90614_getAmbient(&cap1->ambient) == true ) printf("getAmbient OK : %0.2f *C\n", cap1->ambient);
 		  //else printf("Failed to read ambient temperature\n");

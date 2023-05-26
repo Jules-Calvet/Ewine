@@ -56,6 +56,9 @@
 uint32_t LeftPos=0;
 uint32_t RightPos=0;
 uint32_t CenterPos=0;
+uint32_t AlreadyLeftPos=0;
+uint32_t AlreadyRightPos=0;
+uint32_t AlreadyCenterPos=0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -120,7 +123,7 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
-  //MX_TOF_Process();
+  MX_TOF_Process();
     /* USER CODE BEGIN 3 */
 	  IR_Process();
 	 wifi_process();
