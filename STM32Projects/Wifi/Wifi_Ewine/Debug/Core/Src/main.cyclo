@@ -1,0 +1,13 @@
+core_cm4.h:2059:26:ITM_SendChar	4
+stm32wbxx_ll_rcc.h:1679:22:LL_RCC_LSE_SetDriveCapability	1
+main.c:73:6:init_done	2
+main.c:89:14:formate_json_button	4
+main.c:109:14:formate_json_temp	4
+main.c:129:12:check_subscription	9
+main.c:199:5:main	15
+main.c:325:6:SystemClock_Config	3
+main.c:391:6:PeriphCommonClock_Config	2
+main.c:411:6:HAL_UART_RxCpltCallback	1
+main.c:416:5:_write	2
+main.c:428:6:HAL_GPIO_EXTI_Callback	3
+main.c:446:6:Error_Handler	1
