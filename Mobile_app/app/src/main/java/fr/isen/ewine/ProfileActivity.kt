@@ -25,6 +25,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import fr.isen.ewine.databinding.ActivityProfileBinding
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProfileBinding
@@ -38,6 +40,10 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private var bluetoothGatt: BluetoothGatt? = null
+
+    private val serviceUUID = UUID.fromString("0000feed-cc7a-482a-984a-7f2ed5b3e58f")
+    private val characteristicSsidUUID = UUID.fromString("0000abcd-8e22-4541-9d4c-21edae82ed19")
+    private val characteristicPasswordUUID = UUID.fromString("00001234-8e22-4541-9d4c-21edae82ed19")
 
     private lateinit var bluetoothLeScanner : BluetoothLeScanner
 
@@ -62,6 +68,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private val wifiDeviceList = WifiDevices()
 
+    @SuppressLint("MissingPermission")
     private fun showPasswordDialog(ssid: String) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Entrez le mot de passe pour $ssid")
@@ -74,6 +81,15 @@ class ProfileActivity : AppCompatActivity() {
         // Set up the buttons
         builder.setPositiveButton("OK") { dialog, which ->
             val password = input.text.toString()
+            val service = bluetoothGatt?.getService(serviceUUID)
+            val characteristicSsid = service?.getCharacteristic(characteristicSsidUUID)
+            val characteristicPassword = service?.getCharacteristic(characteristicPasswordUUID)
+            characteristicSsid?.setValue(ssid)
+            characteristicPassword?.setValue(password)
+            bluetoothGatt?.writeCharacteristic(characteristicSsid)
+            Handler().postDelayed({
+                bluetoothGatt?.writeCharacteristic(characteristicPassword)
+            }, 1000)
         }
         builder.setNegativeButton("Annuler") { dialog, which -> dialog.cancel() }
 
@@ -168,6 +184,7 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         binding.imageLogo.setOnClickListener {
+            binding.wifiAvailable.layoutManager = LinearLayoutManager(this)
             if(imageWifi) {
                 binding.imageLogo.setImageResource(R.drawable.logobluetooth)
                 Log.d("cellarConnected", cellarConnected)
@@ -206,7 +223,6 @@ class ProfileActivity : AppCompatActivity() {
                         } else {
                             // Bluetooth est activé, continuer avec les interactions Bluetooth
                             scanLeDevice()
-                            binding.wifiAvailable.layoutManager = LinearLayoutManager(this)
                         }
                     }
                 } else {
