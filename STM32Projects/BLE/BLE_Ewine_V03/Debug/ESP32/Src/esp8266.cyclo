@@ -1,0 +1,13 @@
+esp8266.c:24:6:uart_esp32_transmit	4
+esp8266.c:49:19:esp8266_CheckRespond	2
+esp8266.c:61:19:esp8266_TransmitCmd	6
+esp8266.c:101:19:esp8266_HardwareReset	4
+esp8266.c:129:19:esp8266_ConnectAP	4
+esp8266.c:155:19:esp8266_ConnectServer	2
+esp8266.c:170:19:esp8266_SetUpTCPConnection	27
+esp8266.c:401:19:esp8266_SetupIP	23
+esp8266.c:589:26:esp8266_ConfigAccessBroker	3
+esp8266.c:615:26:esp8266_ConfigConnectionBroker	2
+esp8266.c:626:26:esp8266_ConnectBroker	3
+esp8266.c:651:19:esp8266_SetupConnect_BrokerMQTT	5
+esp8266.c:691:9:get_mqtt_state	1

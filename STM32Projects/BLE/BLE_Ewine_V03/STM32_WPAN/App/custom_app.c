@@ -29,7 +29,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "app_wifi.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -251,6 +251,7 @@ void Custom_STM_App_Notification(Custom_STM_App_Notification_evt_t *pNotificatio
 			password[pos] = (char)Custom_App_Context.password[pos];
 		}
 		dataPass = (uint64_t)password;
+		wifi_init();
 
 		/* Unlock the Flash to enable the flash control register access *************/
 		  HAL_FLASH_Unlock();

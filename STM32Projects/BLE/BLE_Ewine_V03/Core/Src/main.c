@@ -18,10 +18,17 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "dma.h"
+#include "ipcc.h"
+#include "usart.h"
+#include "rf.h"
+#include "rtc.h"
+#include "usb.h"
+#include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "app_wifi.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -40,14 +47,6 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-IPCC_HandleTypeDef hipcc;
-
-RTC_HandleTypeDef hrtc;
-
-UART_HandleTypeDef huart1;
-DMA_HandleTypeDef hdma_usart1_tx;
-
-PCD_HandleTypeDef hpcd_USB_FS;
 
 /* USER CODE BEGIN PV */
 
@@ -56,13 +55,6 @@ PCD_HandleTypeDef hpcd_USB_FS;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 void PeriphCommonClock_Config(void);
-static void MX_GPIO_Init(void);
-static void MX_DMA_Init(void);
-static void MX_RF_Init(void);
-static void MX_RTC_Init(void);
-static void MX_IPCC_Init(void);
-static void MX_USART1_UART_Init(void);
-static void MX_USB_PCD_Init(void);
 /* USER CODE BEGIN PFP */
 uint32_t GetPage(uint32_t Address);
 int _write(int file, char *ptr, int len);
@@ -119,10 +111,11 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_RF_Init();
   MX_RTC_Init();
   MX_USART1_UART_Init();
   MX_USB_PCD_Init();
+  MX_LPUART1_UART_Init();
+  MX_RF_Init();
   /* USER CODE BEGIN 2 */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, RESET);
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, RESET);
@@ -234,243 +227,6 @@ void PeriphCommonClock_Config(void)
   /* USER CODE BEGIN Smps */
 
   /* USER CODE END Smps */
-}
-
-/**
-  * @brief IPCC Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_IPCC_Init(void)
-{
-
-  /* USER CODE BEGIN IPCC_Init 0 */
-
-  /* USER CODE END IPCC_Init 0 */
-
-  /* USER CODE BEGIN IPCC_Init 1 */
-
-  /* USER CODE END IPCC_Init 1 */
-  hipcc.Instance = IPCC;
-  if (HAL_IPCC_Init(&hipcc) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN IPCC_Init 2 */
-
-  /* USER CODE END IPCC_Init 2 */
-
-}
-
-/**
-  * @brief RF Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_RF_Init(void)
-{
-
-  /* USER CODE BEGIN RF_Init 0 */
-
-  /* USER CODE END RF_Init 0 */
-
-  /* USER CODE BEGIN RF_Init 1 */
-
-  /* USER CODE END RF_Init 1 */
-  /* USER CODE BEGIN RF_Init 2 */
-
-  /* USER CODE END RF_Init 2 */
-
-}
-
-/**
-  * @brief RTC Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_RTC_Init(void)
-{
-
-  /* USER CODE BEGIN RTC_Init 0 */
-
-  /* USER CODE END RTC_Init 0 */
-
-  /* USER CODE BEGIN RTC_Init 1 */
-
-  /* USER CODE END RTC_Init 1 */
-
-  /** Initialize RTC Only
-  */
-  hrtc.Instance = RTC;
-  hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
-  hrtc.Init.AsynchPrediv = CFG_RTC_ASYNCH_PRESCALER;
-  hrtc.Init.SynchPrediv = CFG_RTC_SYNCH_PRESCALER;
-  hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
-  hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
-  hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
-  hrtc.Init.OutPutRemap = RTC_OUTPUT_REMAP_NONE;
-  if (HAL_RTC_Init(&hrtc) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  /** Enable the WakeUp
-  */
-  if (HAL_RTCEx_SetWakeUpTimer_IT(&hrtc, 0, RTC_WAKEUPCLOCK_RTCCLK_DIV16) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN RTC_Init 2 */
-
-  /* USER CODE END RTC_Init 2 */
-
-}
-
-/**
-  * @brief USART1 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USART1_UART_Init(void)
-{
-
-  /* USER CODE BEGIN USART1_Init 0 */
-
-  /* USER CODE END USART1_Init 0 */
-
-  /* USER CODE BEGIN USART1_Init 1 */
-
-  /* USER CODE END USART1_Init 1 */
-  huart1.Instance = USART1;
-  huart1.Init.BaudRate = 115200;
-  huart1.Init.WordLength = UART_WORDLENGTH_8B;
-  huart1.Init.StopBits = UART_STOPBITS_1;
-  huart1.Init.Parity = UART_PARITY_NONE;
-  huart1.Init.Mode = UART_MODE_TX_RX;
-  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart1.Init.OverSampling = UART_OVERSAMPLING_8;
-  huart1.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-  huart1.Init.ClockPrescaler = UART_PRESCALER_DIV1;
-  huart1.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
-  if (HAL_UART_Init(&huart1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  if (HAL_UARTEx_SetTxFifoThreshold(&huart1, UART_TXFIFO_THRESHOLD_1_8) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  if (HAL_UARTEx_SetRxFifoThreshold(&huart1, UART_RXFIFO_THRESHOLD_1_8) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  if (HAL_UARTEx_DisableFifoMode(&huart1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USART1_Init 2 */
-
-  /* USER CODE END USART1_Init 2 */
-
-}
-
-/**
-  * @brief USB Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USB_PCD_Init(void)
-{
-
-  /* USER CODE BEGIN USB_Init 0 */
-
-  /* USER CODE END USB_Init 0 */
-
-  /* USER CODE BEGIN USB_Init 1 */
-
-  /* USER CODE END USB_Init 1 */
-  hpcd_USB_FS.Instance = USB;
-  hpcd_USB_FS.Init.dev_endpoints = 8;
-  hpcd_USB_FS.Init.speed = PCD_SPEED_FULL;
-  hpcd_USB_FS.Init.phy_itface = PCD_PHY_EMBEDDED;
-  hpcd_USB_FS.Init.Sof_enable = DISABLE;
-  hpcd_USB_FS.Init.low_power_enable = DISABLE;
-  hpcd_USB_FS.Init.lpm_enable = DISABLE;
-  hpcd_USB_FS.Init.battery_charging_enable = DISABLE;
-  if (HAL_PCD_Init(&hpcd_USB_FS) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USB_Init 2 */
-
-  /* USER CODE END USB_Init 2 */
-
-}
-
-/**
-  * Enable DMA controller clock
-  */
-static void MX_DMA_Init(void)
-{
-
-  /* DMA controller clock enable */
-  __HAL_RCC_DMAMUX1_CLK_ENABLE();
-  __HAL_RCC_DMA2_CLK_ENABLE();
-
-  /* DMA interrupt init */
-  /* DMA2_Channel4_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA2_Channel4_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA2_Channel4_IRQn);
-
-}
-
-/**
-  * @brief GPIO Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_GPIO_Init(void)
-{
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-  /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOC_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOD_CLK_ENABLE();
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, LD2_Pin|LD3_Pin|LD1_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin : B1_Pin */
-  GPIO_InitStruct.Pin = B1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : LD2_Pin LD3_Pin LD1_Pin */
-  GPIO_InitStruct.Pin = LD2_Pin|LD3_Pin|LD1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : B2_Pin B3_Pin */
-  GPIO_InitStruct.Pin = B2_Pin|B3_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-
-  /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
-
-  HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(EXTI1_IRQn);
-
-  HAL_NVIC_SetPriority(EXTI4_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(EXTI4_IRQn);
-
 }
 
 /* USER CODE BEGIN 4 */

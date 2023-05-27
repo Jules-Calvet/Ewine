@@ -9,6 +9,7 @@ S_SRCS :=
 C_SRCS := 
 S_UPPER_SRCS := 
 O_SRCS := 
+CYCLO_FILES := 
 SIZE_OUTPUT := 
 OBJDUMP_LIST := 
 SU_FILES := 
@@ -24,6 +25,7 @@ SUBDIRS := \
 Core/Src \
 Core/Startup \
 Drivers/STM32WBxx_HAL_Driver/Src \
+ESP32/Src \
 Middlewares/ST/STM32_WPAN/ble/core/auto \
 Middlewares/ST/STM32_WPAN/ble/core/template \
 Middlewares/ST/STM32_WPAN/ble/svc/Src \
@@ -34,4 +36,5 @@ STM32_WPAN/App \
 STM32_WPAN/Target \
 Utilities/lpm/tiny_lpm \
 Utilities/sequencer \
+library_IoT/Src \
 

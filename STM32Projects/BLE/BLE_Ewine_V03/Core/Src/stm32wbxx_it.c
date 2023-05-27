@@ -22,6 +22,7 @@
 #include "stm32wbxx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "esp8266.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,8 +57,10 @@
 
 /* External variables --------------------------------------------------------*/
 extern IPCC_HandleTypeDef hipcc;
-extern RTC_HandleTypeDef hrtc;
+extern DMA_HandleTypeDef hdma_lpuart1_rx;
 extern DMA_HandleTypeDef hdma_usart1_tx;
+extern UART_HandleTypeDef hlpuart1;
+extern RTC_HandleTypeDef hrtc;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -254,6 +257,49 @@ void EXTI4_IRQHandler(void)
   /* USER CODE BEGIN EXTI4_IRQn 1 */
 
   /* USER CODE END EXTI4_IRQn 1 */
+}
+
+/**
+  * @brief This function handles DMA1 channel1 global interrupt.
+  */
+void DMA1_Channel1_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel1_IRQn 0 */
+
+  /* USER CODE END DMA1_Channel1_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_lpuart1_rx);
+  /* USER CODE BEGIN DMA1_Channel1_IRQn 1 */
+
+  /* USER CODE END DMA1_Channel1_IRQn 1 */
+}
+
+/**
+  * @brief This function handles LPUART1 global interrupt.
+  */
+void LPUART1_IRQHandler(void)
+{
+  /* USER CODE BEGIN LPUART1_IRQn 0 */
+	uint32_t tmp_flag = 0;
+	uint32_t temp;
+	tmp_flag = __HAL_UART_GET_FLAG(&hlpuart1, UART_FLAG_IDLE);
+	if ((tmp_flag != RESET)) {
+		__HAL_UART_CLEAR_IDLEFLAG(&hlpuart1);
+		temp = hlpuart1.Instance->ISR;
+		temp = hlpuart1.Instance->RDR;
+		//HAL_UART_DMAStop(&hlpuart1);
+		temp = hlpuart1.hdmarx->Instance->CNDTR;
+		// reset index dma buffer to 1024 (countdown)
+		__HAL_DMA_DISABLE(hlpuart1.hdmarx);
+		hlpuart1.hdmarx->Instance->CNDTR = UART_ESP32_MAX_RECVLEN;
+		__HAL_DMA_ENABLE(hlpuart1.hdmarx);
+		UART_ESP32_RxLen = UART_ESP32_MAX_RECVLEN - temp;
+		UART_ESP32_RecvEndFlag = 1;
+	}
+  /* USER CODE END LPUART1_IRQn 0 */
+  HAL_UART_IRQHandler(&hlpuart1);
+  /* USER CODE BEGIN LPUART1_IRQn 1 */
+
+  /* USER CODE END LPUART1_IRQn 1 */
 }
 
 /**

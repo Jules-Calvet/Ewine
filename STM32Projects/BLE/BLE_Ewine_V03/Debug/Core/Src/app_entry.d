@@ -66,6 +66,7 @@ Core/Src/app_entry.o: ../Core/Src/app_entry.c ../Core/Inc/app_common.h \
  ../Middlewares/ST/STM32_WPAN/ble/core/ble_core.h \
  ../Middlewares/ST/STM32_WPAN/ble/core/ble_std.h \
  ../Middlewares/ST/STM32_WPAN/ble/core/ble_defs.h \
+ ../Middlewares/ST/STM32_WPAN/ble/core/auto/ble_vs_codes.h \
  ../Middlewares/ST/STM32_WPAN/ble/core/auto/ble_gap_aci.h \
  ../Middlewares/ST/STM32_WPAN/ble/core/auto/ble_types.h \
  ../Middlewares/ST/STM32_WPAN/ble/core/template/ble_const.h \
@@ -82,6 +83,7 @@ Core/Src/app_entry.o: ../Core/Src/app_entry.c ../Core/Inc/app_common.h \
  ../Middlewares/ST/STM32_WPAN/ble/core/ble_legacy.h \
  ../Middlewares/ST/STM32_WPAN/ble/core/ble_bufsize.h \
  ../Middlewares/ST/STM32_WPAN/ble/core/ble_defs.h \
+ ../Middlewares/ST/STM32_WPAN/ble/core/auto/ble_vs_codes.h \
  ../Middlewares/ST/STM32_WPAN/ble/core/ble_legacy.h \
  ../Middlewares/ST/STM32_WPAN/ble/core/ble_std.h \
  ../Middlewares/ST/STM32_WPAN/ble/svc/Inc/bas.h \
@@ -186,6 +188,7 @@ Core/Src/app_entry.o: ../Core/Src/app_entry.c ../Core/Inc/app_common.h \
 ../Middlewares/ST/STM32_WPAN/ble/core/ble_core.h:
 ../Middlewares/ST/STM32_WPAN/ble/core/ble_std.h:
 ../Middlewares/ST/STM32_WPAN/ble/core/ble_defs.h:
+../Middlewares/ST/STM32_WPAN/ble/core/auto/ble_vs_codes.h:
 ../Middlewares/ST/STM32_WPAN/ble/core/auto/ble_gap_aci.h:
 ../Middlewares/ST/STM32_WPAN/ble/core/auto/ble_types.h:
 ../Middlewares/ST/STM32_WPAN/ble/core/template/ble_const.h:
@@ -202,6 +205,7 @@ Core/Src/app_entry.o: ../Core/Src/app_entry.c ../Core/Inc/app_common.h \
 ../Middlewares/ST/STM32_WPAN/ble/core/ble_legacy.h:
 ../Middlewares/ST/STM32_WPAN/ble/core/ble_bufsize.h:
 ../Middlewares/ST/STM32_WPAN/ble/core/ble_defs.h:
+../Middlewares/ST/STM32_WPAN/ble/core/auto/ble_vs_codes.h:
 ../Middlewares/ST/STM32_WPAN/ble/core/ble_legacy.h:
 ../Middlewares/ST/STM32_WPAN/ble/core/ble_std.h:
 ../Middlewares/ST/STM32_WPAN/ble/svc/Inc/bas.h:

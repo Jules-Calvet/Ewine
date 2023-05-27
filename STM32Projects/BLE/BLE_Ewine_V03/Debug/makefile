@@ -9,6 +9,7 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include library_IoT/Src/subdir.mk
 -include Utilities/sequencer/subdir.mk
 -include Utilities/lpm/tiny_lpm/subdir.mk
 -include STM32_WPAN/Target/subdir.mk
@@ -19,6 +20,7 @@ RM := rm -rf
 -include Middlewares/ST/STM32_WPAN/ble/svc/Src/subdir.mk
 -include Middlewares/ST/STM32_WPAN/ble/core/template/subdir.mk
 -include Middlewares/ST/STM32_WPAN/ble/core/auto/subdir.mk
+-include ESP32/Src/subdir.mk
 -include Drivers/STM32WBxx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
@@ -44,34 +46,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := BLE_Ewine_V02
+BUILD_ARTIFACT_NAME := BLE_Ewine_V03
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-BLE_Ewine_V02.elf \
+BLE_Ewine_V03.elf \
 
 MAP_FILES += \
-BLE_Ewine_V02.map \
+BLE_Ewine_V03.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-BLE_Ewine_V02.list \
+BLE_Ewine_V03.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: BLE_Ewine_V02.elf secondary-outputs
+main-build: BLE_Ewine_V03.elf secondary-outputs
 
 # Tool invocations
-BLE_Ewine_V02.elf BLE_Ewine_V02.map: $(OBJS) $(USER_OBJS) C:\Users\jules\STM32CubeIDE\workspace_1.11.0\BLE_Ewine_V01\STM32WB55RGVX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "BLE_Ewine_V02.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\jules\STM32CubeIDE\workspace_1.11.0\BLE_Ewine_V01\STM32WB55RGVX_FLASH.ld" --specs=nosys.specs -Wl,-Map="BLE_Ewine_V02.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+BLE_Ewine_V03.elf BLE_Ewine_V03.map: $(OBJS) $(USER_OBJS) C:\Users\Justin\Desktop\Ewine\Ewine\STM32Projects\BLE\BLE_Ewine_V03\STM32WB55RGVX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "BLE_Ewine_V03.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Justin\Desktop\Ewine\Ewine\STM32Projects\BLE\BLE_Ewine_V03\STM32WB55RGVX_FLASH.ld" --specs=nosys.specs -Wl,-Map="BLE_Ewine_V03.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -80,14 +82,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-BLE_Ewine_V02.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "BLE_Ewine_V02.list"
+BLE_Ewine_V03.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "BLE_Ewine_V03.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) BLE_Ewine_V02.elf BLE_Ewine_V02.list BLE_Ewine_V02.map default.size.stdout
+	-$(RM) BLE_Ewine_V03.elf BLE_Ewine_V03.list BLE_Ewine_V03.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

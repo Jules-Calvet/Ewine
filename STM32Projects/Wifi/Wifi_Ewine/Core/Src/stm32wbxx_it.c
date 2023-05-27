@@ -249,21 +249,21 @@ void LPUART1_IRQHandler(void)
 {
   /* USER CODE BEGIN LPUART1_IRQn 0 */
 	uint32_t tmp_flag = 0;
-		uint32_t temp;
-		tmp_flag = __HAL_UART_GET_FLAG(&hlpuart1, UART_FLAG_IDLE);
-		if ((tmp_flag != RESET)) {
-			__HAL_UART_CLEAR_IDLEFLAG(&hlpuart1);
-			temp = hlpuart1.Instance->ISR;
-			temp = hlpuart1.Instance->RDR;
-			//HAL_UART_DMAStop(&hlpuart1);
-			temp = hlpuart1.hdmarx->Instance->CNDTR;
-			// reset index dma buffer to 1024 (countdown)
-			__HAL_DMA_DISABLE(hlpuart1.hdmarx);
-			hlpuart1.hdmarx->Instance->CNDTR = UART_ESP32_MAX_RECVLEN;
-			__HAL_DMA_ENABLE(hlpuart1.hdmarx);
-			UART_ESP32_RxLen = UART_ESP32_MAX_RECVLEN - temp;
-			UART_ESP32_RecvEndFlag = 1;
-		}
+	uint32_t temp;
+	tmp_flag = __HAL_UART_GET_FLAG(&hlpuart1, UART_FLAG_IDLE);
+	if ((tmp_flag != RESET)) {
+		__HAL_UART_CLEAR_IDLEFLAG(&hlpuart1);
+		temp = hlpuart1.Instance->ISR;
+		temp = hlpuart1.Instance->RDR;
+		//HAL_UART_DMAStop(&hlpuart1);
+		temp = hlpuart1.hdmarx->Instance->CNDTR;
+		// reset index dma buffer to 1024 (countdown)
+		__HAL_DMA_DISABLE(hlpuart1.hdmarx);
+		hlpuart1.hdmarx->Instance->CNDTR = UART_ESP32_MAX_RECVLEN;
+		__HAL_DMA_ENABLE(hlpuart1.hdmarx);
+		UART_ESP32_RxLen = UART_ESP32_MAX_RECVLEN - temp;
+		UART_ESP32_RecvEndFlag = 1;
+	}
   /* USER CODE END LPUART1_IRQn 0 */
   HAL_UART_IRQHandler(&hlpuart1);
   /* USER CODE BEGIN LPUART1_IRQn 1 */

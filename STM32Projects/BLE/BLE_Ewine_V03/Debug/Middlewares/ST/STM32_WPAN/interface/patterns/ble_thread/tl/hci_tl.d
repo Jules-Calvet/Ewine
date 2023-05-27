@@ -58,14 +58,15 @@ Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/hci_tl.o: \
  ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_rtc.h \
  ../Middlewares/ST/STM32_WPAN/ble/core/ble_bufsize.h \
  ../STM32_WPAN/App/ble_dbg_conf.h \
+ ../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/tl.h \
+ ../Middlewares/ST/STM32_WPAN/stm32_wpan_common.h \
+ ../Drivers/CMSIS/Include/cmsis_compiler.h \
  ../Middlewares/ST/STM32_WPAN/ble/core/template/ble_const.h \
  ../Middlewares/ST/STM32_WPAN/ble/core/ble_std.h \
  ../Middlewares/ST/STM32_WPAN/ble/core/ble_defs.h \
  ../Middlewares/ST/STM32_WPAN/ble/core/template/osal.h \
  ../Middlewares/ST/STM32_WPAN/ble/core/template/compiler.h \
  ../Middlewares/ST/STM32_WPAN/utilities/stm_list.h \
- ../Middlewares/ST/STM32_WPAN/stm32_wpan_common.h \
- ../Drivers/CMSIS/Include/cmsis_compiler.h \
  ../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/tl.h \
  ../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/hci_tl.h
 ../Middlewares/ST/STM32_WPAN/ble/ble_common.h:
@@ -128,13 +129,14 @@ Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/hci_tl.o: \
 ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_rtc.h:
 ../Middlewares/ST/STM32_WPAN/ble/core/ble_bufsize.h:
 ../STM32_WPAN/App/ble_dbg_conf.h:
+../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/tl.h:
+../Middlewares/ST/STM32_WPAN/stm32_wpan_common.h:
+../Drivers/CMSIS/Include/cmsis_compiler.h:
 ../Middlewares/ST/STM32_WPAN/ble/core/template/ble_const.h:
 ../Middlewares/ST/STM32_WPAN/ble/core/ble_std.h:
 ../Middlewares/ST/STM32_WPAN/ble/core/ble_defs.h:
 ../Middlewares/ST/STM32_WPAN/ble/core/template/osal.h:
 ../Middlewares/ST/STM32_WPAN/ble/core/template/compiler.h:
 ../Middlewares/ST/STM32_WPAN/utilities/stm_list.h:
-../Middlewares/ST/STM32_WPAN/stm32_wpan_common.h:
-../Drivers/CMSIS/Include/cmsis_compiler.h:
 ../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/tl.h:
 ../Middlewares/ST/STM32_WPAN/interface/patterns/ble_thread/tl/hci_tl.h:

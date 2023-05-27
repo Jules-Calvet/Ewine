@@ -1,0 +1,13 @@
+../ESP32/Src/esp8266.c:24:6:uart_esp32_transmit	16	static
+../ESP32/Src/esp8266.c:49:19:esp8266_CheckRespond	16	static
+../ESP32/Src/esp8266.c:61:19:esp8266_TransmitCmd	32	static
+../ESP32/Src/esp8266.c:101:19:esp8266_HardwareReset	24	static
+../ESP32/Src/esp8266.c:129:19:esp8266_ConnectAP	32	static
+../ESP32/Src/esp8266.c:155:19:esp8266_ConnectServer	16	static
+../ESP32/Src/esp8266.c:170:19:esp8266_SetUpTCPConnection	16	static
+../ESP32/Src/esp8266.c:401:19:esp8266_SetupIP	16	static
+../ESP32/Src/esp8266.c:589:26:esp8266_ConfigAccessBroker	32	static
+../ESP32/Src/esp8266.c:615:26:esp8266_ConfigConnectionBroker	8	static
+../ESP32/Src/esp8266.c:626:26:esp8266_ConnectBroker	24	static
+../ESP32/Src/esp8266.c:651:19:esp8266_SetupConnect_BrokerMQTT	16	static
+../ESP32/Src/esp8266.c:691:9:get_mqtt_state	4	static

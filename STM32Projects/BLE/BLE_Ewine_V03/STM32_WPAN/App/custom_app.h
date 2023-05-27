@@ -56,7 +56,8 @@ typedef struct
 
 /* External variables --------------------------------------------------------*/
 /* USER CODE BEGIN EV */
-
+extern char ssid[30];
+extern char password[30] ;
 /* USER CODE END EV */
 
 /* Exported macros ------------------------------------------------------------*/
