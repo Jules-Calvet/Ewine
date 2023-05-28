@@ -1,0 +1,5 @@
+../Middlewares/ST/STM32_WPAN/utilities/dbg_trace.c:117:13:DbgTraceGetFileName	24	static
+../Middlewares/ST/STM32_WPAN/utilities/dbg_trace.c:142:6:DbgTraceBuffer	24	static
+../Middlewares/ST/STM32_WPAN/utilities/dbg_trace.c:163:13:DbgTrace_TxCpltCallback	32	static,ignoring_inline_asm
+../Middlewares/ST/STM32_WPAN/utilities/dbg_trace.c:202:6:DbgTraceInit	16	static
+../Middlewares/ST/STM32_WPAN/utilities/dbg_trace.c:247:8:DbgTraceWrite	48	static,ignoring_inline_asm
