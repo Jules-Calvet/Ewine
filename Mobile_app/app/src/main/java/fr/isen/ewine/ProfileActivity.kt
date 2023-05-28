@@ -44,6 +44,8 @@ class ProfileActivity : AppCompatActivity() {
     private val serviceUUID = UUID.fromString("0000feed-cc7a-482a-984a-7f2ed5b3e58f")
     private val characteristicSsidUUID = UUID.fromString("0000abcd-8e22-4541-9d4c-21edae82ed19")
     private val characteristicPasswordUUID = UUID.fromString("00001234-8e22-4541-9d4c-21edae82ed19")
+    private val characteristicAckUUID = UUID.fromString("0000dead-8e22-4541-9d4c-21edae82ed19")
+    private val configNotifications = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb")
 
     private lateinit var bluetoothLeScanner : BluetoothLeScanner
 
@@ -68,6 +70,10 @@ class ProfileActivity : AppCompatActivity() {
 
     private val wifiDeviceList = WifiDevices()
 
+    private lateinit var ssidClicked : String
+
+    private var ack = 0
+
     @SuppressLint("MissingPermission")
     private fun showPasswordDialog(ssid: String) {
         val builder = AlertDialog.Builder(this)
@@ -80,16 +86,11 @@ class ProfileActivity : AppCompatActivity() {
 
         // Set up the buttons
         builder.setPositiveButton("OK") { dialog, which ->
+            var ssidToSend = ssid.trim().trim('\"')
             val password = input.text.toString()
-            val service = bluetoothGatt?.getService(serviceUUID)
-            val characteristicSsid = service?.getCharacteristic(characteristicSsidUUID)
-            val characteristicPassword = service?.getCharacteristic(characteristicPasswordUUID)
-            characteristicSsid?.setValue(ssid)
-            characteristicPassword?.setValue(password)
-            bluetoothGatt?.writeCharacteristic(characteristicSsid)
-            Handler().postDelayed({
-                bluetoothGatt?.writeCharacteristic(characteristicPassword)
-            }, 1000)
+            connectWifi(ssidToSend, password)
+            Log.d("ssid send", ssidToSend)
+            Log.d("password send", password)
         }
         builder.setNegativeButton("Annuler") { dialog, which -> dialog.cancel() }
 
@@ -104,6 +105,7 @@ class ProfileActivity : AppCompatActivity() {
 
         binding.wifiAvailable.adapter = AdapterDevicesListWifi(wifiDeviceList) {device, position ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                ssidClicked = device.ssid[position].toString()
                 showPasswordDialog(device.ssid[position].toString())
             }
         }
@@ -135,11 +137,11 @@ class ProfileActivity : AppCompatActivity() {
         sharedPref = getSharedPreferences("settings", 0)
         cellarConnected = sharedPref.getString("cellarBLE", null).toString()
 
+        ssidClicked = ""
+
         bluetoothLeScanner = bluetoothAdapter!!.bluetoothLeScanner
 
         wifiManager = this.getSystemService(Context.WIFI_SERVICE) as WifiManager
-
-
 
         binding.switchModify.setOnClickListener {
             if(!switchModifyChecked) {
@@ -187,6 +189,7 @@ class ProfileActivity : AppCompatActivity() {
             binding.wifiAvailable.layoutManager = LinearLayoutManager(this)
             if(imageWifi) {
                 binding.imageLogo.setImageResource(R.drawable.logobluetooth)
+                binding.groupWifiConnected.visibility = View.GONE
                 Log.d("cellarConnected", cellarConnected)
                 if(cellarConnected == "null") {
                     if (REQUIRED_PERMISSIONS_BLE.all {
@@ -238,56 +241,73 @@ class ProfileActivity : AppCompatActivity() {
                 binding.groupConnected.visibility = View.GONE
                 binding.wifiAvailable.visibility = View.VISIBLE
 
-                val wifiScanReceiver = object : BroadcastReceiver() {
+                if(ack == 1) {
+                    binding.wifiAvailable.visibility = View.GONE
+                    binding.groupWifiConnected.visibility = View.VISIBLE
+                } else {
 
-                    override fun onReceive(context: Context, intent: Intent) {
-                        val success = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false)
-                        if (success) {
-                            scanSuccess()
+                    val wifiScanReceiver = object : BroadcastReceiver() {
+
+                        override fun onReceive(context: Context, intent: Intent) {
+                            val success =
+                                intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false)
+                            if (success) {
+                                scanSuccess()
+                            } else {
+                                scanFailure()
+                            }
+                        }
+                    }
+
+                    if (REQUIRED_PERMISSIONS_BLE.all {
+                            ContextCompat.checkSelfPermission(
+                                this,
+                                it
+                            ) != PackageManager.PERMISSION_GRANTED
+                        }) {
+                        if (REQUIRED_PERMISSIONS_BLE.all {
+                                ActivityCompat.shouldShowRequestPermissionRationale(this, it)
+                            }) {
+                            // Expliquer à l'utilisateur pourquoi la permission est nécessaire
+                            AlertDialog.Builder(this)
+                                .setTitle("Autoriser la permission Bluetooth")
+                                .setMessage("L'application a besoin de la permission Bluetooth pour détecter les appareils à proximité.")
+                                .setPositiveButton("OK") { _, _ ->
+                                    ActivityCompat.requestPermissions(
+                                        this,
+                                        REQUIRED_PERMISSIONS_BLE,
+                                        1
+                                    )
+                                }
+                                .setNegativeButton("Annuler", null)
+                                .show()
                         } else {
+                            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS_BLE, 1)
+                        }
+                    } else {
+                        val intentFilter = IntentFilter()
+                        intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
+                        this.registerReceiver(wifiScanReceiver, intentFilter)
+
+                        val success = wifiManager.startScan()
+                        if (!success) {
+                            // scan failure handling
                             scanFailure()
                         }
                     }
                 }
-
-                if (REQUIRED_PERMISSIONS_BLE.all {
-                        ContextCompat.checkSelfPermission(
-                            this,
-                            it
-                        ) != PackageManager.PERMISSION_GRANTED
-                    }) {
-                    if (REQUIRED_PERMISSIONS_BLE.all {
-                            ActivityCompat.shouldShowRequestPermissionRationale(this, it)
-                        }) {
-                        // Expliquer à l'utilisateur pourquoi la permission est nécessaire
-                        AlertDialog.Builder(this)
-                            .setTitle("Autoriser la permission Bluetooth")
-                            .setMessage("L'application a besoin de la permission Bluetooth pour détecter les appareils à proximité.")
-                            .setPositiveButton("OK") { _, _ ->
-                                ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS_BLE, 1)
-                            }
-                            .setNegativeButton("Annuler", null)
-                            .show()
-                    } else {
-                        ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS_BLE, 1)
-                    }
-                } else {
-                    val intentFilter = IntentFilter()
-                    intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
-                    this.registerReceiver(wifiScanReceiver, intentFilter)
-
-                    val success = wifiManager.startScan()
-                    if (!success) {
-                        // scan failure handling
-                        scanFailure()
-                    }
-                }
-
-               /* binding.wifiAvailable.adapter = AdapterDevicesList(Devices()) { devices, position ->
-
-                }*/
             }
             imageWifi = !imageWifi
+        }
+
+        binding.buttonScan.setOnClickListener {
+            scanLeDevice()
+        }
+
+        binding.buttonDisconnectWifi.setOnClickListener {
+            ssidClicked = ""
+            binding.groupWifiConnected.visibility = View.GONE
+            disconnectWifi()
         }
     }
 
@@ -416,7 +436,7 @@ class ProfileActivity : AppCompatActivity() {
                         binding.connectedDevice.text =  getString(R.string.connectedTo) + " " + deviceName
                         sharedPref.edit().putString("cellarBLE", bluetoothGatt!!.device.address).apply()
                     }
-                    binding.buttonDeconnect.setOnClickListener {
+                    binding.buttonDisconnectBLE.setOnClickListener {
                         bluetoothGatt?.disconnect()
                         sharedPref.edit().putString("cellarBLE", null).apply()
                         cellarConnected = null.toString()
@@ -434,6 +454,98 @@ class ProfileActivity : AppCompatActivity() {
                     Log.d("STATUS", "Connection state changed: $newState")
                 }
             }
+        }
+        override fun onServicesDiscovered(gatt: BluetoothGatt?, status: Int) {
+            when (status) {
+                BluetoothGatt.GATT_SUCCESS -> {
+                    // Les services GATT du périphérique ont été découverts avec succès.
+                    Log.d("STATUS", "Services discovered successfully.")
+                    val service = gatt?.getService(serviceUUID)
+                    val characteristicButton = service?.getCharacteristic(characteristicAckUUID)
+                    characteristicButton?.let { enableNotifications(it) }
+                }
+                else -> {
+                    Log.d("STATUS", "Service discovery failed: $status")
+                }
+            }
+        }
+        @Deprecated("Deprecated in Java")
+        override fun onCharacteristicChanged(gatt: BluetoothGatt?, characteristic: BluetoothGattCharacteristic?) {
+            if(characteristic?.uuid == characteristicAckUUID) {
+                val value = characteristic?.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 0)
+                if(value == 1) {
+                    ack = 1
+                    if(imageWifi) {
+                        runOnUiThread {
+                            binding.groupConnectingWifi.visibility = View.GONE
+                            binding.wifiAvailable.visibility = View.GONE
+                            binding.groupWifiConnected.visibility = View.VISIBLE
+                            binding.connectedWifi.text =
+                                getString(R.string.connectedTo) + " " + ssidClicked
+                        }
+                    }
+                } else {
+                    ack = 0
+                    if(!ssidClicked.isNullOrEmpty()) {
+                        runOnUiThread {
+                            showPasswordDialog(ssidClicked)
+                            binding.wifiAvailable.visibility = View.VISIBLE
+                            binding.groupConnectingWifi.visibility = View.GONE
+                            binding.groupWifiConnected.visibility = View.GONE
+                        }
+                    }
+                }
+
+                Log.d("Bluetooth", "Received value: $value")
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun enableNotifications(characteristic: BluetoothGattCharacteristic) {
+        val descriptor = characteristic.getDescriptor(configNotifications)
+        descriptor.value = BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
+        bluetoothGatt?.writeDescriptor(descriptor)
+        bluetoothGatt?.setCharacteristicNotification(characteristic, true)
+    }
+    @SuppressLint("MissingPermission")
+    fun disableNotifications(characteristic: BluetoothGattCharacteristic) {
+        bluetoothGatt?.setCharacteristicNotification(characteristic, false)
+    }
+
+    @SuppressLint("MissingPermission")
+    fun connectWifi(ssid: String, password: String) {
+        val service = bluetoothGatt?.getService(serviceUUID)
+        val characteristicSsid = service?.getCharacteristic(characteristicSsidUUID)
+        val characteristicPassword = service?.getCharacteristic(characteristicPasswordUUID)
+        characteristicSsid?.setValue(ssid)
+        characteristicPassword?.setValue(password)
+        bluetoothGatt?.writeCharacteristic(characteristicSsid)
+        Handler().postDelayed({
+            bluetoothGatt?.writeCharacteristic(characteristicPassword)
+        }, 1000)
+        runOnUiThread {
+            binding.wifiAvailable.visibility = View.GONE
+            binding.groupConnectingWifi.visibility = View.VISIBLE
+            binding.connectingWifi.text = "Connecting to $ssidClicked"
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun disconnectWifi() {
+        val service = bluetoothGatt?.getService(serviceUUID)
+        val characteristicSsid = service?.getCharacteristic(characteristicSsidUUID)
+        val characteristicPassword = service?.getCharacteristic(characteristicPasswordUUID)
+        characteristicSsid?.setValue("")
+        characteristicPassword?.setValue("")
+        bluetoothGatt?.writeCharacteristic(characteristicSsid)
+        Handler().postDelayed({
+            bluetoothGatt?.writeCharacteristic(characteristicPassword)
+        }, 1000)
+        runOnUiThread {
+            binding.wifiAvailable.visibility = View.VISIBLE
+            binding.groupConnectingWifi.visibility = View.GONE
+            binding.connectingWifi.text = "Connecting to $ssidClicked"
         }
     }
 }
