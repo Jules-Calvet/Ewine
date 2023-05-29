@@ -4,10 +4,11 @@
 #include "parson.h"
 
 void init_done();
+void Send_Tof();
 
 void init_done()
 {
-	for(int i=0; i<3; i++)
+	for(int i=0; i<5; i++)
 	{
 		HAL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin);
 		HAL_Delay(200);
@@ -70,42 +71,6 @@ static char* formate_json_temp(int value)
 	return serialized_string;
 }
 
-static int check_subscription()
-{
-	if (UART_ESP32_RecvEndFlag == 1) {
-		char pattern[24];
-		memset(pattern, 0, sizeof(pattern));
-		//sprintf((char*) pattern, "+MQTTSUBRECV:0,\"isen%s/led\",", CARD_NUMBER);
-		sprintf((char*) pattern, "+MQTTSUBRECV:0,\"%s/", MQTT_CLIENTID);
-		uint16_t data_size = 0, off = sizeof(pattern)-1; // \0 not needed
-		if (strstr((const char*) UART_ESP32_RxBUF, pattern) != NULL) {
-			printf("APP: Match succeed\r\n");
-			int topic_id = 0;
-			// nul mais ok
-			if(UART_ESP32_RxBUF[off] == 'l')
-			{
-				topic_id = 1;
-				off+= 5;
-			}
-			else
-			{
-				topic_id = 2;
-				off+= 9;
-			}
-			return 0;
-		}
-		else
-		{
-			printf("APP: Match failed\r\n");
-			return -1;
-		}
-	}
-	else
-	{
-		return 1;
-	}
-}
-
 void wifi_init(){
 	if (esp8266_SetupIP() != _SUCCEED) {
 	  printf("esp8266_SetupIP failed - RESTART and configure WIFI source\n");
@@ -119,34 +84,26 @@ void wifi_init(){
 }
 void wifi_process(){
 	// app part
-	int i = 0;
-	while(i<1)
+	//subscribe to the necessary subscriptions
+	  if(get_mqtt_state() < _SUBSCRIBED_TEMP_MQTT)
 	  {
-		//subscribe to the necessary subscriptions
-		  if(get_mqtt_state() < _SUBSCRIBED_TEMP_MQTT)
-		  {
-			  if(esp8266_Subscribe_Temp_BrokerMQTT() != _SUBSCRIBED_TEMP_MQTT)
-				printf("APP: esp8266_Subscribe_Temp_BrokerMQTT() failed\n");
-		  }
-		 if(get_mqtt_state() < _SUBSCRIBED_TOF_MQTT)
-		  {
-			  if(esp8266_Subscribe_ToF_BrokerMQTT() != _SUBSCRIBED_TOF_MQTT)
-				printf("APP: esp8266_Subscribe_ToF_BrokerMQTT() failed\n");
-		  }
-
-		 Send_Tof();
-
-		  int sub_status = check_subscription();
-		  if(sub_status == 0)
-			  printf("APP: check_subscription() SUB MQTT RCV\n");
-		  i++;
+		  if(esp8266_Subscribe_Temp_BrokerMQTT() != _SUBSCRIBED_TEMP_MQTT)
+			printf("APP: esp8266_Subscribe_Temp_BrokerMQTT() failed\n");
 	  }
+	 if(get_mqtt_state() < _SUBSCRIBED_TOF_MQTT)
+	  {
+		  if(esp8266_Subscribe_ToF_BrokerMQTT() != _SUBSCRIBED_TOF_MQTT)
+			printf("APP: esp8266_Subscribe_ToF_BrokerMQTT() failed\n");
+	  }
+
+	 Send_Tof();
+
 }
 //send tof data when necessary
 void Send_Tof()
 {
 	//check sending left tof data
-	 if(LeftPos == 1){
+	 if(LeftPos == 1 && AlreadyLeftPos == 1){
 		 char *data = formate_json_tof(0,1);
 		  if(esp8266_Publish_ToF_BrokerMQTT((uint8_t*)data,strlen(data)) != _PUBLISH_TOF_MQTT)
 			printf("APP: B1 esp8266_Publish_ToF_BrokerMQTT() failed\n");
@@ -165,7 +122,7 @@ void Send_Tof()
 	 }
 
 	 //check sending center tof data
-	 if(CenterPos == 1){
+	 if(CenterPos == 1 && AlreadyCenterPos == 1 ){
 		 char *data = formate_json_tof(1,1);
 		  if(esp8266_Publish_ToF_BrokerMQTT((uint8_t*)data,strlen(data)) != _PUBLISH_TOF_MQTT)
 			printf("APP: B1 esp8266_Publish_ToF_BrokerMQTT() failed\n");
@@ -184,7 +141,7 @@ void Send_Tof()
 	 }
 
 	 //check sending right tof data
-	 if(RightPos == 1){
+	 if(RightPos == 1 && AlreadyRightPos == 1){
 		 char *data = formate_json_tof(2,1);
 		  if(esp8266_Publish_ToF_BrokerMQTT((uint8_t*)data,strlen(data)) != _PUBLISH_TOF_MQTT)
 			printf("APP: B1 esp8266_Publish_ToF_BrokerMQTT() failed\n");

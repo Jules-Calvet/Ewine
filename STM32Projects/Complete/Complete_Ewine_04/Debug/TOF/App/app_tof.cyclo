@@ -2,4 +2,4 @@ app_tof.c:56:6:MX_TOF_Init	1
 app_tof.c:78:6:MX_TOF_Process	1
 app_tof.c:91:13:MX_53L1A2_MultiSensorRanging_Init	4
 app_tof.c:133:13:MX_53L1A2_MultiSensorRanging_Process	7
-app_tof.c:186:13:print_result	13
+app_tof.c:184:13:print_result	13
