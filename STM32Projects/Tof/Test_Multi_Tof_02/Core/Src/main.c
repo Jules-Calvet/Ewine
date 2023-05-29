@@ -52,8 +52,18 @@ void SystemClock_Config(void);
 void PeriphCommonClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USB_PCD_Init(void);
+int _write(int file, char *ptr, int len);
 /* USER CODE BEGIN PFP */
-
+int _write(int file, char *ptr, int len)
+{
+int DataIdx;
+for (DataIdx = 0; DataIdx < len; DataIdx++)
+{
+//__io_putchar(*ptr++);
+ITM_SendChar(*ptr++);
+}
+return len;
+}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/

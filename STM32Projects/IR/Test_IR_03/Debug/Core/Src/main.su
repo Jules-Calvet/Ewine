@@ -2,7 +2,7 @@
 ../Drivers/STM32WBxx_HAL_Driver/Inc/stm32wbxx_ll_rcc.h:1679:22:LL_RCC_LSE_SetDriveCapability	16	static
 ../Core/Src/main.c:64:5:_write	32	static
 ../Core/Src/main.c:80:5:main	16	static
-../Core/Src/main.c:196:6:SystemClock_Config	112	static
-../Core/Src/main.c:260:6:PeriphCommonClock_Config	88	static
-../Core/Src/main.c:291:6:HAL_TIM_PeriodElapsedCallback	16	static
-../Core/Src/main.c:308:6:Error_Handler	4	static,ignoring_inline_asm
+../Core/Src/main.c:201:6:SystemClock_Config	112	static
+../Core/Src/main.c:265:6:PeriphCommonClock_Config	88	static
+../Core/Src/main.c:296:6:HAL_TIM_PeriodElapsedCallback	16	static
+../Core/Src/main.c:313:6:Error_Handler	4	static,ignoring_inline_asm

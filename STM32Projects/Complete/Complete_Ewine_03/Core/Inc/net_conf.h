@@ -7,8 +7,8 @@
 
 #if WIFI_TAR == 0
 
-#define AP_SSID     (const char*)"IntervIsen"//"OnePlus9_ben"//
-#define AP_PSWD     (const char*)"Bi1venueYM"//"lemot2passdebg!"//
+#define AP_SSID     (const char*)"Jules"//"IntervIsen"//"OnePlus9_ben"//
+#define AP_PSWD     (const char*)"montazac"//"Bi1venueYM"//"lemot2passdebg!"//
 
 #elif WIFI_TAR == 1
 

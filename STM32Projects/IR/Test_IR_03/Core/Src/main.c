@@ -158,6 +158,11 @@ int main(void)
 */
   while (1)
   {
+	  if(mlx90614_init() == true)printf("Initialization OK ! \n");
+	  else printf("Initialization Failed ! \n");
+	  mlx90614.configReg.DualIRSensor = 0;
+	    mlx90614.configReg.SelectObjAmb = 1;
+	    mlx90614.configReg.FIR = 4;
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

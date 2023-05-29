@@ -1,0 +1,17 @@
+../IR/Src/mlx90614.c:35:9:mlx90614_crc8	24	static
+../IR/Src/mlx90614.c:53:6:mlx90614_read16	40	static
+../IR/Src/mlx90614.c:62:6:mlx90614_write16	48	static
+../IR/Src/mlx90614.c:88:9:mlx90614_calcRawTemp	24	static
+../IR/Src/mlx90614.c:116:7:mlx90614_calcTemperature	24	static
+../IR/Src/mlx90614.c:146:6:mlx90614_init	8	static
+../IR/Src/mlx90614.c:165:6:mlx90614_setUnit	16	static
+../IR/Src/mlx90614.c:170:6:mlx90614_readID	24	static
+../IR/Src/mlx90614.c:184:6:mlx90614_getEmissivity	16	static
+../IR/Src/mlx90614.c:196:6:mlx90614_setEmissivity	16	static
+../IR/Src/mlx90614.c:206:6:mlx90614_setMax	16	static
+../IR/Src/mlx90614.c:212:6:mlx90614_setMin	16	static
+../IR/Src/mlx90614.c:218:6:mlx90614_getMax	16	static
+../IR/Src/mlx90614.c:229:6:mlx90614_getMin	16	static
+../IR/Src/mlx90614.c:240:6:mlx90614_getAmbient	16	static
+../IR/Src/mlx90614.c:252:6:mlx90614_getObject1	16	static
+../IR/Src/mlx90614.c:265:6:mlx90614_getObject2	16	static

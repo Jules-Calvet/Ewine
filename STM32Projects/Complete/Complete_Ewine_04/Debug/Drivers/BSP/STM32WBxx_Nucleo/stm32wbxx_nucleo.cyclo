@@ -1,0 +1,11 @@
+stm32wbxx_ll_bus.h:539:22:LL_AHB2_GRP1_EnableClock	1
+stm32wbxx_ll_bus.h:1274:22:LL_APB2_GRP1_EnableClock	1
+stm32wbxx_ll_bus.h:1328:22:LL_APB2_GRP1_DisableClock	1
+stm32wbxx_nucleo.c:81:9:BSP_GetVersion	1
+stm32wbxx_nucleo.c:95:9:BSP_COM_Init	3
+stm32wbxx_nucleo.c:133:9:BSP_COM_DeInit	3
+stm32wbxx_nucleo.c:170:26:MX_USART1_UART_Init	5
+stm32wbxx_nucleo.c:290:9:BSP_COM_SelectLogPort	2
+stm32wbxx_nucleo.c:336:5:__io_putchar	1
+stm32wbxx_nucleo.c:350:13:USART1_MspInit	1
+stm32wbxx_nucleo.c:406:13:USART1_MspDeInit	1
