@@ -15,10 +15,6 @@ static char* formate_json_temp(int value)
 	JSON_Object *obj = json_value_get_object(val);
 	if(obj == NULL)
 		return NULL;
-/*
-	char StringValue[5]; // Déclarer une chaîne de caractères assez grande pour contenir le résultat
-	sprintf(StringValue, "%f", value);
-*/
 	if(json_object_set_number(obj, "value", value) != JSONSuccess)
 		return NULL;
 
@@ -42,27 +38,10 @@ void IR_Init()
 void IR_Process()
 {
 	float temp = 0.0f;
-	int i = 0 ;
-	while(i<1)
-	{
-		  //if ( mlx90614_getAmbient(&cap1->ambient) == true ) printf("getAmbient OK : %0.2f *C\n", cap1->ambient);
-		  //else printf("Failed to read ambient temperature\n");
-		  if ( mlx90614_getAmbient(&temp) == true ) printf("getAmbient OK : %0.2f *C\n", temp);
-		  else printf("Failed to read ambient temperature\n");
+	  if ( mlx90614_getAmbient(&temp) == true ) printf("getAmbient OK : %0.2f *C\n", temp);
+	  else printf("Failed to read ambient temperature\n");
 
-	//	  if(mlx90614_getEmissivity(&cap1->emissivity) == true) printf("getEmissivity OK : %0.2f \n", cap1->emissivity);
-	//	  else printf("getEmissivity failed !\n");
-	/*
-		  if ( mlx90614_getObject1(&cap1->object1) == true) printf("getObject1 OK : %0.2f *C\n", cap1->object1);
-		  else printf("Failed to read Object1 temperature\n");
-	*/
-	/*
-		  if ( mlx90614_getObject2(&tobj) == true) printf("getObject2 OK : %0.2f *C\n", tobj);
-		  else printf("Failed to read Object2 temperature\n");
-	*/
-		  HAL_Delay(200);
-		  i++;
-	}
+	  HAL_Delay(200);
 	//Send Temperature data
 	 char *data = formate_json_temp(temp);
 	  if(esp8266_Publish_Temp_BrokerMQTT((uint8_t*)data,strlen(data)) != _PUBLISH_TEMP_MQTT)

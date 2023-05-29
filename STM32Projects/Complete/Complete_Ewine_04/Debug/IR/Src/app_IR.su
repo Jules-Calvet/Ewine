@@ -1,3 +1,3 @@
 ../IR/Src/app_IR.c:9:14:formate_json_temp	32	static
-../IR/Src/app_IR.c:32:6:IR_Init	8	static
-../IR/Src/app_IR.c:42:6:IR_Process	24	static
+../IR/Src/app_IR.c:28:6:IR_Init	8	static
+../IR/Src/app_IR.c:38:6:IR_Process	16	static

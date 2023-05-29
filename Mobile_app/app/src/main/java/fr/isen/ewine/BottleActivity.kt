@@ -87,12 +87,10 @@ class BottleActivity : AppCompatActivity() {
         }
         if(bottleTypeOfWine.isNullOrEmpty()) {
             runOnUiThread {
-                binding.BottleTypeOfWine.visibility = View.GONE
                 binding.bottleColorImg.visibility = View.GONE
             }
         } else {
             runOnUiThread {
-                binding.BottleTypeOfWine.text = bottleTypeOfWine
                 when (bottleTypeOfWine) {
                     "Red", "Rouge" -> {
                         Picasso.get().load(R.drawable.red).into(binding.bottleColorImg)
@@ -128,10 +126,8 @@ class BottleActivity : AppCompatActivity() {
     private fun mode(darkMode: Boolean) {
         if (darkMode) {
             binding.root.setBackgroundColor(Color.BLACK)
-            binding.BottleTypeOfWine.setTextColor(Color.WHITE)
         } else {
             binding.root.setBackgroundColor(Color.WHITE)
-            binding.BottleTypeOfWine.setTextColor(Color.BLACK)
         }
     }
 }

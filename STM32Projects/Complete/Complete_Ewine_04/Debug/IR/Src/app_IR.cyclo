@@ -1,3 +1,3 @@
 app_IR.c:9:14:formate_json_temp	4
-app_IR.c:32:6:IR_Init	2
-app_IR.c:42:6:IR_Process	4
+app_IR.c:28:6:IR_Init	2
+app_IR.c:38:6:IR_Process	3
