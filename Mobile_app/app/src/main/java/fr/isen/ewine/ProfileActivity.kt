@@ -33,6 +33,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private var switchModifyChecked = false
     private var imageWifi = true
+    private var bleConnected = false
 
     private val bluetoothAdapter: BluetoothAdapter? by lazy(LazyThreadSafetyMode.NONE) {
         val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
@@ -229,9 +230,12 @@ class ProfileActivity : AppCompatActivity() {
                         }
                     }
                 } else {
-                    val device = bluetoothAdapter!!.getRemoteDevice(cellarConnected)
-                    bluetoothGatt = device.connectGatt(this@ProfileActivity, false, gattCallback)
-                    deviceName = device.name
+                    if(!bleConnected) {
+                        val device = bluetoothAdapter!!.getRemoteDevice(cellarConnected)
+                        bluetoothGatt =
+                            device.connectGatt(this@ProfileActivity, false, gattCallback)
+                        deviceName = device.name
+                    }
                 }
             } else {
                 binding.imageLogo.setImageResource(R.drawable.logowifi)
@@ -428,6 +432,7 @@ class ProfileActivity : AppCompatActivity() {
                 BluetoothProfile.STATE_CONNECTED -> {
                     // Le périphérique a été connecté avec succès.
                     Log.d("STATUS", "Connected to GATT server.")
+                    bleConnected = true
                     // Découvrez les services GATT disponibles sur le périphérique.
                     bluetoothGatt?.discoverServices()
                     runOnUiThread {
@@ -445,6 +450,7 @@ class ProfileActivity : AppCompatActivity() {
                 BluetoothProfile.STATE_DISCONNECTED -> {
                     // Le périphérique a été déconnecté.
                     Log.d("STATUS", "Disconnected from GATT server.")
+                    bleConnected = false
                     runOnUiThread {
                         binding.wifiAvailable.visibility = View.VISIBLE
                         binding.groupConnected.visibility = View.GONE
@@ -486,12 +492,12 @@ class ProfileActivity : AppCompatActivity() {
                     }
                 } else {
                     ack = 0
-                    if(!ssidClicked.isNullOrEmpty()) {
-                        runOnUiThread {
+                    runOnUiThread {
+                        binding.wifiAvailable.visibility = View.VISIBLE
+                        binding.groupConnectingWifi.visibility = View.GONE
+                        binding.groupWifiConnected.visibility = View.GONE
+                        if(!ssidClicked.isNullOrEmpty()) {
                             showPasswordDialog(ssidClicked)
-                            binding.wifiAvailable.visibility = View.VISIBLE
-                            binding.groupConnectingWifi.visibility = View.GONE
-                            binding.groupWifiConnected.visibility = View.GONE
                         }
                     }
                 }

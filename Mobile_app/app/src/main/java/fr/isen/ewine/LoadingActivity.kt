@@ -1,6 +1,5 @@
 package fr.isen.ewine
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
@@ -25,11 +24,11 @@ class LoadingActivity : AppCompatActivity() {
         binding = ActivityLoadingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //binding.videoLoading.start()
+        binding.videoLoading.start()
         mode(darkMode)
 
 
-        Timer().schedule(1) {//Timer 4000
+        Timer().schedule(4000) {//Timer 4000
             val intent = Intent(this@LoadingActivity, LoginActivity::class.java)
             startActivity(intent)
             finish()

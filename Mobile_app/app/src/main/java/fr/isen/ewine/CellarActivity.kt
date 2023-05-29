@@ -134,19 +134,6 @@ class CellarActivity : AppCompatActivity() {
                 }
             }
     }
-    private fun publish(topic : String , message : String) {
-        client.publishWith()
-            .topic(topic)
-            .payload(message.toByteArray())
-            .send()
-            .whenComplete { publish: Mqtt3Publish?, throwable: Throwable? ->
-                if (throwable != null) {
-                    Log.d("publish", "failure")
-                } else {
-                    Log.d("publish", "success")
-                }
-            }
-    }
 
     private fun getMessage() {
         client.toAsync().publishes(MqttGlobalPublishFilter.ALL) { publish: Mqtt3Publish ->
